@@ -39,7 +39,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="JAGA KESEHATAN\n MENTALMU!"
+        android:text="AYO JAGA KESEHATAN\n MENTALMU!"
         android:layout_marginTop="10dp"
         android:textColor="@color/biru_tua"
         android:textSize="20sp"

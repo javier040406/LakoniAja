@@ -41,7 +41,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="Daftar"
+            android:text="Daftar Akun"
             android:textColor="@color/biru_tua"
             android:textSize="30sp"
             android:textStyle="bold" />
@@ -164,7 +164,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/biru_tua"
-            android:text="Register"
+            android:text="Daftar"
             android:textColor="@color/white"
             android:textSize="20sp"
             android:textStyle="bold"
