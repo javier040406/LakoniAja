@@ -9,27 +9,15 @@
     tools:context=".Login">
 
     <ImageView
-        android:id="@+id/logopolije"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:layout_marginTop="88dp"
-        android:src="@drawable/polije"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.337"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
         android:id="@+id/logolakoni"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:layout_marginTop="88dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="92dp"
         android:src="@drawable/lakoni"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.636"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
     <TextView
         android:id="@+id/lakoniaja"
         android:layout_width="match_parent"
@@ -43,7 +31,7 @@
         android:textColor="@color/biru_tua"
         android:textSize="30sp"
         android:textStyle="bold"
-        app:layout_constraintTop_toBottomOf="@id/logopolije"
+        app:layout_constraintTop_toBottomOf="@id/logolakoni"
         />
 
     <TextView
@@ -96,7 +84,7 @@
             android:shadowDy="10"
             android:shadowRadius="11"
             android:textColor="@color/biru_tua"
-            android:textSize="40sp"
+            android:textSize="35sp"
             android:textStyle="bold" />
 
         <TextView
@@ -154,6 +142,7 @@
             android:layout_gravity="right"
             android:onClick="gotoforget"
             />
+
         <Button
             android:id="@+id/buttonlogin"
             android:layout_width="wrap_content"

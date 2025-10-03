@@ -9,25 +9,15 @@
     tools:context=".Login">
 
     <!-- Button Register -->
-    <ImageView
-        android:id="@+id/logopolije"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="16dp"
-        android:src="@drawable/polije"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.362"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/logolakoni"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="16dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="68dp"
         android:src="@drawable/lakoni"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.573"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -36,7 +26,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="20dp"
         android:background="@drawable/textborder"
         android:elevation="6dp"
         android:orientation="vertical"
@@ -44,7 +34,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/logopolije">
+        app:layout_constraintTop_toBottomOf="@id/logolakoni">
 
         <TextView
             android:id="@+id/title"
@@ -53,7 +43,7 @@
             android:gravity="center"
             android:text="Daftar"
             android:textColor="@color/biru_tua"
-            android:textSize="40sp"
+            android:textSize="30sp"
             android:textStyle="bold" />
 
         <TextView
@@ -63,20 +53,21 @@
             android:layout_marginBottom="4dp"
             android:text="Nama"
             android:textColor="@color/biru_tua"
-            android:textSize="20sp"
+            android:textSize="17sp"
             />
 
         <EditText
             android:id="@+id/nama"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="10dp"
             android:background="@drawable/textborder"
             android:hint="Nama Lengkap"
             android:inputType="text"
             android:padding="10dp"
             android:textColor="@color/black"
-            android:textSize="15sp" />
+            android:textSize="15sp"
+            />
 
         <TextView
             android:id="@+id/label_nim"
@@ -85,14 +76,14 @@
             android:layout_marginBottom="4dp"
             android:text="NIM"
             android:textColor="@color/biru_tua"
-            android:textSize="20sp"
+            android:textSize="17sp"
             />
 
         <EditText
             android:id="@+id/nim"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="10dp"
             android:background="@drawable/textborder"
             android:hint="NIM"
             android:inputType="text"
@@ -107,14 +98,14 @@
             android:layout_marginBottom="4dp"
             android:text="Email"
             android:textColor="@color/biru_tua"
-            android:textSize="20sp"
+            android:textSize="17sp"
             />
 
         <EditText
             android:id="@+id/email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="10dp"
             android:background="@drawable/textborder"
             android:hint="nim@student.polije.ac.id"
             android:inputType="text"
@@ -129,14 +120,14 @@
             android:layout_marginBottom="4dp"
             android:text="Username"
             android:textColor="@color/biru_tua"
-            android:textSize="20sp"
+            android:textSize="17sp"
             />
 
         <EditText
             android:id="@+id/username"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="10dp"
             android:background="@drawable/textborder"
             android:hint="Masukkan Username"
             android:inputType="text"
@@ -151,14 +142,14 @@
             android:layout_marginBottom="4dp"
             android:text="Password"
             android:textColor="@color/biru_tua"
-            android:textSize="20sp"
+            android:textSize="17sp"
             />
 
         <EditText
             android:id="@+id/password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="15dp"
             android:background="@drawable/textborder"
             android:hint="Masukkan Password"
             android:inputType="textPassword"
@@ -167,25 +158,19 @@
             android:textSize="15sp"
             android:drawableRight="@drawable/matatutup"
             />
+
+        <Button
+            android:id="@+id/buttonregister"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/biru_tua"
+            android:text="Register"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_gravity="center"
+            />
     </LinearLayout>
-
-    <Button
-        android:id="@+id/buttonregister"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:backgroundTint="@color/biru_tua"
-        android:paddingHorizontal="10dp"
-        android:paddingVertical="10dp"
-        android:text="Register"
-        android:textColor="@color/white"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
-        app:layout_constraintStart_toStartOf="parent"
-
-        app:layout_constraintTop_toBottomOf="@id/formContainer" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
