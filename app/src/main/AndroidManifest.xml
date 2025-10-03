@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Projek">
         <activity
+            android:name=".MainActivity"
+            android:exported="false" />
+        <activity
             android:name=".Dashboard"
             android:exported="false" />
         <activity
