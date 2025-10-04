@@ -6,9 +6,9 @@
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@drawable/lakoni"
+        android:icon="@drawable/logo"
         android:label="Lakoni Aja"
-        android:roundIcon="@drawable/lakoni"
+        android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
         android:theme="@style/Theme.Projek">
         <activity
