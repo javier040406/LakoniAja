@@ -7,20 +7,17 @@ import android.widget.FrameLayout;
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.navigation.NavigationBarView;
 
-public class MainActivity extends AppCompatActivity  {
+public class MainActivity extends AppCompatActivity {
 
     private BottomNavigationView bottomNavigationView;
     private FrameLayout frameLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,39 +28,37 @@ public class MainActivity extends AppCompatActivity  {
         bottomNavigationView = findViewById(R.id.bottom_navigation);
         frameLayout = findViewById(R.id.flfragment);
 
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+        // load fragment default (Beranda) saat pertama kali aplikasi dibuka
+        if (savedInstanceState == null) {
+            loadFragment(new Beranda_Fragment());
+            bottomNavigationView.setSelectedItemId(R.id.beranda);
+        }
+
+        bottomNavigationView.setOnItemSelectedListener(new BottomNavigationView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            int itemId = item.getItemId();
+                int itemId = item.getItemId();
 
-            if (itemId == R.id.beranda){
-                loadFragment(new Beranda_Fragment(),false);
-            } else if (itemId == R.id.jadwal) {
-                loadFragment(new Jadwal_Fragment(),false);
-            } else if (itemId == R.id.chat) {
-                loadFragment(new Chat_Fragment(), false);
-            } else if (itemId == R.id.testimoni) {
-                loadFragment(new TestimoniFragment(), false);
-            }else{
-                loadFragment(new AkunFragment(),false);
-            }
-                loadFragment(new Beranda_Fragment(), true);
-            return true;
+                if (itemId == R.id.beranda) {
+                    loadFragment(new Beranda_Fragment());
+                } else if (itemId == R.id.jadwal) {
+                    loadFragment(new Jadwal_Fragment());
+                } else if (itemId == R.id.chat) {
+                    loadFragment(new Chat_Fragment());
+                } else if (itemId == R.id.testimoni) {
+                    loadFragment(new TestimoniFragment());
+                } else if (itemId == R.id.akun) {
+                    loadFragment(new AkunFragment());
+                }
+                return true;
             }
         });
     }
 
-    private void loadFragment(Fragment fragment, boolean isAppInitialized){
+    private void loadFragment(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
-        if (isAppInitialized){
-            fragmentTransaction.add(R.id.flfragment, fragment);
-        } else {
-            fragmentTransaction.add(R.id.flfragment, fragment);
-        }
-
-
+        fragmentTransaction.replace(R.id.flfragment, fragment);
         fragmentTransaction.commit();
     }
-    }
+}

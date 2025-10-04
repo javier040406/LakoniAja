@@ -76,9 +76,6 @@ public class Login extends AppCompatActivity {
 
                     Intent intent = new Intent(Login.this, MainActivity.class);
                     startActivity(intent);
-
-                    // Tutup login supaya tidak bisa kembali dengan tombol back
-                    finish();
                 } else {
                     // ❌ Login gagal
                     Toast.makeText(Login.this, "Username atau password salah!", Toast.LENGTH_SHORT).show();
