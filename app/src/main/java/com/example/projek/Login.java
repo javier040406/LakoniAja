@@ -2,11 +2,13 @@ package com.example.projek;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.InputType;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -19,7 +21,8 @@ public class Login extends AppCompatActivity {
 
     EditText etUsername, etPassword;
     Button btnLogin;
-    boolean isPasswordVisible = false; // status password
+    boolean isPasswordVisible = false;
+    FrameLayout loadingOverlay; // overlay loading spinner
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,56 +33,53 @@ public class Login extends AppCompatActivity {
         etUsername = findViewById(R.id.nama);
         etPassword = findViewById(R.id.password);
         btnLogin   = findViewById(R.id.buttonlogin);
+        loadingOverlay = findViewById(R.id.loadingOverlay);
 
-        // Set icon awal untuk drawableEnd (mata tertutup)
-        // Pastikan kamu punya ic_eye_closed.png & ic_eye_open.png di res/drawable
+        // set ikon mata awal (tertutup)
         etPassword.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.matatutup, 0);
 
-        // Touch listener untuk mendeteksi klik pada drawableEnd (ikon mata)
+        // toggle password visibility
         etPassword.setOnTouchListener((v, event) -> {
-            final int DRAWABLE_END = 2; // index drawable kanan
+            final int DRAWABLE_END = 2;
             if (event.getAction() == MotionEvent.ACTION_UP) {
                 if (etPassword.getCompoundDrawables()[DRAWABLE_END] != null) {
                     int iconWidth = etPassword.getCompoundDrawables()[DRAWABLE_END].getBounds().width();
-                    // rawX >= right - paddingEnd - widthDrawable
                     if (event.getRawX() >= (etPassword.getRight() - etPassword.getPaddingEnd() - iconWidth)) {
-                        // toggle visibility
                         if (isPasswordVisible) {
-                            // sembunyikan password
                             etPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
                             etPassword.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.matatutup, 0);
                             isPasswordVisible = false;
                         } else {
-                            // tampilkan password
                             etPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
                             etPassword.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.matabuka, 0);
                             isPasswordVisible = true;
                         }
-                        // biar cursor tetap di akhir
                         etPassword.setSelection(etPassword.getText().length());
-                        return true; // event consumed
+                        return true;
                     }
                 }
             }
             return false;
         });
 
-        btnLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String user = etUsername.getText().toString();
-                String pass = etPassword.getText().toString();
+        btnLogin.setOnClickListener(v -> {
+            String user = etUsername.getText().toString();
+            String pass = etPassword.getText().toString();
 
-                if (user.equals("admin") && pass.equals("12345")) {
-                    // ✅ Login sukses
-                    Toast.makeText(Login.this, "Login berhasil!", Toast.LENGTH_SHORT).show();
+            if (user.equals("admin") && pass.equals("12345")) {
+                // ✅ tampilkan overlay loading
+                loadingOverlay.setVisibility(View.VISIBLE);
 
+                // delay 2 detik, lalu pindah ke MainActivity
+                new Handler().postDelayed(() -> {
+                    loadingOverlay.setVisibility(View.GONE);
                     Intent intent = new Intent(Login.this, MainActivity.class);
                     startActivity(intent);
-                } else {
-                    // ❌ Login gagal
-                    Toast.makeText(Login.this, "Username atau password salah!", Toast.LENGTH_SHORT).show();
-                }
+
+                }, 2000);
+
+            } else {
+                Toast.makeText(Login.this, "Username atau password salah!", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -91,13 +91,11 @@ public class Login extends AppCompatActivity {
         });
     }
 
-    // Pindah ke halaman Register
     public void gotoregister(View view) {
         Intent intent = new Intent(Login.this, RegisterActivity.class);
         startActivity(intent);
     }
 
-    // Pindah ke halaman Lupa Password
     public void gotoforget(View view) {
         Intent intent = new Intent(Login.this, ForgetPassword.class);
         startActivity(intent);

@@ -15,9 +15,6 @@
             android:name=".MainActivity"
             android:exported="false" />
         <activity
-            android:name=".Dashboard"
-            android:exported="false" />
-        <activity
             android:name=".ForgetPassword"
             android:exported="false"
             android:theme="@style/Theme.Projek" />

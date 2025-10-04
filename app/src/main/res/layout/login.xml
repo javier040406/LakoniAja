@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
@@ -8,6 +8,7 @@
     android:background="@color/biru_muda"
     tools:context=".Login">
 
+    <!-- Logo -->
     <ImageView
         android:id="@+id/logolakoni"
         android:layout_width="100dp"
@@ -15,37 +16,33 @@
         android:layout_marginTop="92dp"
         android:src="@drawable/lakoni"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Judul -->
     <TextView
         android:id="@+id/lakoniaja"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Selamat Datang di Lakoni Aja"
-        android:shadowColor="@color/shadow"
         android:gravity="center"
         android:layout_marginTop="5dp"
-        android:shadowDy="10"
-        android:shadowRadius="11"
         android:textColor="@color/biru_tua"
         android:textSize="30sp"
         android:textStyle="bold"
-        app:layout_constraintTop_toBottomOf="@id/logolakoni"
-        />
+        app:layout_constraintTop_toBottomOf="@id/logolakoni" />
 
     <TextView
         android:id="@+id/keterangan"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="AYO JAGA KESEHATAN\n MENTALMU!"
+        android:text="AYO JAGA KESEHATAN\nMENTALMU!"
         android:layout_marginTop="10dp"
         android:textColor="@color/biru_tua"
         android:textSize="20sp"
         android:textStyle="bold"
-        app:layout_constraintTop_toBottomOf="@id/lakoniaja"
-        />
+        app:layout_constraintTop_toBottomOf="@id/lakoniaja" />
 
     <TextView
         android:id="@+id/keterangan2"
@@ -56,9 +53,9 @@
         android:layout_marginTop="5dp"
         android:textColor="@color/biru_tua"
         android:textSize="15sp"
-        app:layout_constraintTop_toBottomOf="@id/keterangan"
-        />
+        app:layout_constraintTop_toBottomOf="@id/keterangan" />
 
+    <!-- Form Login -->
     <LinearLayout
         android:id="@+id/formContainer"
         android:layout_width="0dp"
@@ -70,21 +67,16 @@
         android:orientation="vertical"
         android:padding="16dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/keterangan2">
-
 
         <TextView
             android:id="@+id/label_email"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="4dp"
             android:text="Email/Username"
             android:textColor="@color/biru_tua"
-            android:textSize="17sp"
-            />
+            android:textSize="17sp" />
 
         <EditText
             android:id="@+id/nama"
@@ -102,11 +94,9 @@
             android:id="@+id/label_password"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="4dp"
             android:text="Password"
             android:textColor="@color/biru_tua"
-            android:textSize="17sp"
-            />
+            android:textSize="17sp" />
 
         <EditText
             android:id="@+id/password"
@@ -124,13 +114,11 @@
             android:id="@+id/lupapassword"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="4dp"
             android:text="Lupa Password?"
             android:textColor="@color/biru_tua"
             android:textSize="14sp"
             android:layout_gravity="right"
-            android:onClick="gotoforget"
-            />
+            android:onClick="gotoforget" />
 
         <Button
             android:id="@+id/buttonlogin"
@@ -141,25 +129,37 @@
             android:layout_gravity="center"
             android:textColor="@color/white"
             android:textSize="20sp"
-            android:textStyle="bold"
-            android:shadowColor="@color/black"
-            android:shadowDy="7"
-            android:shadowRadius="7"
-            />
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/textregister"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="4dp"
             android:text="Belum punya akun? Daftar"
             android:textColor="@color/biru_tua"
             android:layout_gravity="center"
             android:textSize="15sp"
             android:textStyle="bold"
-            android:onClick="gotoregister"
-            />
+            android:onClick="gotoregister" />
+
     </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/loadingOverlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#80000000"
+        android:visibility="gone"
+        android:elevation="20dp">
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:layout_gravity="center"/>
+    </FrameLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
