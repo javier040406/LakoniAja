@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/beranda"
+        android:icon="@drawable/baseline_home_24"
+        android:title="Beranda" />
+
+    <item
+        android:id="@+id/jadwal"
+        android:icon="@drawable/outline_event_note_24"
+        android:title="Jadwal" />
+
+    <item
+        android:id="@+id/chat"
+        android:icon="@drawable/outline_chat_24"
+        android:title="Chat" />
+
+    <item
+        android:id="@+id/testimoni"
+        android:icon="@drawable/outline_rate_review_24"
+        android:title="Testimoni" />
+
+    <item
+        android:id="@+id/akun"
+        android:icon="@drawable/baseline_person_24"
+        android:title="Akun" />
+
+</menu>

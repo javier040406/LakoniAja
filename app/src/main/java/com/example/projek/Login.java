@@ -74,7 +74,7 @@ public class Login extends AppCompatActivity {
                     // ✅ Login sukses
                     Toast.makeText(Login.this, "Login berhasil!", Toast.LENGTH_SHORT).show();
 
-                    Intent intent = new Intent(Login.this, Dashboard.class);
+                    Intent intent = new Intent(Login.this, MainActivity.class);
                     startActivity(intent);
 
                     // Tutup login supaya tidak bisa kembali dengan tombol back
