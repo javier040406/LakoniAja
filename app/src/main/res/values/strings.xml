@@ -14,5 +14,9 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <!-- 🔽 Tambahkan ini -->
-    <string name="pilih_konseling_underline"><u>Pilih Konseling</u></string>
+    <string name="pilih_konseling_underline"><u>Pilih Konselor</u></string>
+    <string name="lihat_jadwal_underline"><u>Jadwal Saya</u></string>
+    <string name="jadwal_underline"><u>Jadwal</u></string>
 </resources>
+
+

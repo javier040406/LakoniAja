@@ -10,13 +10,14 @@
 
     <!-- Label Judul -->
     <TextView
-        android:id="@+id/label_jadwal"
+        android:id="@+id/label_bookings"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Jadwal Konseling"
+        android:text="Bookings"
         android:textColor="@color/black"
+        android:textStyle="bold"
         android:textSize="30sp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="40dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
@@ -36,7 +37,7 @@
         android:textColorHint="@color/grey"
         android:textSize="17sp"
         android:elevation="4dp"
-        app:layout_constraintTop_toBottomOf="@id/label_jadwal"
+        app:layout_constraintTop_toBottomOf="@id/label_bookings"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -46,6 +47,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/pilih_konseling_underline"
+        android:textStyle="bold"
         android:textColor="@color/black"
         android:textSize="20sp"
         android:layout_marginTop="40dp"
@@ -169,4 +171,16 @@
             android:paddingVertical="4dp" />
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/label_jadwal"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/lihat_jadwal_underline"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintTop_toBottomOf="@id/formContainer3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
