@@ -17,6 +17,11 @@
     <string name="pilih_konseling_underline"><u>Pilih Konselor</u></string>
     <string name="lihat_jadwal_underline"><u>Jadwal Saya</u></string>
     <string name="jadwal_underline"><u>Jadwal</u></string>
+    <string-array name="user_sesi">
+        <item>Offline</item>
+        <item>Online</item>
+    </string-array>
+
 </resources>
 
 

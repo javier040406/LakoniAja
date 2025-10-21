@@ -58,7 +58,22 @@ public class Jadwal_Fragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_jadwal_, container, false);
+        View view = inflater.inflate(R.layout.fragment_jadwal_, container, false);
+
+        // Ambil tombol
+        View btnLihatJadwal = view.findViewById(R.id.buttonlihatjadwal1);
+
+        // Ketika tombol diklik
+        btnLihatJadwal.setOnClickListener(v -> {
+            Fragment bookingFragment = new BookingFragment();
+            getParentFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.flfragment, bookingFragment) // ID container di activity kamu
+                    .addToBackStack(null) // biar bisa tombol back balik ke Jadwal_Fragment
+                    .commit();
+        });
+
+        return view;
     }
+
 }

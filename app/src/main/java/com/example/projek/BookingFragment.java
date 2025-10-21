@@ -1,26 +1,20 @@
 package com.example.projek;
 
+import android.app.DatePickerDialog;
 import android.os.Bundle;
-
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link BookingFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.util.Calendar;
+
 public class BookingFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
@@ -28,15 +22,6 @@ public class BookingFragment extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment BookingFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static BookingFragment newInstance(String param1, String param2) {
         BookingFragment fragment = new BookingFragment();
         Bundle args = new Bundle();
@@ -58,7 +43,30 @@ public class BookingFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_booking, container, false);
+        View view = inflater.inflate(R.layout.fragment_booking, container, false);
+
+        // Ambil TextView dari layout (yang nanti kita buat di XML)
+        TextView txtTanggal = view.findViewById(R.id.txt_tanggal);
+
+        // Ketika diklik, munculkan DatePickerDialog
+        txtTanggal.setOnClickListener(v -> {
+            Calendar calendar = Calendar.getInstance();
+            int year = calendar.get(Calendar.YEAR);
+            int month = calendar.get(Calendar.MONTH);
+            int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+            DatePickerDialog datePickerDialog = new DatePickerDialog(
+                    getContext(),
+                    (view1, year1, month1, dayOfMonth) -> {
+                        String selectedDate = dayOfMonth + "/" + (month1 + 1) + "/" + year1;
+                        txtTanggal.setText(selectedDate);
+                    },
+                    year, month, day
+            );
+
+            datePickerDialog.show();
+        });
+
+        return view;
     }
 }
