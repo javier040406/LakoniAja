@@ -19,13 +19,8 @@
         android:title="Chat" />
 
     <item
-        android:id="@+id/testimoni"
-        android:icon="@drawable/outline_rate_review_24"
-        android:title="Testimoni" />
-
-    <item
-        android:id="@+id/akun"
+        android:id="@+id/profile"
         android:icon="@drawable/baseline_person_24"
-        android:title="Akun" />
+        android:title="Profile" />
 
 </menu>

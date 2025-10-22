@@ -44,10 +44,8 @@ public class MainActivity extends AppCompatActivity {
                 } else if (itemId == R.id.jadwal) {
                     loadFragment(new Jadwal_Fragment());
                 } else if (itemId == R.id.chat) {
-                    loadFragment(new Chat_Fragment());
-                } else if (itemId == R.id.testimoni) {
                     loadFragment(new TestimoniFragment());
-                } else if (itemId == R.id.akun) {
+                } else if (itemId == R.id.profile) {
                     loadFragment(new AkunFragment());
                 }
                 return true;
