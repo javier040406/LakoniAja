@@ -66,7 +66,7 @@ public class Login extends AppCompatActivity {
             String user = etUsername.getText().toString();
             String pass = etPassword.getText().toString();
 
-            if (user.equals("admin") && pass.equals("12345")) {
+            if (user.equals("admin") && pass.equals("1")) {
                 // ✅ tampilkan overlay loading
                 loadingOverlay.setVisibility(View.VISIBLE);
 
