@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="409dp"
+        android:layout_height="60dp"
+        android:layout_marginBottom="4dp"
+        android:background="#DCF2FF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/constraintLayout2"
+        app:layout_constraintHorizontal_bias="0.636"
+        app:layout_constraintStart_toStartOf="@+id/constraintLayout2">
+
+        <ImageButton
+            android:id="@+id/img_btn_home"
+            android:layout_width="59dp"
+            android:layout_height="59dp"
+            android:layout_marginStart="24dp"
+            android:adjustViewBounds="true"
+            android:background="#DCF2FF"
+            android:contentDescription="@string/deskripsi_home"
+            android:scaleType="fitCenter"
+            android:src="@drawable/whatsapp_image_2025_10_22_at_18_04_32"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0" />
+
+        <ImageButton
+            android:id="@+id/img_btn_booking"
+            android:layout_width="59dp"
+            android:layout_height="59dp"
+            android:layout_marginStart="44dp"
+            android:adjustViewBounds="true"
+            android:background="#DCF2FF"
+            android:contentDescription="@string/deskripsi_booking"
+            android:scaleType="fitCenter"
+            android:src="@drawable/whatsapp_image_2025_10_22_at_18_04_32_1_"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/img_btn_home"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0" />
+
+        <ImageButton
+            android:id="@+id/img_btn_chat"
+            android:layout_width="59dp"
+            android:layout_height="59dp"
+            android:layout_marginStart="44dp"
+            android:adjustViewBounds="true"
+            android:background="#DCF2FF"
+            android:contentDescription="@string/deskripsi_chat"
+            android:scaleType="fitCenter"
+            android:src="@drawable/whatsapp_image_2025_10_22_at_18_04_33"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/img_btn_booking"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0" />
+
+        <ImageButton
+            android:id="@+id/img_btn_profil"
+            android:layout_width="59dp"
+            android:layout_height="59dp"
+            android:layout_marginStart="44dp"
+            android:adjustViewBounds="true"
+            android:background="#DCF2FF"
+            android:contentDescription="@string/deskripsi_profil"
+            android:scaleType="fitCenter"
+            android:src="@drawable/whatsapp_image_2025_10_22_at_18_04_33_1_"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/img_btn_chat"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="126dp"
+        android:layout_height="46dp"
+        android:layout_marginTop="4dp"
+        android:text="Profile"
+        android:textSize="34sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="195dp"
+        android:layout_height="181dp"
+        android:layout_marginTop="28dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView5"
+        app:srcCompat="@drawable/e45d62df9e8e044e037bb7ddf9ffce61f316de12_1_" />
+
+    <ImageButton
+        android:id="@+id/img_btn_foto"
+        android:layout_width="36dp"
+        android:layout_height="30dp"
+        android:adjustViewBounds="true"
+        android:background="@android:color/transparent"
+        android:scaleType="fitCenter"
+        app:srcCompat="@drawable/_citypng_com_camera_black_icon_download_png___700x700"
+        tools:layout_editor_absoluteX="267dp"
+        tools:layout_editor_absoluteY="229dp" />
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="70dp"
+        android:layout_height="24dp"
+        android:text="Nama"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.141"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="294dp" />
+
+    <TextView
+        android:id="@+id/tampil_nama"
+        android:layout_width="315dp"
+        android:layout_height="24dp"
+        android:background="@drawable/textborder"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView8" />
+
+    <TextView
+        android:id="@+id/textView12"
+        android:layout_width="70dp"
+        android:layout_height="24dp"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/textView8"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/textView8"
+        tools:layout_editor_absoluteY="371dp"
+        tools:text="Email" />
+
+    <TextView
+        android:id="@+id/tampil_email"
+        android:layout_width="315dp"
+        android:layout_height="24dp"
+        android:background="@drawable/textborder"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/tampil_nama"
+        app:layout_constraintStart_toStartOf="@+id/tampil_nama"
+        app:layout_constraintTop_toBottomOf="@+id/textView12" />
+
+    <TextView
+        android:id="@+id/textView14"
+        android:layout_width="90dp"
+        android:layout_height="24dp"
+        android:text="Password"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/textView12"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/textView12"
+        tools:layout_editor_absoluteY="437dp" />
+
+    <TextView
+        android:id="@+id/tampil_password"
+        android:layout_width="315dp"
+        android:layout_height="24dp"
+        android:background="@drawable/textborder"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/tampil_email"
+        app:layout_constraintStart_toStartOf="@+id/tampil_email"
+        app:layout_constraintTop_toBottomOf="@+id/textView14" />
+
+    <TextView
+        android:id="@+id/textView16"
+        android:layout_width="100dp"
+        android:layout_height="24dp"
+        android:text="Tanggal Lahir"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/textView14"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/textView14"
+        tools:layout_editor_absoluteY="503dp" />
+
+    <TextView
+        android:id="@+id/tampil_tanggal_lahir"
+        android:layout_width="315dp"
+        android:layout_height="24dp"
+        android:background="@drawable/textborder"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/tampil_password"
+        app:layout_constraintStart_toStartOf="@+id/tampil_password"
+        app:layout_constraintTop_toBottomOf="@+id/textView16" />
+
+    <TextView
+        android:id="@+id/textView18"
+        android:layout_width="70dp"
+        android:layout_height="24dp"
+        android:text="No HP"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/textView16"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/textView16"
+        tools:layout_editor_absoluteY="560dp" />
+
+    <TextView
+        android:id="@+id/tampil_no_hp"
+        android:layout_width="315dp"
+        android:layout_height="24dp"
+        android:background="@drawable/textborder"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/tampil_tanggal_lahir"
+        app:layout_constraintStart_toStartOf="@+id/tampil_tanggal_lahir"
+        app:layout_constraintTop_toBottomOf="@+id/textView18" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
