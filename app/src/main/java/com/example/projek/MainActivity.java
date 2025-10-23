@@ -41,10 +41,10 @@ public class MainActivity extends AppCompatActivity {
 
                 if (itemId == R.id.beranda) {
                     loadFragment(new Beranda_Fragment());
-                } else if (itemId == R.id.jadwal) {
+                } else if (itemId == R.id.bookings) {
                     loadFragment(new Jadwal_Fragment());
                 } else if (itemId == R.id.chat) {
-                    loadFragment(new TestimoniFragment());
+                    loadFragment(new Chat_Fragment());
                 } else if (itemId == R.id.profile) {
                     loadFragment(new AkunFragment());
                 }

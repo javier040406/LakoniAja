@@ -1,13 +1,17 @@
 package com.example.projek;
 
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Calendar;
 
@@ -19,7 +23,6 @@ public class BookingFragment extends Fragment {
     private String mParam2;
 
     public BookingFragment() {
-        // Required empty public constructor
     }
 
     public static BookingFragment newInstance(String param1, String param2) {
@@ -45,10 +48,10 @@ public class BookingFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_booking, container, false);
 
-        // Ambil TextView dari layout (yang nanti kita buat di XML)
         TextView txtTanggal = view.findViewById(R.id.txt_tanggal);
+        Button btnBooking = view.findViewById(R.id.buttonbooking);
 
-        // Ketika diklik, munculkan DatePickerDialog
+        // Pilih tanggal
         txtTanggal.setOnClickListener(v -> {
             Calendar calendar = Calendar.getInstance();
             int year = calendar.get(Calendar.YEAR);
@@ -67,6 +70,45 @@ public class BookingFragment extends Fragment {
             datePickerDialog.show();
         });
 
+        // Tombol booking
+        btnBooking.setOnClickListener(v -> {
+            String tanggal = txtTanggal.getText().toString().trim();
+
+            if (tanggal.isEmpty()) {
+                Toast.makeText(getContext(), "Pilih tanggal terlebih dahulu!", Toast.LENGTH_SHORT).show();
+            } else {
+                showKonfirmasiDialog(tanggal);
+            }
+        });
+
         return view;
+    }
+
+    private void showKonfirmasiDialog(String tanggal) {
+        Dialog dialog = new Dialog(getContext());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_konfirmasi_booking);
+        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+
+        TextView tvMessage = dialog.findViewById(R.id.tv_message);
+        Button btnYa = dialog.findViewById(R.id.btn_ya);
+        Button btnBatal = dialog.findViewById(R.id.btn_batal);
+
+        tvMessage.setText("Apakah Anda yakin ingin booking pada tanggal " + tanggal + "?");
+
+        btnYa.setOnClickListener(v -> {
+            Toast.makeText(getContext(), "Booking berhasil dikonfirmasi!", Toast.LENGTH_SHORT).show();
+            dialog.dismiss();
+        });
+
+        btnBatal.setOnClickListener(v -> dialog.dismiss());
+
+        dialog.show();
+        if (dialog.getWindow() != null) {
+            dialog.getWindow().setLayout(
+                    ViewGroup.LayoutParams.MATCH_PARENT, // lebar penuh
+                    ViewGroup.LayoutParams.WRAP_CONTENT   // tinggi menyesuaikan konten
+            );
+        }
     }
 }
