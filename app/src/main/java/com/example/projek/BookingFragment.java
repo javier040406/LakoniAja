@@ -9,7 +9,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,8 +25,7 @@ public class BookingFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public BookingFragment() {
-    }
+    public BookingFragment() {}
 
     public static BookingFragment newInstance(String param1, String param2) {
         BookingFragment fragment = new BookingFragment();
@@ -49,7 +51,10 @@ public class BookingFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_booking, container, false);
 
         TextView txtTanggal = view.findViewById(R.id.txt_tanggal);
+        Spinner spinnerSesi = view.findViewById(R.id.spinnersesi);
+        Spinner spinnerWaktu = view.findViewById(R.id.spinnerjam);
         Button btnBooking = view.findViewById(R.id.buttonbooking);
+
 
         // Pilih tanggal
         txtTanggal.setOnClickListener(v -> {
@@ -73,18 +78,24 @@ public class BookingFragment extends Fragment {
         // Tombol booking
         btnBooking.setOnClickListener(v -> {
             String tanggal = txtTanggal.getText().toString().trim();
+            String sesi = spinnerSesi.getSelectedItem().toString();
+            String waktu = spinnerWaktu.getSelectedItem().toString();
 
-            if (tanggal.isEmpty()) {
+            if (tanggal.isEmpty() || tanggal.equals("Pilih tanggal")) {
                 Toast.makeText(getContext(), "Pilih tanggal terlebih dahulu!", Toast.LENGTH_SHORT).show();
+            } else if (sesi.equals("Pilih Sesi")) {
+                Toast.makeText(getContext(), "Pilih sesi terlebih dahulu!", Toast.LENGTH_SHORT).show();
+            } else if (waktu.equals("Pilih Waktu")) {
+                Toast.makeText(getContext(), "Pilih waktu terlebih dahulu!", Toast.LENGTH_SHORT).show();
             } else {
-                showKonfirmasiDialog(tanggal);
+                showKonfirmasiDialog(tanggal, sesi, waktu);
             }
         });
 
         return view;
     }
 
-    private void showKonfirmasiDialog(String tanggal) {
+    private void showKonfirmasiDialog(String tanggal, String sesi, String waktu) {
         Dialog dialog = new Dialog(getContext());
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_konfirmasi_booking);
@@ -94,7 +105,11 @@ public class BookingFragment extends Fragment {
         Button btnYa = dialog.findViewById(R.id.btn_ya);
         Button btnBatal = dialog.findViewById(R.id.btn_batal);
 
-        tvMessage.setText("Apakah Anda yakin ingin booking pada tanggal " + tanggal + "?");
+        String pesan = "Anda akan melakukan konseling " + sesi + "\n" +
+                "Tanggal: " + tanggal + "\n" +
+                " Jam: " + waktu + "\n" +
+        "Apakah jadwal ini sudah benar?";
+        tvMessage.setText(pesan);
 
         btnYa.setOnClickListener(v -> {
             Toast.makeText(getContext(), "Booking berhasil dikonfirmasi!", Toast.LENGTH_SHORT).show();
@@ -106,8 +121,8 @@ public class BookingFragment extends Fragment {
         dialog.show();
         if (dialog.getWindow() != null) {
             dialog.getWindow().setLayout(
-                    ViewGroup.LayoutParams.MATCH_PARENT, // lebar penuh
-                    ViewGroup.LayoutParams.WRAP_CONTENT   // tinggi menyesuaikan konten
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT
             );
         }
     }
