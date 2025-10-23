@@ -4,14 +4,14 @@
     <item
         android:id="@+id/beranda"
         android:icon="@drawable/baseline_home_24"
-        android:title="Beranda"
+        android:title="Home"
 
         />
 
     <item
-        android:id="@+id/jadwal"
+        android:id="@+id/bookings"
         android:icon="@drawable/outline_event_note_24"
-        android:title="Jadwal" />
+        android:title="Bookings" />
 
     <item
         android:id="@+id/chat"

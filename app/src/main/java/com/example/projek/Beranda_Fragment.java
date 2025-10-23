@@ -50,7 +50,6 @@ public class Beranda_Fragment extends Fragment {
 
         // Inflate layout fragment
         View view = inflater.inflate(R.layout.fragment_beranda_, container, false);
-
         // Pastikan ID di bawah ini sesuai dengan yang ada di XML kamu
         View header = view.findViewById(R.id.headerLayout);
         View tombolUtama = view.findViewById(R.id.menuLayout);
