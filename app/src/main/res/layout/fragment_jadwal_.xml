@@ -181,5 +181,84 @@
         android:layout_marginTop="20dp"
         app:layout_constraintTop_toBottomOf="@id/formContainer3"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent" />\
+
+    <LinearLayout
+        android:id="@+id/formContainer4"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/kolom"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        app:layout_constraintTop_toBottomOf="@id/label_jadwal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <!-- Bagian kiri: Nama Konselor + Tanggal & Waktu -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <!-- Nama konselor -->
+            <TextView
+                android:id="@+id/jadwal1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/baseline_person_24"
+                android:drawablePadding="8dp"
+                android:text="Nama Konselor"
+                android:textColor="@color/black"
+                android:textSize="17sp"
+                android:textStyle="bold" />
+
+            <!-- Baris Tanggal dan Waktu -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="4dp">
+
+                <!-- Tanggal -->
+                <TextView
+                    android:id="@+id/tanggalJadwal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="📅 Tanggal"
+                    android:textColor="@color/biru_tua"
+                    android:textSize="14sp" />
+
+                <!-- Spasi kecil antara tanggal dan waktu -->
+                <Space
+                    android:layout_width="20dp"
+                    android:layout_height="wrap_content" />
+
+                <!-- Waktu -->
+                <TextView
+                    android:id="@+id/waktuJadwal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="🕒 Waktu"
+                    android:textColor="@color/biru_tua"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+        </LinearLayout>
+        <!-- Tombol Ubah Jadwal -->
+        <Button
+            android:id="@+id/btnubahjadwal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/biru_tua"
+            android:text="UBAH\nJADWAL"
+            android:textColor="@color/white"
+            android:textSize="10sp"
+            android:textStyle="bold"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="4dp" />
+    </LinearLayout>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
