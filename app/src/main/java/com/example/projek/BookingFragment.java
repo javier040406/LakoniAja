@@ -108,7 +108,7 @@ public class BookingFragment extends Fragment {
         String pesan = "Anda akan melakukan konseling " + sesi + "\n" +
                 "Tanggal: " + tanggal + "\n" +
                 " Jam: " + waktu + "\n" +
-        "Apakah jadwal ini sudah benar?";
+                "Apakah jadwal ini sudah benar?";
         tvMessage.setText(pesan);
 
         btnYa.setOnClickListener(v -> {
