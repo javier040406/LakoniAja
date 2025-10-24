@@ -12,7 +12,7 @@
         android:id="@+id/tv_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Konfirmasi Booking"
+        android:text="Konfirmasi Ubah Jadwal"
         android:textSize="20sp"
         android:textStyle="bold"
         android:textColor="@color/black"
@@ -22,7 +22,7 @@
         android:id="@+id/tv_message"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Apakah Anda yakin ingin booking pada tanggal ini?"
+        android:text="Apakah Anda yakin ingin ubah jadwal pada tanggal ini?"
         android:layout_marginTop="12dp"
         android:textAlignment="center"
         android:textColor="@color/black" />

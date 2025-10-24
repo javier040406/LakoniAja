@@ -8,19 +8,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link Jadwal_Fragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class Jadwal_Fragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
@@ -28,15 +19,6 @@ public class Jadwal_Fragment extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment Jadwal_Fragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static Jadwal_Fragment newInstance(String param1, String param2) {
         Jadwal_Fragment fragment = new Jadwal_Fragment();
         Bundle args = new Bundle();
@@ -60,20 +42,32 @@ public class Jadwal_Fragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_jadwal_, container, false);
 
-        // Ambil tombol
+        // Tombol lihat jadwal
         View btnLihatJadwal = view.findViewById(R.id.buttonlihatjadwal1);
 
-        // Ketika tombol diklik
+        // Tombol ubah jadwal
+        View btnUbahJadwal = view.findViewById(R.id.btnubahjadwal);
+
+        // Ketika tombol "Lihat Jadwal" diklik → pindah ke BookingFragment
         btnLihatJadwal.setOnClickListener(v -> {
             Fragment bookingFragment = new BookingFragment();
             getParentFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.flfragment, bookingFragment) // ID container di activity kamu
-                    .addToBackStack(null) // biar bisa tombol back balik ke Jadwal_Fragment
+                    .replace(R.id.flfragment, bookingFragment)
+                    .addToBackStack(null)
+                    .commit();
+        });
+
+        // Ketika tombol "Ubah Jadwal" diklik → pindah ke Reschedule fragment
+        btnUbahJadwal.setOnClickListener(v -> {
+            Fragment rescheduleFragment = new Reschedule();
+            getParentFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.flfragment, rescheduleFragment)
+                    .addToBackStack(null)
                     .commit();
         });
 
         return view;
     }
-
 }
