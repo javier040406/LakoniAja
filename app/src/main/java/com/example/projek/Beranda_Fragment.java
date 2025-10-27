@@ -6,8 +6,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-
+import android.widget.ImageButton;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -50,10 +51,13 @@ public class Beranda_Fragment extends Fragment {
 
         // Inflate layout fragment
         View view = inflater.inflate(R.layout.fragment_beranda_, container, false);
-        // Pastikan ID di bawah ini sesuai dengan yang ada di XML kamu
+
+        // Inisialisasi View lain
         View header = view.findViewById(R.id.headerLayout);
         View tombolUtama = view.findViewById(R.id.menuLayout);
         View testimoni = view.findViewById(R.id.testimoniLayout);
+
+        ImageButton btnMulaiKonseling = view.findViewById(R.id.img_btn_mulai_konseling);
 
         // Muat file animasi dari res/anim/
         Animation fadeIn = AnimationUtils.loadAnimation(getContext(), R.anim.fade_in);
@@ -65,7 +69,20 @@ public class Beranda_Fragment extends Fragment {
         if (tombolUtama != null) tombolUtama.startAnimation(slideUp);
         if (testimoni != null) testimoni.startAnimation(scaleUp);
 
-        // =========================
+        if (btnMulaiKonseling != null) {
+            btnMulaiKonseling.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Jadwal_Fragment jadwalFragment = new Jadwal_Fragment();
+
+                    // FragmentTransaction untuk mengganti fragment
+                    FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+                    transaction.replace(R.id.flfragment, jadwalFragment);  // Ganti fragment di container
+                    transaction.addToBackStack(null);
+                    transaction.commit();
+                }
+            });
+        }
 
         return view;
     }
