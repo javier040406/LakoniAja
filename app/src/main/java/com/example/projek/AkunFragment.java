@@ -1,12 +1,21 @@
 package com.example.projek;
 
+import android.app.Dialog;
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.Window;
+import android.graphics.drawable.ColorDrawable;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -59,6 +68,72 @@ public class AkunFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_akun, container, false);
+        View view = inflater.inflate(R.layout.fragment_akun, container, false);
+
+        Button btnLogout = view.findViewById(R.id.btn_logout);
+
+        if (btnLogout != null) {
+            btnLogout.setOnClickListener(v -> {
+                // Panggil metode untuk melakukan logout
+                KonfirmasiLogout();
+            });
+        }
+        return view;
+}
+    private void KonfirmasiLogout() {
+        final Dialog dialog = new Dialog(getActivity());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_konfirmasi_logout);
+
+        Button btnYa = dialog.findViewById(R.id.btn_ya);
+        Button btnTidak = dialog.findViewById(R.id.btn_tidak);
+
+        btnYa.setOnClickListener(v -> {
+            prosesLogout();
+            dialog.dismiss();
+        });
+
+        btnTidak.setOnClickListener(v -> {
+            dialog.dismiss();
+        });
+
+        if (dialog.getWindow() != null) {
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        }
+        if (dialog.getWindow() != null) {
+            dialog.getWindow().setLayout(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT
+            );
+        }
+
+        dialog.show();
+}
+
+    private void prosesLogout() {
+        // 3. Hapus data sesi dari SharedPreferences
+        // Pastikan nama "PREFS_NAME" dan key "IS_LOGGED_IN" SAMA dengan yang Anda gunakan saat login
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.clear(); // Menghapus semua data (atau gunakan editor.remove("IS_LOGGED_IN"))
+        editor.apply();
+
+        // 4. Arahkan pengguna kembali ke LoginActivity
+        // Buat Intent untuk memulai LoginActivity
+        Intent intent = new Intent(getActivity(), Login.class);
+
+        // Tambahkan flags untuk membersihkan semua activity sebelumnya dari back stack
+        // Ini mencegah pengguna menekan tombol "kembali" dan masuk lagi ke MainActivity
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
+        // Mulai LoginActivity
+        startActivity(intent);
+
+        // (Opsional) Tutup Activity saat ini jika diperlukan
+        if (getActivity() != null) {
+            getActivity().finish();
+        }
+
     }
+
 }
