@@ -54,7 +54,7 @@ public class Reschedule extends Fragment {
 
         TextView txtTanggal = view.findViewById(R.id.txt_tanggal);
         Spinner spinnerWaktu = view.findViewById(R.id.spinnerjam);
-        Button btnBooking = view.findViewById(R.id.buttonbooking);
+        Button btnReschedule = view.findViewById(R.id.buttonreschedule);
 
         // Pilih tanggal
         txtTanggal.setOnClickListener(v -> {
@@ -76,7 +76,7 @@ public class Reschedule extends Fragment {
         });
 
         // Tombol booking
-        btnBooking.setOnClickListener(v -> {
+        btnReschedule.setOnClickListener(v -> {
             String tanggal = txtTanggal.getText().toString().trim();
             String waktu = spinnerWaktu.getSelectedItem().toString();
 
