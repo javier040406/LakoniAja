@@ -103,15 +103,20 @@ public class Jadwal_Fragment extends Fragment {
         btnLihatJadwal2.setOnClickListener(lihatJadwalListener);
         btnLihatJadwal3.setOnClickListener(lihatJadwalListener);
 
-        // "Ubah Jadwal" → buka Reschedule fragment
         btnUbahJadwal.setOnClickListener(v -> {
-            Fragment rescheduleFragment = new Reschedule();
-            getParentFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.flfragment, rescheduleFragment)
-                    .addToBackStack(null)
-                    .commit();
+            try {
+                Fragment rescheduleFragment = new Reschedule();
+                getParentFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.flfragment, rescheduleFragment)
+                        .addToBackStack(null)
+                        .commit();
+            } catch (Exception e) {
+                e.printStackTrace();
+                Toast.makeText(getContext(), "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
         });
+
 
         // "Batalkan Jadwal" → tampilkan popup konfirmasi
         btnBatalJadwal.setOnClickListener(v -> showDialogBatalJadwal());
