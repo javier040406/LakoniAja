@@ -57,7 +57,8 @@ public class Beranda_Fragment extends Fragment {
         View tombolUtama = view.findViewById(R.id.menuLayout);
         View testimoni = view.findViewById(R.id.testimoniLayout);
 
-        ImageButton btnMulaiKonseling = view.findViewById(R.id.img_btn_mulai_konseling);
+        ImageButton btnMulaiKonseling = view.findViewById(R.id.btn_mulai_konseling);
+        ImageButton btnJadwalSaya = view.findViewById(R.id.btn_jadwal);
 
         // Muat file animasi dari res/anim/
         Animation fadeIn = AnimationUtils.loadAnimation(getContext(), R.anim.fade_in);
@@ -82,6 +83,20 @@ public class Beranda_Fragment extends Fragment {
                     transaction.commit();
                 }
             });
+        }
+
+        if (btnJadwalSaya != null) {
+            btnJadwalSaya.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Jadwal_Fragment jadwalSayaFragment = new Jadwal_Fragment();
+                    FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+                    transaction.replace(R.id.jadwal1, jadwalSayaFragment);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
+                }
+            });
+
         }
 
         return view;
