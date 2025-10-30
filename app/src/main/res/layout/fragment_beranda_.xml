@@ -97,7 +97,7 @@
             app:layout_constraintEnd_toEndOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <!-- 🔹 Dua Tombol Utama (Pakai FrameLayout supaya border terlihat) -->
+    <!-- Dua Tombol Utama (Pakai FrameLayout supaya border terlihat) -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/menuLayout"
         android:layout_width="0dp"
@@ -119,7 +119,7 @@
             app:layout_constraintBottom_toBottomOf="parent">
 
             <ImageButton
-                android:id="@+id/img_btn_mulai_konseling"
+                android:id="@+id/btn_mulai_konseling"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@android:color/transparent"
@@ -141,7 +141,7 @@
             app:layout_constraintBottom_toBottomOf="parent">
 
             <ImageButton
-                android:id="@+id/img_btn_jadwal"
+                android:id="@+id/btn_jadwal"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@android:color/transparent"

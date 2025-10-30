@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -55,6 +56,15 @@ public class Reschedule extends Fragment {
         TextView txtTanggal = view.findViewById(R.id.txt_tanggal);
         Spinner spinnerWaktu = view.findViewById(R.id.spinnerjam);
         Button btnReschedule = view.findViewById(R.id.buttonreschedule);
+        ImageView btnBack = view.findViewById(R.id.btn_back);
+
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().onBackPressed();
+            }
+        });
+
 
         // Pilih tanggal
         txtTanggal.setOnClickListener(v -> {

@@ -12,6 +12,7 @@ import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -54,6 +55,14 @@ public class BookingFragment extends Fragment {
         Spinner spinnerSesi = view.findViewById(R.id.spinnersesi);
         Spinner spinnerWaktu = view.findViewById(R.id.spinnerjam);
         Button btnBooking = view.findViewById(R.id.buttonbooking);
+        ImageView btnBack = view.findViewById(R.id.btn_back);
+
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().onBackPressed();
+            }
+        });
 
 
         // Pilih tanggal
