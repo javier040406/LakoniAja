@@ -6,4 +6,9 @@
     </style>
 
     <style name="Theme.Projek" parent="Base.Theme.Projek" />
+    <style name="NoIndicatorStyle">
+        <item name="android:color">@android:color/transparent</item>
+        <item name="shapeAppearance">@null</item>
+    </style>
+
 </resources>
