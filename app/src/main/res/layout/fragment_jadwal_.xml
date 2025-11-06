@@ -103,7 +103,7 @@
 
             <!-- === KONSELOR 1 === -->
             <LinearLayout
-                android:id="@+id/silakonchat"
+
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
@@ -112,7 +112,7 @@
                 android:padding="16dp">
 
                 <TextView
-                    android:id="@+id/chatbot"
+
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
