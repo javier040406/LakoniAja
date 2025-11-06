@@ -40,7 +40,7 @@
         app:layout_constraintEnd_toEndOf="parent" />
 
     <LinearLayout
-        android:id="@+id/formContainer1"
+
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
@@ -48,19 +48,10 @@
         android:background="@drawable/kolom"
         android:orientation="horizontal"
         android:padding="16dp"
+
         app:layout_constraintTop_toBottomOf="@id/cari"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-    <TextView
-        android:id="@+id/konselor1"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:drawableLeft="@drawable/baseline_person_24"
-        android:drawablePadding="8dp"
-        android:text="Nama Konselor "
-        android:textColor="@color/black"
-        android:textSize="17sp" />
-    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

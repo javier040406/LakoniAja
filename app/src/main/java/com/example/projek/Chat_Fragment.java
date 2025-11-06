@@ -7,6 +7,8 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.content.Intent;
+import android.widget.LinearLayout;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -59,6 +61,29 @@ public class Chat_Fragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_chat_, container, false);
+        View view = inflater.inflate(R.layout.fragment_chat_, container, false);
+        setupClickListeners(view);
+        return view;
+    }
+
+    private void setupClickListeners(View view) {
+        LinearLayout chatBotLayout = view.findViewById(R.id.silakonchat);
+        chatBotLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), ChatBot.class);
+                startActivity(intent);
+                getActivity().overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+            }
+        });
+
+        LinearLayout konselorLayout = view.findViewById(R.id.konselor_chat);
+        konselorLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Contoh: Intent intent = new Intent(getActivity(), KonselorActivity.class);
+                // startActivity(intent);
+            }
+        });
     }
 }

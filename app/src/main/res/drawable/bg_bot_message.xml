@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+
+    <!-- Background color abu-abu terang -->
+    <solid android:color="#E8E8E8" />
+
+    <!-- Rounded corners - lebih melengkung di kanan, sedikit di kiri -->
+    <corners
+        android:topLeftRadius="20dp"
+        android:topRightRadius="20dp"
+        android:bottomLeftRadius="4dp"
+        android:bottomRightRadius="20dp" />
+
+    <!-- Border tipis -->
+    <stroke
+        android:width="1dp"
+        android:color="#D0D0D0" />
+
+    <!-- Padding internal -->
+    <padding
+        android:left="8dp"
+        android:top="4dp"
+        android:right="8dp"
+        android:bottom="4dp" />
+
+</shape>
