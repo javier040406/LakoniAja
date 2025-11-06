@@ -1,4 +1,4 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:color="@color/black" android:state_checked="true"/>  <!-- aktif -->
-    <item android:color="@color/white" android:state_checked="false"/>   <!-- tidak aktif, hitam 40% transparan -->
+    <item android:color="@color/black" android:state_checked="true"/>
+    <item android:color="@color/white" android:state_checked="false"/>
 </selector>

@@ -5,6 +5,8 @@ import android.app.Dialog;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.core.view.WindowInsetsCompat;
+import androidx.core.view.WindowInsetsControllerCompat;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +17,8 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.Calendar;
 
@@ -58,13 +62,8 @@ public class Reschedule extends Fragment {
         Button btnReschedule = view.findViewById(R.id.buttonreschedule);
         ImageView btnBack = view.findViewById(R.id.btn_back);
 
-        btnBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getActivity().onBackPressed();
-            }
-        });
-
+        // Tombol kembali
+        btnBack.setOnClickListener(v -> requireActivity().onBackPressed());
 
         // Pilih tanggal
         txtTanggal.setOnClickListener(v -> {
@@ -81,11 +80,10 @@ public class Reschedule extends Fragment {
                     },
                     year, month, day
             );
-
             datePickerDialog.show();
         });
 
-        // Tombol booking
+        // Tombol konfirmasi reschedule
         btnReschedule.setOnClickListener(v -> {
             String tanggal = txtTanggal.getText().toString().trim();
             String waktu = spinnerWaktu.getSelectedItem().toString();
@@ -121,6 +119,13 @@ public class Reschedule extends Fragment {
         btnYa.setOnClickListener(v -> {
             Toast.makeText(getContext(), "Jadwal berhasil diubah!", Toast.LENGTH_SHORT).show();
             dialog.dismiss();
+
+            // Langsung pindah ke Jadwal_Fragment setelah reschedule berhasil
+            Jadwal_Fragment jadwalFragment = new Jadwal_Fragment();
+            requireActivity().getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.flfragment, jadwalFragment) // pastikan ID container sesuai di activity_main.xml
+                    .commit();
         });
 
         btnBatal.setOnClickListener(v -> dialog.dismiss());
@@ -132,5 +137,56 @@ public class Reschedule extends Fragment {
                     ViewGroup.LayoutParams.WRAP_CONTENT
             );
         }
+    }
+
+    // --- SEMBUNYIKAN NAVBAR & STATUS BAR SAAT MASUK ---
+    @Override
+    public void onResume() {
+        super.onResume();
+        hideAppNavbar();
+
+    }
+
+    // --- TAMPILKAN LAGI SAAT KELUAR ---
+    @Override
+    public void onPause() {
+        super.onPause();
+        showAppNavbar();
+
+    }
+
+    // --- Sembunyikan BottomNavigationView app ---
+    private void hideAppNavbar() {
+        BottomNavigationView bottomNav = requireActivity().findViewById(R.id.bottom_navigation);
+        if (bottomNav != null) {
+            bottomNav.setVisibility(View.GONE);
+        }
+    }
+
+    private void showAppNavbar() {
+        BottomNavigationView bottomNav = requireActivity().findViewById(R.id.bottom_navigation);
+        if (bottomNav != null) {
+            bottomNav.setVisibility(View.VISIBLE);
+        }
+    }
+
+    // --- SEMBUNYIKAN STATUS BAR & NAVBAR SISTEM ---
+    private void hideSystemBars() {
+        View decorView = requireActivity().getWindow().getDecorView();
+        WindowInsetsControllerCompat insetsController =
+                new WindowInsetsControllerCompat(requireActivity().getWindow(), decorView);
+
+        insetsController.hide(WindowInsetsCompat.Type.statusBars() | WindowInsetsCompat.Type.navigationBars());
+        insetsController.setSystemBarsBehavior(
+                WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+        );
+    }
+
+    private void showSystemBars() {
+        View decorView = requireActivity().getWindow().getDecorView();
+        WindowInsetsControllerCompat insetsController =
+                new WindowInsetsControllerCompat(requireActivity().getWindow(), decorView);
+
+        insetsController.show(WindowInsetsCompat.Type.statusBars() | WindowInsetsCompat.Type.navigationBars());
     }
 }

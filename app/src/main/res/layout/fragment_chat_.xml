@@ -40,7 +40,7 @@
         app:layout_constraintEnd_toEndOf="parent" />
 
     <LinearLayout
-
+        android:id="@+id/konselor_chat"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
@@ -48,10 +48,50 @@
         android:background="@drawable/kolom"
         android:orientation="horizontal"
         android:padding="16dp"
-
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?attr/selectableItemBackground"
         app:layout_constraintTop_toBottomOf="@id/cari"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
+        <TextView
+            android:id="@+id/konselor_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawableLeft="@drawable/baseline_person_24"
+            android:drawablePadding="8dp"
+            android:text="Nama Konselor"
+            android:textColor="@color/black"
+            android:textSize="17sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/silakonchat"
+        android:layout_width="0dp"
+        android:layout_height="59dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/kolom"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?attr/selectableItemBackground"
+        app:layout_constraintTop_toBottomOf="@id/konselor_chat"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <TextView
+            android:id="@+id/chatbot_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawableLeft="@drawable/baseline_person_24"
+            android:drawablePadding="8dp"
+            android:text="Si Lakon - Chat Bot"
+            android:textColor="@color/black"
+            android:textSize="17sp" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
