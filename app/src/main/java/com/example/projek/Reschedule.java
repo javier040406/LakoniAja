@@ -117,7 +117,7 @@ public class Reschedule extends Fragment {
         tvMessage.setText(pesan);
 
         btnYa.setOnClickListener(v -> {
-            Toast.makeText(getContext(), "Jadwal berhasil diubah!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Jadwal Berhasil Diubah!", Toast.LENGTH_SHORT).show();
             dialog.dismiss();
 
             // Langsung pindah ke Jadwal_Fragment setelah reschedule berhasil

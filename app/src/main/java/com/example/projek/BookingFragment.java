@@ -118,7 +118,7 @@ public class BookingFragment extends Fragment {
         tvMessage.setText(pesan);
 
         btnYa.setOnClickListener(v -> {
-            Toast.makeText(getContext(), "Booking berhasil dikonfirmasi!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Jadwal Berhasil Dibuat!", Toast.LENGTH_SHORT).show();
             dialog.dismiss();
 
             // Langsung pindah ke Jadwal_Fragment setelah berhasil booking

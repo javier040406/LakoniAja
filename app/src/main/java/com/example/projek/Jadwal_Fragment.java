@@ -138,7 +138,7 @@ public class Jadwal_Fragment extends Fragment {
         tvMessage.setText("Apakah Anda yakin ingin membatalkan jadwal ini?");
 
         btnYa.setOnClickListener(v -> {
-            Toast.makeText(getContext(), "Jadwal berhasil dibatalkan!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Jadwal Berhasil Dibatalkan!", Toast.LENGTH_SHORT).show();
             dialog.dismiss();
         });
 
