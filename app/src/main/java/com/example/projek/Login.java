@@ -2,7 +2,6 @@ package com.example.projek;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.text.InputType;
 import android.view.MotionEvent;
 import android.view.View;
@@ -17,12 +16,21 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.projek.network.ApiClient;
+import com.example.projek.network.ApiService;
+
+import java.util.Map;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class Login extends AppCompatActivity {
 
     EditText etUsername, etPassword;
     Button btnLogin;
     boolean isPasswordVisible = false;
-    FrameLayout loadingOverlay; // overlay loading spinner
+    FrameLayout loadingOverlay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +43,7 @@ public class Login extends AppCompatActivity {
         btnLogin   = findViewById(R.id.buttonlogin);
         loadingOverlay = findViewById(R.id.loadingOverlay);
 
-        // set ikon mata awal (tertutup)
+        // ikon mata awal (tertutup)
         etPassword.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.matatutup, 0);
 
         // toggle password visibility
@@ -62,25 +70,49 @@ public class Login extends AppCompatActivity {
             return false;
         });
 
+        // Tombol Login
         btnLogin.setOnClickListener(v -> {
-            String user = etUsername.getText().toString();
-            String pass = etPassword.getText().toString();
+            String username = etUsername.getText().toString().trim();
+            String password = etPassword.getText().toString().trim();
 
-            if (user.equals("admin") && pass.equals("1")) {
-                // ✅ tampilkan overlay loading
-                loadingOverlay.setVisibility(View.VISIBLE);
-
-                // delay 2 detik, lalu pindah ke MainActivity
-                new Handler().postDelayed(() -> {
-                    loadingOverlay.setVisibility(View.GONE);
-                    Intent intent = new Intent(Login.this, MainActivity.class);
-                    startActivity(intent);
-
-                }, 1000);
-
-            } else {
-                Toast.makeText(Login.this, "Username atau password salah!", Toast.LENGTH_SHORT).show();
+            if (username.isEmpty() || password.isEmpty()) {
+                Toast.makeText(Login.this, "Harap isi semua field!", Toast.LENGTH_SHORT).show();
+                return;
             }
+
+            // tampilkan loading
+            loadingOverlay.setVisibility(View.VISIBLE);
+
+            // koneksi API
+            ApiService apiService = ApiClient.getClient().create(ApiService.class);
+            Call<Map<String, Object>> call = apiService.loginUser(username, password);
+
+            call.enqueue(new Callback<Map<String, Object>>() {
+                @Override
+                public void onResponse(Call<Map<String, Object>> call, Response<Map<String, Object>> response) {
+                    loadingOverlay.setVisibility(View.GONE);
+                    if (response.isSuccessful() && response.body() != null) {
+                        Boolean success = (Boolean) response.body().get("success");
+                        String message = (String) response.body().get("message");
+                        Toast.makeText(Login.this, message, Toast.LENGTH_SHORT).show();
+
+                        if (success) {
+                            Intent intent = new Intent(Login.this, MainActivity.class);
+                            startActivity(intent);
+                            finish();
+                        }
+                    } else {
+                        Toast.makeText(Login.this, "Gagal login. Coba lagi!", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<Map<String, Object>> call, Throwable t) {
+                    loadingOverlay.setVisibility(View.GONE);
+                    Toast.makeText(Login.this, "Error koneksi: " + t.getMessage(), Toast.LENGTH_LONG).show();
+                    t.printStackTrace();
+                }
+            });
         });
 
         // Edge-to-edge padding

@@ -16,5 +16,12 @@ public interface ApiService {
             @Field("email") String email,
             @Field("username") String username,
             @Field("password") String password
+
+    );
+    @FormUrlEncoded
+    @POST("login.php")
+    Call<Map<String, Object>> loginUser(
+            @Field("username") String username,
+            @Field("password") String password
     );
 }

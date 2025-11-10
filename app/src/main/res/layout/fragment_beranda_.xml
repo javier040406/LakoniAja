@@ -141,13 +141,13 @@
             app:layout_constraintBottom_toBottomOf="parent">
 
             <ImageButton
-                android:id="@+id/btn_jadwal"
+                android:id="@+id/btn_artikel"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@android:color/transparent"
                 android:padding="8dp"
                 android:scaleType="centerInside"
-                android:src="@drawable/screenshot_2025_10_22_174310"
+                android:src="@drawable/icon_artikel"
                  />
         </FrameLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
