@@ -27,6 +27,20 @@ public class Login extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // 🔹 Cek apakah sudah login sebelumnya
+        boolean isLoggedIn = getSharedPreferences("UserPrefs", MODE_PRIVATE)
+                .getBoolean("isLoggedIn", false);
+
+        if (isLoggedIn) {
+            // Jika sudah login, langsung ke MainActivity
+            Intent intent = new Intent(Login.this, MainActivity.class);
+            startActivity(intent);
+            finish(); // tutup halaman login agar tidak bisa kembali
+            return;
+        }
+
+        // 🔹 Jika belum login, tampilkan halaman login
         EdgeToEdge.enable(this);
         setContentView(R.layout.login);
 
@@ -62,20 +76,28 @@ public class Login extends AppCompatActivity {
             return false;
         });
 
+        // tombol login ditekan
         btnLogin.setOnClickListener(v -> {
-            String user = etUsername.getText().toString();
-            String pass = etPassword.getText().toString();
+            String user = etUsername.getText().toString().trim();
+            String pass = etPassword.getText().toString().trim();
 
-            if (user.equals("admin") && pass.equals("1")) {
-                // ✅ tampilkan overlay loading
+            if (user.equals("konseli") && pass.equals("1")) {
+                // tampilkan overlay loading
                 loadingOverlay.setVisibility(View.VISIBLE);
 
-                // delay 2 detik, lalu pindah ke MainActivity
+                // delay 1 detik, lalu pindah ke MainActivity
                 new Handler().postDelayed(() -> {
                     loadingOverlay.setVisibility(View.GONE);
+
+                    // 🔹 Simpan status login agar tidak perlu login lagi
+                    getSharedPreferences("UserPrefs", MODE_PRIVATE)
+                            .edit()
+                            .putBoolean("isLoggedIn", true)
+                            .apply();
+
                     Intent intent = new Intent(Login.this, MainActivity.class);
                     startActivity(intent);
-
+                    finish(); // tutup activity login
                 }, 1000);
 
             } else {

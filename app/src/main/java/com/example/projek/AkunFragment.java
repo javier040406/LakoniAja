@@ -111,29 +111,21 @@ public class AkunFragment extends Fragment {
 }
 
     private void prosesLogout() {
-        // 3. Hapus data sesi dari SharedPreferences
-        // Pastikan nama "PREFS_NAME" dan key "IS_LOGGED_IN" SAMA dengan yang Anda gunakan saat login
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
+        // Hapus status login dari SharedPreferences
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.clear(); // Menghapus semua data (atau gunakan editor.remove("IS_LOGGED_IN"))
+        editor.clear(); // atau editor.putBoolean("isLoggedIn", false);
         editor.apply();
 
-        // 4. Arahkan pengguna kembali ke LoginActivity
-        // Buat Intent untuk memulai LoginActivity
+        // Arahkan ke halaman Login
         Intent intent = new Intent(getActivity(), Login.class);
-
-        // Tambahkan flags untuk membersihkan semua activity sebelumnya dari back stack
-        // Ini mencegah pengguna menekan tombol "kembali" dan masuk lagi ke MainActivity
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-
-        // Mulai LoginActivity
         startActivity(intent);
 
-        // (Opsional) Tutup Activity saat ini jika diperlukan
         if (getActivity() != null) {
             getActivity().finish();
         }
-
     }
+
 
 }
