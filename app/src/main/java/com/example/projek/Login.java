@@ -17,42 +17,47 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.projek.network.ApiClient;
+import com.example.projek.network.ApiService;
+
+import java.util.Map;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class Login extends AppCompatActivity {
 
     EditText etUsername, etPassword;
     Button btnLogin;
     boolean isPasswordVisible = false;
-    FrameLayout loadingOverlay; // overlay loading spinner
+    FrameLayout loadingOverlay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // 🔹 Cek apakah sudah login sebelumnya
+        // 🔹 Jika sudah login, langsung ke MainActivity
         boolean isLoggedIn = getSharedPreferences("UserPrefs", MODE_PRIVATE)
                 .getBoolean("isLoggedIn", false);
 
         if (isLoggedIn) {
-            // Jika sudah login, langsung ke MainActivity
             Intent intent = new Intent(Login.this, MainActivity.class);
             startActivity(intent);
-            finish(); // tutup halaman login agar tidak bisa kembali
+            finish();
             return;
         }
 
-        // 🔹 Jika belum login, tampilkan halaman login
         EdgeToEdge.enable(this);
         setContentView(R.layout.login);
 
         etUsername = findViewById(R.id.nama);
         etPassword = findViewById(R.id.password);
-        btnLogin   = findViewById(R.id.buttonlogin);
+        btnLogin = findViewById(R.id.buttonlogin);
         loadingOverlay = findViewById(R.id.loadingOverlay);
 
-        // set ikon mata awal (tertutup)
+        // 🔹 ikon mata toggle password
         etPassword.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.matatutup, 0);
-
-        // toggle password visibility
         etPassword.setOnTouchListener((v, event) -> {
             final int DRAWABLE_END = 2;
             if (event.getAction() == MotionEvent.ACTION_UP) {
@@ -76,33 +81,17 @@ public class Login extends AppCompatActivity {
             return false;
         });
 
-        // tombol login ditekan
+        // 🔹 Tombol login ditekan
         btnLogin.setOnClickListener(v -> {
             String user = etUsername.getText().toString().trim();
             String pass = etPassword.getText().toString().trim();
 
-            if (user.equals("konseli") && pass.equals("1")) {
-                // tampilkan overlay loading
-                loadingOverlay.setVisibility(View.VISIBLE);
-
-                // delay 1 detik, lalu pindah ke MainActivity
-                new Handler().postDelayed(() -> {
-                    loadingOverlay.setVisibility(View.GONE);
-
-                    // 🔹 Simpan status login agar tidak perlu login lagi
-                    getSharedPreferences("UserPrefs", MODE_PRIVATE)
-                            .edit()
-                            .putBoolean("isLoggedIn", true)
-                            .apply();
-
-                    Intent intent = new Intent(Login.this, MainActivity.class);
-                    startActivity(intent);
-                    finish(); // tutup activity login
-                }, 1000);
-
-            } else {
-                Toast.makeText(Login.this, "Username atau password salah!", Toast.LENGTH_SHORT).show();
+            if (user.isEmpty() || pass.isEmpty()) {
+                Toast.makeText(Login.this, "Harap isi semua field", Toast.LENGTH_SHORT).show();
+                return;
             }
+
+            loginToServer(user, pass);
         });
 
         // Edge-to-edge padding
@@ -110,6 +99,53 @@ public class Login extends AppCompatActivity {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
+        });
+    }
+
+    // 🔹 Proses login ke server
+    private void loginToServer(String username, String password) {
+        loadingOverlay.setVisibility(View.VISIBLE);
+
+        ApiService apiService = ApiClient.getClient().create(ApiService.class);
+        Call<Map<String, Object>> call = apiService.loginUser(username, password);
+
+        call.enqueue(new Callback<Map<String, Object>>() {
+            @Override
+            public void onResponse(Call<Map<String, Object>> call, Response<Map<String, Object>> response) {
+                loadingOverlay.setVisibility(View.GONE);
+
+                if (response.isSuccessful() && response.body() != null) {
+                    Boolean success = (Boolean) response.body().get("success");
+                    String message = (String) response.body().get("message");
+
+                    if (success != null && success) {
+                        Toast.makeText(Login.this, "Login berhasil", Toast.LENGTH_SHORT).show();
+
+                        // Simpan status login
+                        getSharedPreferences("UserPrefs", MODE_PRIVATE)
+                                .edit()
+                                .putBoolean("isLoggedIn", true)
+                                .apply();
+
+                        // Pindah ke MainActivity
+                        new Handler().postDelayed(() -> {
+                            Intent intent = new Intent(Login.this, MainActivity.class);
+                            startActivity(intent);
+                            finish();
+                        }, 500);
+                    } else {
+                        Toast.makeText(Login.this, message, Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(Login.this, "Response tidak valid dari server", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Map<String, Object>> call, Throwable t) {
+                loadingOverlay.setVisibility(View.GONE);
+                Toast.makeText(Login.this, "Koneksi gagal: " + t.getMessage(), Toast.LENGTH_LONG).show();
+            }
         });
     }
 
