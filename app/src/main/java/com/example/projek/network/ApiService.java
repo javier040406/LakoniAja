@@ -30,12 +30,6 @@ public interface ApiService {
     );
 
     // === LOGIN ===
-    @FormUrlEncoded
-    @POST("login.php")
-    Call<Map<String, Object>> loginUser(
-            @Field("username") String username,
-            @Field("password") String password
-    );
 
     // === CHAT - SEND MESSAGE ===
     @FormUrlEncoded
