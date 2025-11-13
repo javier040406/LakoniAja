@@ -27,7 +27,7 @@
             android:layout_marginStart="4dp" />
 
         <TextView
-            android:id="@+id/text_nama_bot"
+            android:id="@+id/chatkoselor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
