@@ -73,7 +73,6 @@ public class Chat_Fragment extends Fragment {
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), ChatBot.class);
                 startActivity(intent);
-                getActivity().overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
             }
         });
 
@@ -81,8 +80,8 @@ public class Chat_Fragment extends Fragment {
         konselorLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Contoh: Intent intent = new Intent(getActivity(), KonselorActivity.class);
-                // startActivity(intent);
+                Intent intent = new Intent(getActivity(), Chat_Konseli.class);
+                startActivity(intent);
             }
         });
     }

@@ -2,7 +2,7 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/main"
+    android:id="@+id/mainn"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -27,11 +27,11 @@
             android:layout_marginStart="4dp" />
 
         <TextView
-            android:id="@+id/text_nama_konselor"
+            android:id="@+id/chatkoselor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="Nama Konselor"
+            android:text="Konselor"
             android:textColor="@android:color/white"
             android:textSize="18sp"
             android:textStyle="bold" />
