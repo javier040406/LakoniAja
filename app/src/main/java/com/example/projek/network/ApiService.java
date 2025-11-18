@@ -18,6 +18,8 @@ public interface ApiService {
             @Field("nama") String nama,
             @Field("nim") String nim,
             @Field("email") String email,
+            @Field("tanggal_lahir") String tanggalLahir,
+            @Field("no_hp") String noHp,
             @Field("username") String username,
             @Field("password") String password
 
@@ -25,7 +27,7 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("login.php")
     Call<Map<String, Object>> loginUser(
-            @Field("username") String username,
+            @Field("login") String username,
             @Field("password") String password
     );
 
@@ -53,5 +55,28 @@ public interface ApiService {
     @GET("api/get_sessions.php")
     Call<Map<String, Object>> getSessions(
             @Query("id_user") int idUser
+    );
+
+    // === GET PROFILE ===
+    @FormUrlEncoded
+    @POST("get_profile.php")
+    Call<Map<String, Object>> getProfile(
+            @Field("username") String username
+    );
+
+    // === UBAH PASSWORD
+    @FormUrlEncoded
+    @POST("change_password.php")
+    Call<Map<String, Object>> changePassword(
+            @Field("username") String username,
+            @Field("new_password") String newPassword
+    );
+
+    // === VALIDASI PENGGUNA
+    @FormUrlEncoded
+    @POST("validate_user.php")
+    Call<Map<String, Object>> validateUserForPasswordReset(
+            @Field("email") String email,
+            @Field("tanggal_lahir") String tanggalLahir
     );
 }
