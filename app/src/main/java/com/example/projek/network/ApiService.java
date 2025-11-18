@@ -22,15 +22,16 @@ public interface ApiService {
             @Field("no_hp") String noHp,
             @Field("username") String username,
             @Field("password") String password
-    );
 
-    // === LOGIN ===
+    );
     @FormUrlEncoded
     @POST("login.php")
     Call<Map<String, Object>> loginUser(
             @Field("login") String username,
             @Field("password") String password
     );
+
+    // === LOGIN ===
 
     // === CHAT - SEND MESSAGE ===
     @FormUrlEncoded

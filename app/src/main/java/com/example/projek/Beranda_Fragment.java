@@ -1,5 +1,6 @@
 package com.example.projek;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,14 +8,11 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link Beranda_Fragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class Beranda_Fragment extends Fragment {
 
     private static final String ARG_PARAM1 = "param1";
@@ -45,10 +43,9 @@ public class Beranda_Fragment extends Fragment {
         }
     }
 
+    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         // Inflate layout fragment
         View view = inflater.inflate(R.layout.fragment_beranda_, container, false);
 
@@ -58,7 +55,7 @@ public class Beranda_Fragment extends Fragment {
         View testimoni = view.findViewById(R.id.testimoniLayout);
 
         ImageButton btnMulaiKonseling = view.findViewById(R.id.btn_mulai_konseling);
-        ImageButton btnJadwalSaya = view.findViewById(R.id.btn_jadwal);
+        ImageButton btnArtikel = view.findViewById(R.id.btn_artikel); // Mengganti nama variabel agar sesuai
 
         // Muat file animasi dari res/anim/
         Animation fadeIn = AnimationUtils.loadAnimation(getContext(), R.anim.fade_in);
@@ -85,18 +82,16 @@ public class Beranda_Fragment extends Fragment {
             });
         }
 
-        if (btnJadwalSaya != null) {
-            btnJadwalSaya.setOnClickListener(new View.OnClickListener() {
+        // Listener untuk tombol artikel
+        if (btnArtikel != null) {
+            btnArtikel.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Jadwal_Fragment jadwalSayaFragment = new Jadwal_Fragment();
-                    FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
-                    transaction.replace(R.id.jadwal1, jadwalSayaFragment);
-                    transaction.addToBackStack(null);
-                    transaction.commit();
+                    // Arahkan ke ArtikelActivity
+                    Intent intent = new Intent(getActivity(), ArtikelActivity.class);
+                    startActivity(intent);
                 }
             });
-
         }
 
         return view;
