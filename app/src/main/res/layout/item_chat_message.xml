@@ -6,9 +6,9 @@
     android:orientation="vertical"
     android:padding="4dp">
 
-    <!-- Pesan dari KONSELI (USER/ANDA) - KANAN -->
+    <!-- User Message Layout -->
     <LinearLayout
-        android:id="@+id/layoutKonseli"
+        android:id="@+id/layoutUser"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -20,13 +20,16 @@
         android:paddingBottom="4dp">
 
         <TextView
-            android:id="@+id/textKonseliMessage"
+            android:id="@+id/textUserMessage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:maxWidth="280dp"
             android:minWidth="60dp"
             android:background="@drawable/bg_user_message"
-            android:padding="16dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp"
             android:textColor="@android:color/white"
             android:textSize="15sp"
             android:lineSpacingExtra="3dp"
@@ -36,9 +39,9 @@
 
     </LinearLayout>
 
-    <!-- Pesan dari KONSELOR - KIRI -->
+    <!-- Bot Message Layout -->
     <LinearLayout
-        android:id="@+id/layoutKonselor"
+        android:id="@+id/layoutBot"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -49,14 +52,26 @@
         android:paddingTop="4dp"
         android:paddingBottom="4dp">
 
+        <ImageView
+            android:id="@+id/imageBot"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:src="@drawable/ic_bot"
+            android:layout_marginEnd="8dp"
+            android:layout_gravity="top"
+            android:contentDescription="AI Bot" />
+
         <TextView
-            android:id="@+id/textKonselorMessage"
+            android:id="@+id/textBotMessage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:maxWidth="280dp"
+            android:maxWidth="260dp"
             android:minWidth="60dp"
-            android:background="@drawable/bg_user_message"
-            android:padding="16dp"
+            android:background="@drawable/bg_bot_message"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp"
             android:textColor="#333333"
             android:textSize="15sp"
             android:lineSpacingExtra="3dp"
