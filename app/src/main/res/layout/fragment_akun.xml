@@ -6,53 +6,44 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
+    android:background="@color/white"
     tools:context="AkunFragment">
 
+    <!-- Profile Title di Pojok Kiri Atas -->
     <TextView
         android:id="@+id/textView5"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
         android:text="Profile"
-        android:textSize="34sp"
         android:textColor="@color/black"
         android:textStyle="bold"
+        android:textSize="30sp"
+        android:layout_marginTop="40dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
+    <!-- Profile Image -->
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="150dp"
-        android:layout_height="130dp"
-        android:layout_marginTop="24dp"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintTop_toBottomOf="@id/textView5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/e45d62df9e8e044e037bb7ddf9ffce61f316de12_1_" />
-
-    <!-- Nama -->
-    <ImageButton
-        android:id="@+id/img_btn_foto"
-        android:layout_width="30dp"
-        android:layout_height="25dp"
-        android:layout_marginEnd="108dp"
-        android:background="@android:color/transparent"
-        android:scaleType="fitCenter"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/imageView"
-        app:srcCompat="@drawable/_citypng_com_camera_black_icon_download_png___700x700" />
+        app:srcCompat="@drawable/bot_image" />
 
     <TextView
         android:id="@+id/textView8"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Nama"
+        android:layout_marginTop="20dp"
+        android:text="Nama Lengkap"
         android:textColor="@color/black"
-        android:textSize="17sp"
+        android:textSize="15sp"
         android:textStyle="bold"
-        app:layout_constraintTop_toBottomOf="@id/img_btn_foto"
+        app:layout_constraintTop_toBottomOf="@id/imageView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -60,25 +51,79 @@
         android:id="@+id/tampil_nama"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@drawable/textborder"
-        android:padding="8dp"
-        android:textSize="17sp"
+        android:layout_marginTop="6dp"
+        android:background="@drawable/rounded_edittext_background"
+        android:padding="14dp"
+        android:textSize="15sp"
+        android:textColor="@color/black"
         app:layout_constraintTop_toBottomOf="@id/textView8"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        />
+        app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- Email -->
+    <!-- NIM Section -->
+    <TextView
+        android:id="@+id/textView_nim"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="NIM"
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/tampil_nama"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/tampil_nim"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:background="@drawable/rounded_edittext_background"
+        android:padding="14dp"
+        android:textSize="15sp"
+        android:textColor="@color/black"
+        app:layout_constraintTop_toBottomOf="@id/textView_nim"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Username Section -->
+    <TextView
+        android:id="@+id/textView_username"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Username"
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/tampil_nim"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/tampil_username"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:background="@drawable/rounded_edittext_background"
+        android:padding="14dp"
+        android:textSize="15sp"
+        android:textColor="@color/black"
+        app:layout_constraintTop_toBottomOf="@id/textView_username"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
     <TextView
         android:id="@+id/textView12"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Email"
+        android:text="Alamat Email"
         android:textColor="@color/black"
-        android:textSize="17sp"
+        android:textSize="15sp"
         android:textStyle="bold"
-        app:layout_constraintTop_toBottomOf="@id/tampil_nama"
+        app:layout_constraintTop_toBottomOf="@id/tampil_username"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -86,41 +131,16 @@
         android:id="@+id/tampil_email"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@drawable/textborder"
-        android:padding="8dp"
-        android:textSize="17sp"
-        app:layout_constraintTop_toBottomOf="@id/textView12"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-     />
-
-    <!-- Password -->
-    <TextView
-        android:id="@+id/textView14"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Password"
+        android:layout_marginTop="6dp"
+        android:background="@drawable/rounded_edittext_background"
+        android:padding="14dp"
+        android:textSize="15sp"
         android:textColor="@color/black"
-        android:textSize="17sp"
-        android:textStyle="bold"
-        app:layout_constraintTop_toBottomOf="@id/tampil_email"
+        app:layout_constraintTop_toBottomOf="@id/textView12"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <TextView
-        android:id="@+id/tampil_password"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="@drawable/textborder"
-        android:padding="8dp"
-        android:textSize="17sp"
-        app:layout_constraintTop_toBottomOf="@id/textView14"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-       />
-
-    <!-- Tanggal Lahir -->
+    <!-- Tanggal Lahir Section -->
     <TextView
         android:id="@+id/textView16"
         android:layout_width="0dp"
@@ -128,9 +148,9 @@
         android:layout_marginTop="16dp"
         android:text="Tanggal Lahir"
         android:textColor="@color/black"
-        android:textSize="17sp"
+        android:textSize="15sp"
         android:textStyle="bold"
-        app:layout_constraintTop_toBottomOf="@id/tampil_password"
+        app:layout_constraintTop_toBottomOf="@id/tampil_email"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -138,23 +158,24 @@
         android:id="@+id/tampil_tanggal_lahir"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@drawable/textborder"
-        android:padding="8dp"
-        android:textSize="17sp"
+        android:layout_marginTop="6dp"
+        android:background="@drawable/rounded_edittext_background"
+        android:padding="14dp"
+        android:textSize="15sp"
+        android:textColor="@color/black"
         app:layout_constraintTop_toBottomOf="@id/textView16"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-         />
+        app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- No HP -->
+    <!-- Kontak Section -->
     <TextView
         android:id="@+id/textView18"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="No HP"
+        android:text="Kontak"
         android:textColor="@color/black"
-        android:textSize="17sp"
+        android:textSize="15sp"
         android:textStyle="bold"
         app:layout_constraintTop_toBottomOf="@id/tampil_tanggal_lahir"
         app:layout_constraintStart_toStartOf="parent"
@@ -164,25 +185,52 @@
         android:id="@+id/tampil_no_hp"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@drawable/textborder"
-        android:padding="8dp"
-        android:textSize="17sp"
+        android:layout_marginTop="6dp"
+        android:background="@drawable/rounded_edittext_background"
+        android:padding="14dp"
+        android:textSize="15sp"
+        android:textColor="@color/black"
         app:layout_constraintTop_toBottomOf="@id/textView18"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-         />
+        app:layout_constraintEnd_toEndOf="parent" />
 
-<!--    TOMBOL LOGOUT-->
+    <!-- Edit Password Button -->
+    <Button
+        android:id="@+id/btn_edit_password"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="24dp"
+        android:text="Edit Password"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:backgroundTint="@color/purple_500"
+        android:textColor="@color/white"
+        android:drawableStart="@drawable/ic_lock"
+        android:drawablePadding="8dp"
+        android:paddingStart="18dp"
+        android:paddingEnd="18dp"
+        app:layout_constraintTop_toBottomOf="@id/tampil_no_hp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
     <Button
         android:id="@+id/btn_logout"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Logout"
-        android:backgroundTint="@android:color/holo_red_light"
-        tools:ignore="MissingConstraints"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="16dp"
+        android:text="Keluar"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:backgroundTint="@color/red_500"
+        android:textColor="@color/white"
+        android:drawableStart="@drawable/ic_logout"
+        android:drawablePadding="8dp"
+        android:paddingStart="18dp"
+        android:paddingEnd="18dp"
+        app:layout_constraintTop_toBottomOf="@id/btn_edit_password"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

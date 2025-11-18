@@ -6,9 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/biru_muda"
-    tools:context=".Login">
-
-    <!-- Button Register -->
+    tools:context=".RegisterActivity">
 
     <ImageView
         android:id="@+id/logolakoni"
@@ -52,8 +50,7 @@
             android:layout_height="wrap_content"
             android:text="Nama"
             android:textColor="@color/biru_tua"
-            android:textSize="17sp"
-            />
+            android:textSize="17sp" />
 
         <EditText
             android:id="@+id/nama"
@@ -66,8 +63,7 @@
             android:padding="10dp"
             android:textColor="@color/black"
             android:textColorHint="@color/grey"
-            android:textSize="15sp"
-            />
+            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/label_nim"
@@ -75,8 +71,7 @@
             android:layout_height="wrap_content"
             android:text="NIM"
             android:textColor="@color/biru_tua"
-            android:textSize="17sp"
-            />
+            android:textSize="17sp" />
 
         <EditText
             android:id="@+id/nim"
@@ -97,8 +92,7 @@
             android:layout_height="wrap_content"
             android:text="Email"
             android:textColor="@color/biru_tua"
-            android:textSize="17sp"
-            />
+            android:textSize="17sp" />
 
         <EditText
             android:id="@+id/email"
@@ -107,7 +101,53 @@
             android:layout_marginBottom="10dp"
             android:background="@drawable/textborder"
             android:hint="nim@student.polije.ac.id"
-            android:inputType="text"
+            android:inputType="textEmailAddress"
+            android:padding="10dp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/grey"
+            android:textSize="15sp" />
+
+        <!-- Tambahan Tanggal Lahir -->
+        <TextView
+            android:id="@+id/label_tanggal_lahir"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tanggal Lahir"
+            android:textColor="@color/biru_tua"
+            android:textSize="17sp" />
+
+        <EditText
+            android:id="@+id/tanggal_lahir"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/textborder"
+            android:hint="YYYY/MM/DD"
+            android:inputType="none"
+            android:padding="10dp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/grey"
+            android:textSize="15sp"
+            android:focusable="false"
+            android:clickable="true" />
+
+        <!-- Tambahan No HP -->
+        <TextView
+            android:id="@+id/label_no_hp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No HP"
+            android:textColor="@color/biru_tua"
+            android:textSize="17sp" />
+
+        <EditText
+            android:id="@+id/no_hp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/textborder"
+            android:hint="08XXXXXXXXXX"
+            android:inputType="phone"
             android:padding="10dp"
             android:textColor="@color/black"
             android:textColorHint="@color/grey"
@@ -119,8 +159,7 @@
             android:layout_height="wrap_content"
             android:text="Username"
             android:textColor="@color/biru_tua"
-            android:textSize="17sp"
-            />
+            android:textSize="17sp" />
 
         <EditText
             android:id="@+id/username"
@@ -141,8 +180,7 @@
             android:layout_height="wrap_content"
             android:text="Password"
             android:textColor="@color/biru_tua"
-            android:textSize="17sp"
-            />
+            android:textSize="17sp" />
 
         <EditText
             android:id="@+id/password"
@@ -156,21 +194,18 @@
             android:textColor="@color/black"
             android:textColorHint="@color/grey"
             android:textSize="15sp"
-            android:drawableRight="@drawable/matatutup"
-            />
+            android:drawableRight="@drawable/matatutup" />
 
         <Button
             android:id="@+id/buttonregister"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:backgroundTint="@color/biru_tua"
             android:text="Daftar"
             android:textColor="@color/white"
             android:textSize="20sp"
-            android:textStyle="bold"
-            android:layout_gravity="center"
-            />
+            android:textStyle="bold" />
     </LinearLayout>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

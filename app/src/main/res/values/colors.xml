@@ -10,5 +10,8 @@
     <color name="grey">#7E7D7D</color>
     <color name="merah">#EB1717</color>
     <color name="abu_muda">#E4DDDA</color>
+    <color name="purple_500">#9C27B0</color>
+    <color name="red_500">#F44336</color>
+    <color name="gray_600">#9E9E9E</color>
 
 </resources>

@@ -115,12 +115,12 @@
             android:id="@+id/lupapassword"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Lupa Password?"
-            android:textColor="@color/biru_tua"
-            android:textSize="15sp"
             android:layout_gravity="right"
             android:layout_marginTop="3dp"
-            android:onClick="gotoforget" />
+            android:onClick="gotoforget"
+            android:text="Lupa Password?"
+            android:textColor="@color/biru_tua"
+            android:textSize="15sp" />
 
         <Button
             android:id="@+id/buttonlogin"

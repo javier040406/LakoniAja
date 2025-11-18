@@ -1,11 +1,5 @@
 package com.example.projek.network;
 
-import com.example.projek.BasicResponse;
-import com.example.projek.BookingResponse;
-import com.example.projek.BookingUserResponse;
-import com.example.projek.JadwalResponse;
-import com.example.projek.KonselorResponse;
-
 import java.util.Map;
 
 import retrofit2.Call;
@@ -24,6 +18,8 @@ public interface ApiService {
             @Field("nama") String nama,
             @Field("nim") String nim,
             @Field("email") String email,
+            @Field("tanggal_lahir") String tanggalLahir,
+            @Field("no_hp") String noHp,
             @Field("username") String username,
             @Field("password") String password
 
@@ -31,7 +27,7 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("login.php")
     Call<Map<String, Object>> loginUser(
-            @Field("username") String username,
+            @Field("login") String username,
             @Field("password") String password
     );
 
@@ -61,34 +57,26 @@ public interface ApiService {
             @Query("id_user") int idUser
     );
 
-    @GET("get_konselor.php")
-    Call<KonselorResponse> getKonselor();
-
-    @GET("get_jadwal.php")
-    Call<JadwalResponse> getJadwalKonselor(
-            @Query("id_konselor") String idKonselor
-    );
-
+    // === GET PROFILE ===
     @FormUrlEncoded
-    @POST("booking.php")
-    Call<BookingResponse> bookingPHP(
-            @Field("id_user") String idUser,
-            @Field("jenis_konseling") String jenisKonseling,
-            @Field("tanggal") String tanggal,
-            @Field("jam_mulai") String jamMulai
+    @POST("get_profile.php")
+    Call<Map<String, Object>> getProfile(
+            @Field("username") String username
     );
 
-    @GET("get_booking_user.php")
-    Call<BookingUserResponse> getBookingUser(
-            @Query("id_user") String idUser
-    );
+    // === UBAH PASSWORD
     @FormUrlEncoded
-    @POST("batal_booking.php")
-    Call<BasicResponse> batalBooking(
-            @Field("id_booking") String idBooking,
-            @Field("id_jadwal") String idJadwal
+    @POST("change_password.php")
+    Call<Map<String, Object>> changePassword(
+            @Field("username") String username,
+            @Field("new_password") String newPassword
     );
 
-
+    // === VALIDASI PENGGUNA
+    @FormUrlEncoded
+    @POST("validate_user.php")
+    Call<Map<String, Object>> validateUserForPasswordReset(
+            @Field("email") String email,
+            @Field("tanggal_lahir") String tanggalLahir
+    );
 }
-
