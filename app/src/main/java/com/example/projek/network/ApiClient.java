@@ -5,7 +5,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiClient {
 
-    private static final String BASE_URL = "http://10.0.4.126/android_api/"; // kalau pakai emulator
+    private static final String BASE_URL = "http://192.168.18.9/webLakoniAja/api/"; // kalau pakai emulator
     // Kalau pakai HP, ganti IP laptop, misal:
     // private static final String BASE_URL = "http://10.10.184.56/android_api/";
 

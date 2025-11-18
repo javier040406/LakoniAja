@@ -80,10 +80,8 @@ public class Login extends AppCompatActivity {
                 return;
             }
 
-            // tampilkan loading
             loadingOverlay.setVisibility(View.VISIBLE);
 
-            // koneksi API
             ApiService apiService = ApiClient.getClient().create(ApiService.class);
             Call<Map<String, Object>> call = apiService.loginUser(username, password);
 
@@ -92,15 +90,31 @@ public class Login extends AppCompatActivity {
                 public void onResponse(Call<Map<String, Object>> call, Response<Map<String, Object>> response) {
                     loadingOverlay.setVisibility(View.GONE);
                     if (response.isSuccessful() && response.body() != null) {
+
                         Boolean success = (Boolean) response.body().get("success");
                         String message = (String) response.body().get("message");
+
                         Toast.makeText(Login.this, message, Toast.LENGTH_SHORT).show();
 
+                        // Ganti bagian ini di onResponse:
+
                         if (success) {
+
+                            // Ambil data user dari response
+                            Map<String, Object> userData = (Map<String, Object>) response.body().get("data");
+                            // Simpan id_user di SharedPreferences sebagai String agar fragment bisa membaca
+                            getSharedPreferences("USER_DATA", MODE_PRIVATE)
+                                    .edit()
+                                    .putString("id_user", userData.get("id_user").toString()) // tetap String
+                                    .apply();
+
+                            // Pindah ke MainActivity
                             Intent intent = new Intent(Login.this, MainActivity.class);
                             startActivity(intent);
                             finish();
                         }
+
+
                     } else {
                         Toast.makeText(Login.this, "Gagal login. Coba lagi!", Toast.LENGTH_SHORT).show();
                     }
@@ -124,12 +138,10 @@ public class Login extends AppCompatActivity {
     }
 
     public void gotoregister(View view) {
-        Intent intent = new Intent(Login.this, RegisterActivity.class);
-        startActivity(intent);
+        startActivity(new Intent(Login.this, RegisterActivity.class));
     }
 
     public void gotoforget(View view) {
-        Intent intent = new Intent(Login.this, ForgetPassword.class);
-        startActivity(intent);
+        startActivity(new Intent(Login.this, ForgetPassword.class));
     }
 }

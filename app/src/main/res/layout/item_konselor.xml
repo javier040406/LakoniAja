@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="16dp"
+    android:background="@drawable/kolom"
+    android:layout_marginBottom="10dp">
+
+    <ImageView
+        android:id="@+id/img_icon"
+        android:layout_width="40dp"
+        android:layout_height="50dp"
+        android:src="@drawable/baseline_person_24"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_nama_konselor"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Nama Konselor"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toEndOf="@id/img_icon"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="12dp"
+        app:layout_constraintEnd_toStartOf="@id/buttonlihatjadwal" />
+
+    <TextView
+        android:id="@+id/tv_bidang_konselor"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Bidang Keahlian"
+        android:textColor="@color/biru_tua"
+        app:layout_constraintStart_toStartOf="@id/tv_nama_konselor"
+        app:layout_constraintTop_toBottomOf="@id/tv_nama_konselor"
+        app:layout_constraintEnd_toStartOf="@id/buttonlihatjadwal" />
+
+    <TextView
+        android:id="@+id/tv_nip_konselor"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="NIP"
+        android:textColor="@color/grey"
+        app:layout_constraintStart_toStartOf="@id/tv_bidang_konselor"
+        app:layout_constraintTop_toBottomOf="@id/tv_bidang_konselor"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/buttonlihatjadwal" />
+
+    <Button
+        android:id="@+id/buttonlihatjadwal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="LIHAT JADWAL"
+        android:backgroundTint="@color/biru_tua"
+        android:textColor="@color/white"
+        android:padding="6dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

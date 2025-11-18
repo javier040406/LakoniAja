@@ -1,5 +1,11 @@
 package com.example.projek.network;
 
+import com.example.projek.BasicResponse;
+import com.example.projek.BookingResponse;
+import com.example.projek.BookingUserResponse;
+import com.example.projek.JadwalResponse;
+import com.example.projek.KonselorResponse;
+
 import java.util.Map;
 
 import retrofit2.Call;
@@ -54,4 +60,35 @@ public interface ApiService {
     Call<Map<String, Object>> getSessions(
             @Query("id_user") int idUser
     );
+
+    @GET("get_konselor.php")
+    Call<KonselorResponse> getKonselor();
+
+    @GET("get_jadwal.php")
+    Call<JadwalResponse> getJadwalKonselor(
+            @Query("id_konselor") String idKonselor
+    );
+
+    @FormUrlEncoded
+    @POST("booking.php")
+    Call<BookingResponse> bookingPHP(
+            @Field("id_user") String idUser,
+            @Field("jenis_konseling") String jenisKonseling,
+            @Field("tanggal") String tanggal,
+            @Field("jam_mulai") String jamMulai
+    );
+
+    @GET("get_booking_user.php")
+    Call<BookingUserResponse> getBookingUser(
+            @Query("id_user") String idUser
+    );
+    @FormUrlEncoded
+    @POST("batal_booking.php")
+    Call<BasicResponse> batalBooking(
+            @Field("id_booking") String idBooking,
+            @Field("id_jadwal") String idJadwal
+    );
+
+
 }
+

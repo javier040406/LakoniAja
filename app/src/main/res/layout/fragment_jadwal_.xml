@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
-    tools:context=".BookingFragment">
+    tools:context=".Jadwal_Fragment">
 
     <!-- ==================== JUDUL ==================== -->
     <TextView
@@ -40,7 +40,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- ==================== TOMBOL TAB ==================== -->
+    <!-- ==================== TABS ==================== -->
     <LinearLayout
         android:id="@+id/tabMenu"
         android:layout_width="0dp"
@@ -101,107 +101,12 @@
                 android:textSize="20sp"
                 android:layout_marginBottom="10dp"/>
 
-            <!-- === KONSELOR 1 === -->
             <LinearLayout
-
+                android:id="@+id/containerKonselor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:background="@drawable/kolom"
-                android:orientation="horizontal"
-                android:padding="16dp">
+                android:orientation="vertical" />
 
-                <TextView
-
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:drawableLeft="@drawable/baseline_person_24"
-                    android:drawablePadding="8dp"
-                    android:text="Konselor 1"
-                    android:textColor="@color/black"
-                    android:textSize="17sp" />
-
-                <Button
-                    android:id="@+id/buttonlihatjadwal1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:backgroundTint="@color/biru_tua"
-                    android:text="LIHAT JADWAL"
-                    android:textColor="@color/white"
-                    android:textSize="10sp"
-                    android:textStyle="bold"
-                    android:paddingHorizontal="8dp"
-                    android:paddingVertical="4dp" />
-            </LinearLayout>
-
-            <!-- === KONSELOR 2 === -->
-            <LinearLayout
-                android:id="@+id/formContainer2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:background="@drawable/kolom"
-                android:orientation="horizontal"
-                android:padding="16dp">
-
-                <TextView
-                    android:id="@+id/konselor2"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:drawableLeft="@drawable/baseline_person_24"
-                    android:drawablePadding="8dp"
-                    android:text="Konselor 2"
-                    android:textColor="@color/black"
-                    android:textSize="17sp" />
-
-                <Button
-                    android:id="@+id/buttonlihatjadwal2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:backgroundTint="@color/biru_tua"
-                    android:text="LIHAT JADWAL"
-                    android:textColor="@color/white"
-                    android:textSize="10sp"
-                    android:textStyle="bold"
-                    android:paddingHorizontal="8dp"
-                    android:paddingVertical="4dp" />
-            </LinearLayout>
-
-            <!-- === KONSELOR 3 === -->
-            <LinearLayout
-                android:id="@+id/formContainer3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:background="@drawable/kolom"
-                android:orientation="horizontal"
-                android:padding="16dp">
-
-                <TextView
-                    android:id="@+id/konselor3"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:drawableLeft="@drawable/baseline_person_24"
-                    android:drawablePadding="8dp"
-                    android:text="Konselor 3"
-                    android:textColor="@color/black"
-                    android:textSize="17sp" />
-
-                <Button
-                    android:id="@+id/buttonlihatjadwal3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:backgroundTint="@color/biru_tua"
-                    android:text="LIHAT JADWAL"
-                    android:textColor="@color/white"
-                    android:textSize="10sp"
-                    android:textStyle="bold"
-                    android:paddingHorizontal="8dp"
-                    android:paddingVertical="4dp" />
-            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 
@@ -232,87 +137,27 @@
                 android:textSize="20sp"
                 android:layout_marginBottom="10dp"/>
 
-            <!-- ==================== KARTU JADWAL ==================== -->
-            <LinearLayout
-                android:id="@+id/formContainer4"
+            <TextView
+                android:id="@+id/tvKosong"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:background="@drawable/kolom"
-                android:orientation="vertical"
-                android:padding="16dp">
+                android:text="Belum ada jadwal"
+                android:textSize="16sp"
+                android:textStyle="italic"
+                android:gravity="center"
+                android:padding="16dp"
+                android:visibility="gone"
+                android:textColor="@color/black" />
 
-                <TextView
-                    android:id="@+id/jadwal1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:drawableLeft="@drawable/baseline_person_24"
-                    android:drawablePadding="8dp"
-                    android:text="Konselor 1"
-                    android:textColor="@color/black"
-                    android:textSize="17sp"
-                    android:textStyle="bold" />
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="4dp">
+            <!-- ========== KONTENER JADWAL DINAMIS ========== -->
+            <LinearLayout
+                android:id="@+id/containerJadwal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
 
-                    <TextView
-                        android:id="@+id/tanggalJadwal"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="📅 Tanggal"
-                        android:textColor="@color/biru_tua"
-                        android:textSize="14sp" />
-
-                    <Space
-                        android:layout_width="20dp"
-                        android:layout_height="wrap_content" />
-
-                    <TextView
-                        android:id="@+id/waktuJadwal"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="🕒 Waktu"
-                        android:textColor="@color/biru_tua"
-                        android:textSize="14sp" />
-                </LinearLayout>
-
-                <!-- Tombol aksi -->
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="8dp">
-
-                    <Button
-                        android:id="@+id/btnbatalkan"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:backgroundTint="@color/merah"
-                        android:text="BATALKAN JADWAL"
-                        android:textColor="@color/white"
-                        android:textSize="10sp"
-                        android:textStyle="bold"
-                        android:paddingHorizontal="8dp"
-                        android:paddingVertical="4dp"
-                        android:layout_marginEnd="8dp" />
-
-                    <Button
-                        android:id="@+id/btnubahjadwal"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:backgroundTint="@color/biru_tua"
-                        android:text="UBAH JADWAL"
-                        android:textColor="@color/white"
-                        android:textSize="10sp"
-                        android:textStyle="bold"
-                        android:paddingHorizontal="8dp"
-                        android:paddingVertical="4dp" />
-                </LinearLayout>
-            </LinearLayout>
         </LinearLayout>
     </ScrollView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

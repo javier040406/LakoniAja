@@ -48,7 +48,7 @@ public class Chat_Konseli extends AppCompatActivity {
     private int idSesi = 6;
 
     private OkHttpClient client;
-    private static final String BASE_URL = "http://10.10.4.126/webLakoniAja/api/";
+    private static final String BASE_URL = "http://192.168.18.9/webLakoniAja/api/";
     private static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 
     @Override

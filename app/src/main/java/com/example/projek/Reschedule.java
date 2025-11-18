@@ -24,31 +24,29 @@ import java.util.Calendar;
 
 public class Reschedule extends Fragment {
 
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    private String mParam1;
-    private String mParam2;
+    private static final String ARG_JADWAL_ID = "jadwal_id";
+    private String jadwalId;
 
     public Reschedule() {
         // Required empty public constructor
     }
 
-    public static Reschedule newInstance(String param1, String param2) {
+    // Factory method menerima 1 parameter id_jadwal
+    public static Reschedule newInstance(String idBooking, String tanggalBooking) {
         Reschedule fragment = new Reschedule();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putString("id_booking", idBooking);
+        args.putString("tanggal_booking", tanggalBooking);
         fragment.setArguments(args);
         return fragment;
     }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            jadwalId = getArguments().getString(ARG_JADWAL_ID);
         }
     }
 
@@ -120,11 +118,11 @@ public class Reschedule extends Fragment {
             Toast.makeText(getContext(), "Jadwal Berhasil Diubah!", Toast.LENGTH_SHORT).show();
             dialog.dismiss();
 
-            // Langsung pindah ke Jadwal_Fragment setelah reschedule berhasil
+            // Kembali ke Jadwal_Fragment
             Jadwal_Fragment jadwalFragment = new Jadwal_Fragment();
             requireActivity().getSupportFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.flfragment, jadwalFragment) // pastikan ID container sesuai di activity_main.xml
+                    .replace(R.id.flfragment, jadwalFragment)
                     .commit();
         });
 
@@ -139,23 +137,18 @@ public class Reschedule extends Fragment {
         }
     }
 
-    // --- SEMBUNYIKAN NAVBAR & STATUS BAR SAAT MASUK ---
     @Override
     public void onResume() {
         super.onResume();
         hideAppNavbar();
-
     }
 
-    // --- TAMPILKAN LAGI SAAT KELUAR ---
     @Override
     public void onPause() {
         super.onPause();
         showAppNavbar();
-
     }
 
-    // --- Sembunyikan BottomNavigationView app ---
     private void hideAppNavbar() {
         BottomNavigationView bottomNav = requireActivity().findViewById(R.id.bottom_navigation);
         if (bottomNav != null) {
@@ -168,25 +161,5 @@ public class Reschedule extends Fragment {
         if (bottomNav != null) {
             bottomNav.setVisibility(View.VISIBLE);
         }
-    }
-
-    // --- SEMBUNYIKAN STATUS BAR & NAVBAR SISTEM ---
-    private void hideSystemBars() {
-        View decorView = requireActivity().getWindow().getDecorView();
-        WindowInsetsControllerCompat insetsController =
-                new WindowInsetsControllerCompat(requireActivity().getWindow(), decorView);
-
-        insetsController.hide(WindowInsetsCompat.Type.statusBars() | WindowInsetsCompat.Type.navigationBars());
-        insetsController.setSystemBarsBehavior(
-                WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
-        );
-    }
-
-    private void showSystemBars() {
-        View decorView = requireActivity().getWindow().getDecorView();
-        WindowInsetsControllerCompat insetsController =
-                new WindowInsetsControllerCompat(requireActivity().getWindow(), decorView);
-
-        insetsController.show(WindowInsetsCompat.Type.statusBars() | WindowInsetsCompat.Type.navigationBars());
     }
 }
