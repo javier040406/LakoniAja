@@ -1,9 +1,9 @@
 package com.example.projek;
 
 public class BookingResponse {
-    private String status;
+    private boolean status; // boolean sesuai JSON
     private String message;
 
-    public String getStatus() { return status; }
+    public boolean isStatus() { return status; }
     public String getMessage() { return message; }
 }

@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -63,42 +64,56 @@ public class BookingFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         View view = inflater.inflate(R.layout.fragment_booking, container, false);
 
         spinnerTanggal = view.findViewById(R.id.txt_tanggal);
         spinnerWaktu = view.findViewById(R.id.spinnerjam);
         spinnerSesi = view.findViewById(R.id.spinnersesi);
 
-        ArrayAdapter<String> adapterSesi = new ArrayAdapter<>(
-                getContext(),
+        // Spinner Sesi
+        ArrayAdapter<String> adapterSesi = new ArrayAdapter<>(getContext(),
                 android.R.layout.simple_spinner_item,
-                new String[]{"Offline", "Online"}
-        );
+                new String[]{"Offline", "Online"});
         adapterSesi.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerSesi.setAdapter(adapterSesi);
 
+        // Label nama konselor
         TextView labelNamaKonselor = view.findViewById(R.id.label_konselor);
         labelNamaKonselor.setText(namaKonselor);
 
+        // Tombol back
         ImageView btnBack = view.findViewById(R.id.btn_back);
         btnBack.setOnClickListener(v -> requireActivity().onBackPressed());
 
+        // Pilih tanggal
         spinnerTanggal.setOnClickListener(v -> showDatePicker());
 
+        // Load jadwal
         loadJadwalFromAPI();
 
+        // Tombol booking
         Button btnBooking = view.findViewById(R.id.buttonbooking);
         btnBooking.setOnClickListener(v -> prosesBooking());
 
+        // Notifikasi ID User saat masuk fragment
+        SharedPreferences sp = requireActivity().getSharedPreferences("USER_DATA", Context.MODE_PRIVATE);
+        String idUser = sp.getString("id_user", null);
+
+        if (idUser != null) {
+            // Log tetap bisa dipakai jika ingin debug, tapi Toast dihapus
+            Log.d("BookingDebug", "ID User saat masuk BookingFragment: " + idUser);
+        } else {
+            Log.d("BookingDebug", "ID User kosong saat masuk BookingFragment");
+        }
+
         return view;
+
     }
 
     // ===== LOGIC BOOKING =====
     private void loadJadwalFromAPI() {
         ApiService apiService = ApiClient.getClient().create(ApiService.class);
         Call<JadwalResponse> call = apiService.getJadwalKonselor(idKonselor);
-
         call.enqueue(new Callback<JadwalResponse>() {
             @Override
             public void onResponse(Call<JadwalResponse> call, Response<JadwalResponse> response) {
@@ -106,36 +121,20 @@ public class BookingFragment extends Fragment {
                     Toast.makeText(getContext(), "Gagal memuat jadwal", Toast.LENGTH_SHORT).show();
                     return;
                 }
-
-                jadwalList = new ArrayList<>();
-
+                jadwalList.clear();
                 for (Jadwal j : response.body().getData()) {
-
-                    // DEBUG LOG
-                    Log.d("STATUS_DEBUG", "Status dari API: [" + j.getStatus() + "]");
-
-                    // FIX SPASI DAN CASE
                     String statusFix = (j.getStatus() == null) ? "" : j.getStatus().trim();
-
                     if (statusFix.equalsIgnoreCase("tersedia")) {
                         jadwalList.add(j);
                     }
                 }
-
-                if (jadwalList.isEmpty()) {
-                    // Jangan tampilkan notifikasi apapun
-                    return;
-                }
-
             }
-
             @Override
             public void onFailure(Call<JadwalResponse> call, Throwable t) {
                 Toast.makeText(getContext(), "Koneksi gagal: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
-
 
     private void showDatePicker() {
         Calendar calendar = Calendar.getInstance();
@@ -160,47 +159,34 @@ public class BookingFragment extends Fragment {
                 waktuList.add(j.getJam_mulai());
             }
         }
-        if (waktuList.isEmpty()) {
-            waktuList.add("Tidak tersedia");
-        }
+        if (waktuList.isEmpty()) waktuList.add("Tidak tersedia");
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, waktuList);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerWaktu.setAdapter(adapter);
     }
 
     private void prosesBooking() {
-
         String tanggal = spinnerTanggal.getText().toString();
-
-        // CEK TANGGAL TERLEBIH DULU
         if (tanggal.isEmpty()) {
             Toast.makeText(getContext(), "Pilih tanggal terlebih dahulu", Toast.LENGTH_SHORT).show();
             return;
         }
-
-        // CEK SPINNER WAKTU NULL
         if (spinnerWaktu.getSelectedItem() == null) {
             Toast.makeText(getContext(), "Pilih waktu terlebih dahulu", Toast.LENGTH_SHORT).show();
             return;
         }
-
         String waktu = spinnerWaktu.getSelectedItem().toString();
-
         if (waktu.equals("Tidak tersedia")) {
             Toast.makeText(getContext(), "Tidak ada jadwal di tanggal ini", Toast.LENGTH_SHORT).show();
             return;
         }
-
         String sesi = spinnerSesi.getSelectedItem().toString();
-
         SharedPreferences sp = requireActivity().getSharedPreferences("USER_DATA", Context.MODE_PRIVATE);
         String idUser = sp.getString("id_user", null);
-
         if (idUser == null || idUser.isEmpty()) {
             Toast.makeText(getContext(), "ID User tidak ditemukan, login ulang!", Toast.LENGTH_SHORT).show();
             return;
         }
-
         showKonfirmasiDialog(idUser, sesi, tanggal, waktu);
     }
 
@@ -211,13 +197,11 @@ public class BookingFragment extends Fragment {
         dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
 
         TextView tvMessage = dialog.findViewById(R.id.tv_message);
-        tvMessage.setText(
-                "Anda akan melakukan Konseling dengan " + namaKonselor +
-                        "\nTanggal   : " + tanggal +
-                        "\nJam         : " + jamMulai +
-                        "\nSesi         : " + sesi +
-                        "\n\nApakah jadwal ini sudah benar?"
-        );
+        tvMessage.setText("Anda akan melakukan Konseling dengan " + namaKonselor +
+                "\nTanggal: " + tanggal +
+                "\nJam: " + jamMulai +
+                "\nSesi: " + sesi +
+                "\n\nApakah jadwal ini sudah benar?");
 
         Button btnYa = dialog.findViewById(R.id.btn_ya);
         btnYa.setOnClickListener(v -> {
@@ -236,45 +220,50 @@ public class BookingFragment extends Fragment {
 
     private void kirimBooking(String idUser, String sesi, String tanggal, String jamMulai) {
         ApiService api = ApiClient.getClient().create(ApiService.class);
-        Log.d("BookingDebug", "kirimBooking -> Mengirim ke API: idUser=" + idUser + ", sesi=" + sesi + ", tanggal=" + tanggal + ", jamMulai=" + jamMulai);
-        Call<BookingResponse> call = api.bookingPHP(idUser, sesi, tanggal, jamMulai);
 
+        Call<BookingResponse> call = api.bookingPHP(idUser, sesi, tanggal, jamMulai);
         call.enqueue(new Callback<BookingResponse>() {
             @Override
             public void onResponse(Call<BookingResponse> call, Response<BookingResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    Toast.makeText(getContext(), "Booking berhasil!", Toast.LENGTH_SHORT).show();
-                    requireActivity().getSupportFragmentManager()
-                            .beginTransaction()
-                            .replace(R.id.flfragment, new Jadwal_Fragment())
-                            .commit();
+                    BookingResponse br = response.body();
+                    if (br.isStatus()) {
+                        Toast.makeText(getContext(), br.getMessage(), Toast.LENGTH_SHORT).show();
+                        requireActivity().getSupportFragmentManager()
+                                .beginTransaction()
+                                .replace(R.id.flfragment, new Jadwal_Fragment())
+                                .commit();
+                    } else {
+                        Toast.makeText(getContext(), "Gagal: " + br.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
                 } else {
-                    Toast.makeText(getContext(), "Gagal melakukan booking", Toast.LENGTH_SHORT).show();
-                    Log.e("BookingDebug", "API Response not successful. Code=" + response.code() + ", Message=" + response.message());
+                    Toast.makeText(getContext(), "Response tidak valid", Toast.LENGTH_SHORT).show();
+                    try {
+                        if (response.errorBody() != null)
+                            Log.e("BookingDebug", response.errorBody().string());
+                    } catch (Exception e) { e.printStackTrace(); }
                 }
             }
 
             @Override
             public void onFailure(Call<BookingResponse> call, Throwable t) {
                 Toast.makeText(getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-                Log.e("BookingDebug", "API call failed: " + t.getMessage(), t);
+                Log.e("BookingDebug", "onFailure", t);
             }
         });
     }
 
-    // ===== LOGIC HIDE/SHOW NAVBAR & SYSTEM BAR =====
+    // ===== LOGIC HIDE/SHOW NAVBAR =====
     @Override
     public void onResume() {
         super.onResume();
         hideAppNavbar();
-
     }
 
     @Override
     public void onPause() {
         super.onPause();
         showAppNavbar();
-
     }
 
     private void hideAppNavbar() {
@@ -285,20 +274,5 @@ public class BookingFragment extends Fragment {
     private void showAppNavbar() {
         BottomNavigationView bottomNav = requireActivity().findViewById(R.id.bottom_navigation);
         if (bottomNav != null) bottomNav.setVisibility(View.VISIBLE);
-    }
-
-    private void hideSystemBars() {
-        View decorView = requireActivity().getWindow().getDecorView();
-        WindowInsetsControllerCompat insetsController =
-                new WindowInsetsControllerCompat(requireActivity().getWindow(), decorView);
-        insetsController.hide(WindowInsetsCompat.Type.statusBars() | WindowInsetsCompat.Type.navigationBars());
-        insetsController.setSystemBarsBehavior(WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE);
-    }
-
-    private void showSystemBars() {
-        View decorView = requireActivity().getWindow().getDecorView();
-        WindowInsetsControllerCompat insetsController =
-                new WindowInsetsControllerCompat(requireActivity().getWindow(), decorView);
-        insetsController.show(WindowInsetsCompat.Type.statusBars() | WindowInsetsCompat.Type.navigationBars());
     }
 }

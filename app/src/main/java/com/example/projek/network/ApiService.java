@@ -1,5 +1,11 @@
 package com.example.projek.network;
 
+import com.example.projek.BasicResponse;
+import com.example.projek.BookingResponse;
+import com.example.projek.BookingUserResponse;
+import com.example.projek.JadwalResponse;
+import com.example.projek.KonselorResponse;
+
 import java.util.Map;
 
 import retrofit2.Call;
@@ -24,14 +30,14 @@ public interface ApiService {
             @Field("password") String password
 
     );
+
+    // === LOGIN ===
     @FormUrlEncoded
     @POST("login.php")
     Call<Map<String, Object>> loginUser(
             @Field("login") String username,
             @Field("password") String password
     );
-
-    // === LOGIN ===
 
     // === CHAT - SEND MESSAGE ===
     @FormUrlEncoded
@@ -78,5 +84,39 @@ public interface ApiService {
     Call<Map<String, Object>> validateUserForPasswordReset(
             @Field("email") String email,
             @Field("tanggal_lahir") String tanggalLahir
+    );
+
+    // === AMBIL JADWAL USER
+    @GET("get_booking_user.php")
+    Call<BookingUserResponse> getBookingUser(
+            @Query("id_user") String idUser
+    );
+
+    // === AMBIL JADWAL KONSELOR
+    @GET("get_jadwal.php")
+    Call<JadwalResponse> getJadwalKonselor(
+            @Query("id_konselor") String idKonselor
+    );
+
+    // === BOOKING ===
+    @FormUrlEncoded
+    @POST("booking.php")
+    Call<BookingResponse> bookingPHP(
+            @Field("id_user") String idUser,
+            @Field("jenis_konseling") String jenisKonseling,
+            @Field("tanggal") String tanggal,
+            @Field("jam_mulai") String jamMulai
+    );
+
+    // === AMBIL KONSELOR ===
+    @GET("get_konselor.php")
+    Call<KonselorResponse> getKonselor();
+
+    // === BATAL BOOKING ===
+    @FormUrlEncoded
+    @POST("batal_booking.php")
+    Call<BasicResponse> batalBooking(
+            @Field("id_booking") String idBooking,
+            @Field("id_jadwal") String idJadwal
     );
 }
