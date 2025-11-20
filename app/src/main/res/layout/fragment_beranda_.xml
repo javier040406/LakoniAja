@@ -147,7 +147,7 @@
                 android:background="@android:color/transparent"
                 android:padding="8dp"
                 android:scaleType="centerInside"
-
+                android:src="@drawable/artikel"
                  />
         </FrameLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
