@@ -1,6 +1,8 @@
 package com.example.projek;
 
 import android.os.Bundle;
+import android.widget.ImageButton;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,6 +21,9 @@ public class ArtikelActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_artikel);
 
+        ImageButton btnBack = findViewById(R.id.btn_back);
+        btnBack.setOnClickListener(v -> onBackPressed());
+
         rvArtikel = findViewById(R.id.rvArtikel);
         rvArtikel.setLayoutManager(new LinearLayoutManager(this));
 
@@ -30,5 +35,7 @@ public class ArtikelActivity extends AppCompatActivity {
 
         adapter = new ArtikelAdapter(this, artikelList);
         rvArtikel.setAdapter(adapter);
+
+
     }
 }
