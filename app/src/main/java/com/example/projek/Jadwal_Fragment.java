@@ -37,7 +37,6 @@ public class Jadwal_Fragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_jadwal_, container, false);
 
-        // ===================== INIT =====================
         Button btnKonselor = view.findViewById(R.id.btnKonselor);
         Button btnJadwalSaya = view.findViewById(R.id.btnJadwalSaya);
 
@@ -48,66 +47,64 @@ public class Jadwal_Fragment extends Fragment {
         containerJadwalSaya = view.findViewById(R.id.containerJadwal);
         tvKosong = view.findViewById(R.id.tvKosong);
 
-
-        // ===================== TAB HANDLER =====================
+        // Tab Handling
         btnKonselor.setOnClickListener(v -> {
             layoutKonselor.setVisibility(View.VISIBLE);
             layoutJadwal.setVisibility(View.GONE);
 
-            btnKonselor.setBackgroundTintList(getResources().getColorStateList(R.color.biru_tua));
+            btnKonselor.setBackgroundTintList(getResources().getColorStateList(R.color.biru_langit));
             btnKonselor.setTextColor(getResources().getColor(R.color.white));
 
             btnJadwalSaya.setBackgroundTintList(getResources().getColorStateList(R.color.abu_muda));
-            btnJadwalSaya.setTextColor(getResources().getColor(R.color.biru_tua));
+            btnJadwalSaya.setTextColor(getResources().getColor(R.color.biru_langit));
         });
 
         btnJadwalSaya.setOnClickListener(v -> {
             layoutKonselor.setVisibility(View.GONE);
             layoutJadwal.setVisibility(View.VISIBLE);
 
-            btnJadwalSaya.setBackgroundTintList(getResources().getColorStateList(R.color.biru_tua));
+            btnJadwalSaya.setBackgroundTintList(getResources().getColorStateList(R.color.biru_langit));
             btnJadwalSaya.setTextColor(getResources().getColor(R.color.white));
 
             btnKonselor.setBackgroundTintList(getResources().getColorStateList(R.color.abu_muda));
-            btnKonselor.setTextColor(getResources().getColor(R.color.biru_tua));
+            btnKonselor.setTextColor(getResources().getColor(R.color.biru_langit));
         });
 
-        // ===================== LOAD DATA =====================
+        // Load data
         loadKonselor();
         loadJadwalSaya();
 
         return view;
     }
 
-    // ===========================================================
-    // LOAD DATA KONSELOR
-    // ===========================================================
     private void loadKonselor() {
         ApiService api = ApiClient.getClient().create(ApiService.class);
-
         api.getKonselor().enqueue(new Callback<KonselorResponse>() {
             @Override
             public void onResponse(Call<KonselorResponse> call, Response<KonselorResponse> response) {
-                if (response.isSuccessful() && response.body().isStatus()) {
-                    List<Konselor> list = response.body().getData();
-                    containerKonselor.removeAllViews();
-
-                    for (Konselor k : list) {
-                        addKonselorCard(k);
-                    }
+                if (!response.isSuccessful() || response.body() == null) {
+                    Toast.makeText(getContext(), "Gagal mengambil data!", Toast.LENGTH_SHORT).show();
+                    return;
                 }
+
+                if (!response.body().isStatus()) {
+                    Toast.makeText(getContext(), "Tidak ada data konselor!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                List<Konselor> list = response.body().getData();
+                containerKonselor.removeAllViews();
+
+                for (Konselor k : list) addKonselorCard(k);
             }
 
             @Override
             public void onFailure(Call<KonselorResponse> call, Throwable t) {
-                Toast.makeText(getContext(), "Gagal mengambil data konselor!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Kesalahan koneksi!", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-    // ===========================================================
-    // CREATE CARD KONSELOR DINAMIS
-    // ===========================================================
     private void addKonselorCard(Konselor k) {
         View card = getLayoutInflater().inflate(R.layout.item_konselor, null);
 
@@ -122,8 +119,7 @@ public class Jadwal_Fragment extends Fragment {
 
         btnLihat.setOnClickListener(v -> {
             Fragment bookingFragment = BookingFragment.newInstance(k.getId(), k.getNama());
-            getParentFragmentManager()
-                    .beginTransaction()
+            getParentFragmentManager().beginTransaction()
                     .replace(R.id.flfragment, bookingFragment)
                     .addToBackStack(null)
                     .commit();
@@ -132,9 +128,6 @@ public class Jadwal_Fragment extends Fragment {
         containerKonselor.addView(card);
     }
 
-    // ===========================================================
-    // LOAD JADWAL USER
-    // ===========================================================
     private void loadJadwalSaya() {
 
         SharedPreferences sp = requireActivity().getSharedPreferences("USER_DATA", Context.MODE_PRIVATE);
@@ -150,36 +143,32 @@ public class Jadwal_Fragment extends Fragment {
         api.getBookingUser(idUser).enqueue(new Callback<BookingUserResponse>() {
             @Override
             public void onResponse(Call<BookingUserResponse> call, Response<BookingUserResponse> response) {
-                if (response.isSuccessful() && response.body().isStatus()) {
 
-                    containerJadwalSaya.removeAllViews();
-
-                    List<BookingUser> list = response.body().getData();
-
-                    // CEK KOSONG
-                    if (list == null || list.isEmpty()) {
-                        tvKosong.setVisibility(View.VISIBLE);
-                        return;
-                    }
-
-                    tvKosong.setVisibility(View.GONE);
-
-                    for (BookingUser b : list) {
-                        addJadwalCard(b);
-                    }
+                if (!response.isSuccessful() || response.body() == null) {
+                    Toast.makeText(getContext(), "Gagal load jadwal!", Toast.LENGTH_SHORT).show();
+                    return;
                 }
+
+                containerJadwalSaya.removeAllViews();
+                List<BookingUser> list = response.body().getData();
+
+                if (list == null || list.isEmpty()) {
+                    tvKosong.setVisibility(View.VISIBLE);
+                    return;
+                }
+
+                tvKosong.setVisibility(View.GONE);
+
+                for (BookingUser b : list) addJadwalCard(b);
             }
 
             @Override
             public void onFailure(Call<BookingUserResponse> call, Throwable t) {
-                Toast.makeText(getContext(), "Gagal mengambil jadwal!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Kesalahan koneksi!", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-    // ===========================================================
-    // CREATE CARD JADWAL DINAMIS
-    // ===========================================================
     private void addJadwalCard(BookingUser b) {
         View card = getLayoutInflater().inflate(R.layout.item_booking_user, null);
 
@@ -189,16 +178,24 @@ public class Jadwal_Fragment extends Fragment {
 
         Button btnBatalkan = card.findViewById(R.id.btnBatalkan);
         Button btnUbah = card.findViewById(R.id.btnUbahJadwal);
+        Button btnTestimoni = card.findViewById(R.id.btnTestimoni); // tombol testimoni
 
         tvNamaKonselor.setText(b.getNama());
         tvTanggalWaktu.setText(b.getTanggal_booking());
         tvJenis.setText(b.getJenis_konseling());
 
-        // KIRIM ID BOOKING KE DIALOG
+        // Tombol Batalkan
         btnBatalkan.setOnClickListener(v -> showDialogBatalJadwal(b.getId_booking(), b.getId_jadwal()));
 
+        // Tombol Ubah Jadwal
         btnUbah.setOnClickListener(v -> {
-            Fragment rescheduleFragment = new Reschedule();
+            Fragment rescheduleFragment = Reschedule.newInstance(
+                    b.getId_booking(),
+                    b.getTanggal_booking(),
+                    b.getJenis_konseling(),
+                    b.getNama(),
+                    b.getId_konselor()
+            );
             getParentFragmentManager()
                     .beginTransaction()
                     .replace(R.id.flfragment, rescheduleFragment)
@@ -206,13 +203,26 @@ public class Jadwal_Fragment extends Fragment {
                     .commit();
         });
 
+        // Tombol Testimoni
+        btnTestimoni.setOnClickListener(v -> {
+            // Simpan id_konselor ke SharedPreferences supaya TestimoniFragment bisa membacanya
+            SharedPreferences sp = requireActivity().getSharedPreferences("USER_DATA", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sp.edit();
+            editor.putString("id_konselor", b.getId_konselor());
+            editor.apply();
+
+            // Buka TestimoniFragment dengan id_booking
+            Fragment fragmentTestimoni = TestimoniFragment.newInstance(b.getId_booking());
+            getParentFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.flfragment, fragmentTestimoni)
+                    .addToBackStack(null)
+                    .commit();
+        });
+
         containerJadwalSaya.addView(card);
     }
 
-
-    // ===========================================================
-    // DIALOG KONFIRMASI BATAL
-    // ===========================================================
     private void showDialogBatalJadwal(String idBooking, String idJadwal) {
         Dialog dialog = new Dialog(getContext());
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -241,13 +251,12 @@ public class Jadwal_Fragment extends Fragment {
         api.batalBooking(idBooking, idJadwal).enqueue(new Callback<BasicResponse>() {
             @Override
             public void onResponse(Call<BasicResponse> call, Response<BasicResponse> response) {
-                if (response.isSuccessful() && response.body().isStatus()) {
+
+                if (response.isSuccessful() && response.body() != null && response.body().isStatus()) {
                     Toast.makeText(getContext(), "Jadwal berhasil dibatalkan!", Toast.LENGTH_SHORT).show();
-                    loadJadwalSaya(); // refresh list
+                    loadJadwalSaya();
                 } else {
-                    Toast.makeText(getContext(),
-                            "Error: " + response.errorBody(),
-                            Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Gagal membatalkan!", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -257,5 +266,4 @@ public class Jadwal_Fragment extends Fragment {
             }
         });
     }
-
 }

@@ -1,6 +1,7 @@
 package com.example.projek;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,43 +12,50 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public class ArtikelAdapter extends RecyclerView.Adapter<ArtikelAdapter.ViewHolder> {
 
-    private Context context;
-    private List<Artikel> artikelList;
+    ArrayList<ArtikelModel> list;
+    Context context;
 
-    public ArtikelAdapter(Context context, List<Artikel> artikelList) {
+    public ArtikelAdapter(Context context, ArrayList<ArtikelModel> list) {
         this.context = context;
-        this.artikelList = artikelList;
+        this.list = list;
     }
 
     @NonNull
     @Override
-    public ArtikelAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_artikel, parent, false);
-        return new ViewHolder(view);
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        // Pastikan layout R.layout.item_artikel sudah dibuat di folder res/layout
+        View v = LayoutInflater.from(context).inflate(R.layout.item_artikel, parent, false);
+        return new ViewHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ArtikelAdapter.ViewHolder holder, int position) {
-        Artikel artikel = artikelList.get(position);
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        ArtikelModel artikel = list.get(position);
+
         holder.tvJudul.setText(artikel.getJudul());
         holder.tvDeskripsi.setText(artikel.getDeskripsi());
         holder.imgArtikel.setImageResource(artikel.getGambar());
 
         holder.btnBaca.setOnClickListener(v -> {
-            // aksi klik tombol "Baca Sekarang"
+            // Pastikan DetailArtikelActivity sudah dibuat dan didaftarkan di AndroidManifest.xml
+            Intent intent = new Intent(context, DetailArtikel.class);
+            intent.putExtra("judul", artikel.getJudul());
+            intent.putExtra("isi", artikel.getIsi());
+            intent.putExtra("gambar", artikel.getGambar());
+            context.startActivity(intent);
         });
     }
 
     @Override
     public int getItemCount() {
-        return artikelList.size();
+        return list.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView imgArtikel;
         TextView tvJudul, tvDeskripsi;
         Button btnBaca;

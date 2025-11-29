@@ -22,7 +22,7 @@
         android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/biru_tua"
+        android:background="#60B0D9"
         app:layout_constraintBottom_toBottomOf="parent"
         app:menu="@menu/bottom_nav_view"
         app:itemIconTint="@color/nav_item_color"

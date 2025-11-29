@@ -32,15 +32,13 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import androidx.core.view.WindowInsetsCompat;
-import androidx.core.view.WindowInsetsControllerCompat;
-
 public class BookingFragment extends Fragment {
 
     private Spinner spinnerWaktu, spinnerSesi;
     private TextView spinnerTanggal;
-    private String idKonselor, namaKonselor;
+    private String idKonselor, namaKonselor, idUser;
     private List<Jadwal> jadwalList = new ArrayList<>();
+    private Button btnBooking;
 
     public BookingFragment() {}
 
@@ -60,6 +58,14 @@ public class BookingFragment extends Fragment {
             idKonselor = getArguments().getString("id_konselor");
             namaKonselor = getArguments().getString("nama_konselor");
         }
+
+        SharedPreferences sp = requireActivity().getSharedPreferences("USER_DATA", Context.MODE_PRIVATE);
+        idUser = sp.getString("id_user", null);
+        if (idUser == null) {
+            Log.e("BookingDebug", "ID User kosong saat masuk BookingFragment");
+        } else {
+            Log.d("BookingDebug", "ID User saat masuk BookingFragment: " + idUser);
+        }
     }
 
     @Override
@@ -69,6 +75,7 @@ public class BookingFragment extends Fragment {
         spinnerTanggal = view.findViewById(R.id.txt_tanggal);
         spinnerWaktu = view.findViewById(R.id.spinnerjam);
         spinnerSesi = view.findViewById(R.id.spinnersesi);
+        btnBooking = view.findViewById(R.id.buttonbooking);
 
         // Spinner Sesi
         ArrayAdapter<String> adapterSesi = new ArrayAdapter<>(getContext(),
@@ -88,29 +95,59 @@ public class BookingFragment extends Fragment {
         // Pilih tanggal
         spinnerTanggal.setOnClickListener(v -> showDatePicker());
 
-        // Load jadwal
+        // Load jadwal tersedia
         loadJadwalFromAPI();
 
+        // Cek apakah user sudah punya booking aktif
+        checkUserBookingStatus();
+
         // Tombol booking
-        Button btnBooking = view.findViewById(R.id.buttonbooking);
         btnBooking.setOnClickListener(v -> prosesBooking());
 
-        // Notifikasi ID User saat masuk fragment
-        SharedPreferences sp = requireActivity().getSharedPreferences("USER_DATA", Context.MODE_PRIVATE);
-        String idUser = sp.getString("id_user", null);
-
-        if (idUser != null) {
-            // Log tetap bisa dipakai jika ingin debug, tapi Toast dihapus
-            Log.d("BookingDebug", "ID User saat masuk BookingFragment: " + idUser);
-        } else {
-            Log.d("BookingDebug", "ID User kosong saat masuk BookingFragment");
-        }
-
         return view;
-
     }
 
-    // ===== LOGIC BOOKING =====
+    // ================= LOGIC CEK BOOKING AKTIF =================
+    private void checkUserBookingStatus() {
+        if (idUser == null) {
+            btnBooking.setEnabled(false);
+            btnBooking.setAlpha(0.5f);
+            return;
+        }
+
+        ApiService api = ApiClient.getClient().create(ApiService.class);
+        Call<BasicResponse> call = api.cekBookingAktif(idUser); // API PHP cekBookingAktif.php
+        call.enqueue(new Callback<BasicResponse>() {
+            @Override
+            public void onResponse(Call<BasicResponse> call, Response<BasicResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    BasicResponse br = response.body();
+                    if (!br.isStatus()) {
+                        // user sudah punya booking aktif
+                        btnBooking.setEnabled(false);
+                        btnBooking.setAlpha(0.5f);
+                        Toast.makeText(getContext(), br.getMessage(), Toast.LENGTH_LONG).show();
+                    } else {
+                        btnBooking.setEnabled(true);
+                        btnBooking.setAlpha(1f);
+                    }
+                } else {
+                    btnBooking.setEnabled(false);
+                    btnBooking.setAlpha(0.5f);
+                    Toast.makeText(getContext(), "Gagal cek booking aktif", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<BasicResponse> call, Throwable t) {
+                btnBooking.setEnabled(false);
+                btnBooking.setAlpha(0.5f);
+                Toast.makeText(getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    // ================= LOGIC BOOKING =================
     private void loadJadwalFromAPI() {
         ApiService apiService = ApiClient.getClient().create(ApiService.class);
         Call<JadwalResponse> call = apiService.getJadwalKonselor(idKonselor);
@@ -129,6 +166,7 @@ public class BookingFragment extends Fragment {
                     }
                 }
             }
+
             @Override
             public void onFailure(Call<JadwalResponse> call, Throwable t) {
                 Toast.makeText(getContext(), "Koneksi gagal: " + t.getMessage(), Toast.LENGTH_SHORT).show();
@@ -181,16 +219,26 @@ public class BookingFragment extends Fragment {
             return;
         }
         String sesi = spinnerSesi.getSelectedItem().toString();
-        SharedPreferences sp = requireActivity().getSharedPreferences("USER_DATA", Context.MODE_PRIVATE);
-        String idUser = sp.getString("id_user", null);
         if (idUser == null || idUser.isEmpty()) {
             Toast.makeText(getContext(), "ID User tidak ditemukan, login ulang!", Toast.LENGTH_SHORT).show();
             return;
         }
-        showKonfirmasiDialog(idUser, sesi, tanggal, waktu);
+        // Dapatkan id_jadwal berdasarkan tanggal & jam
+        String idJadwal = null;
+        for (Jadwal j : jadwalList) {
+            if (j.getTanggal().equals(tanggal) && j.getJam_mulai().equals(waktu)) {
+                idJadwal = String.valueOf(j.getId_jadwal());
+                break;
+            }
+        }
+        if (idJadwal == null) {
+            Toast.makeText(getContext(), "Jadwal tidak ditemukan", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        showKonfirmasiDialog(idUser, sesi, tanggal, waktu, idJadwal);
     }
 
-    private void showKonfirmasiDialog(String idUser, String sesi, String tanggal, String jamMulai) {
+    private void showKonfirmasiDialog(String idUser, String sesi, String tanggal, String jamMulai, String idJadwal) {
         Dialog dialog = new Dialog(getContext());
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_konfirmasi_booking);
@@ -206,7 +254,7 @@ public class BookingFragment extends Fragment {
         Button btnYa = dialog.findViewById(R.id.btn_ya);
         btnYa.setOnClickListener(v -> {
             dialog.dismiss();
-            kirimBooking(idUser, sesi, tanggal, jamMulai);
+            kirimBooking(idUser, sesi, tanggal, jamMulai, idJadwal);
         });
 
         Button btnBatal = dialog.findViewById(R.id.btn_batal);
@@ -218,10 +266,10 @@ public class BookingFragment extends Fragment {
         }
     }
 
-    private void kirimBooking(String idUser, String sesi, String tanggal, String jamMulai) {
+    private void kirimBooking(String idUser, String sesi, String tanggal, String jamMulai, String idJadwal) {
         ApiService api = ApiClient.getClient().create(ApiService.class);
 
-        Call<BookingResponse> call = api.bookingPHP(idUser, sesi, tanggal, jamMulai);
+        Call<BookingResponse> call = api.bookingPHP(idUser, sesi, tanggal, jamMulai, idJadwal);
         call.enqueue(new Callback<BookingResponse>() {
             @Override
             public void onResponse(Call<BookingResponse> call, Response<BookingResponse> response) {

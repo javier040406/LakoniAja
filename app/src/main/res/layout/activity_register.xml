@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/register"
@@ -8,204 +9,219 @@
     android:background="@color/biru_muda"
     tools:context=".RegisterActivity">
 
+    <!-- Logo tetap di atas -->
     <ImageView
         android:id="@+id/logolakoni"
         android:layout_width="180dp"
         android:layout_height="180dp"
         android:layout_marginTop="5dp"
         android:src="@drawable/lakoni"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
-    <LinearLayout
-        android:id="@+id/formContainer"
+    <!-- ScrollView untuk form -->
+    <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:fillViewport="true"
         android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="5dp"
-        android:background="@drawable/textborder"
-        android:elevation="6dp"
-        android:orientation="vertical"
-        android:padding="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@id/logolakoni"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/logolakoni">
+        app:layout_constraintEnd_toEndOf="parent">
 
-        <TextView
-            android:id="@+id/title"
+        <LinearLayout
+            android:id="@+id/formContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="Daftar"
-            android:textColor="@color/biru_tua"
-            android:textSize="30sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/label_nama"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Nama"
-            android:textColor="@color/biru_tua"
-            android:textSize="17sp" />
-
-        <EditText
-            android:id="@+id/nama"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
+            android:orientation="vertical"
+            android:padding="16dp"
             android:background="@drawable/textborder"
-            android:hint="Nama Lengkap"
-            android:inputType="text"
-            android:padding="10dp"
-            android:textColor="@color/black"
-            android:textColorHint="@color/grey"
-            android:textSize="15sp" />
+            android:elevation="6dp">
 
-        <TextView
-            android:id="@+id/label_nim"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="NIM"
-            android:textColor="@color/biru_tua"
-            android:textSize="17sp" />
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Daftar"
+                android:textColor="@color/biru_tua"
+                android:textSize="30sp"
+                android:textStyle="bold" />
 
-        <EditText
-            android:id="@+id/nim"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:background="@drawable/textborder"
-            android:hint="NIM"
-            android:inputType="text"
-            android:padding="10dp"
-            android:textColor="@color/black"
-            android:textColorHint="@color/grey"
-            android:textSize="15sp" />
+            <!-- Nama -->
+            <TextView
+                android:id="@+id/label_nama"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nama"
+                android:textColor="@color/biru_tua"
+                android:textSize="17sp" />
 
-        <TextView
-            android:id="@+id/label_email"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Email"
-            android:textColor="@color/biru_tua"
-            android:textSize="17sp" />
+            <EditText
+                android:id="@+id/nama"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/textborder"
+                android:hint="Nama Lengkap"
+                android:inputType="text"
+                android:padding="10dp"
+                android:textColor="@color/black"
+                android:textColorHint="@color/grey"
+                android:textSize="15sp" />
 
-        <EditText
-            android:id="@+id/email"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:background="@drawable/textborder"
-            android:hint="nim@student.polije.ac.id"
-            android:inputType="textEmailAddress"
-            android:padding="10dp"
-            android:textColor="@color/black"
-            android:textColorHint="@color/grey"
-            android:textSize="15sp" />
+            <!-- NIM -->
+            <TextView
+                android:id="@+id/label_nim"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="NIM"
+                android:textColor="@color/biru_tua"
+                android:textSize="17sp" />
 
-        <!-- Tambahan Tanggal Lahir -->
-        <TextView
-            android:id="@+id/label_tanggal_lahir"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Tanggal Lahir"
-            android:textColor="@color/biru_tua"
-            android:textSize="17sp" />
+            <EditText
+                android:id="@+id/nim"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/textborder"
+                android:hint="NIM"
+                android:inputType="text"
+                android:padding="10dp"
+                android:textColor="@color/black"
+                android:textColorHint="@color/grey"
+                android:textSize="15sp" />
 
-        <EditText
-            android:id="@+id/tanggal_lahir"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:background="@drawable/textborder"
-            android:hint="YYYY/MM/DD"
-            android:inputType="none"
-            android:padding="10dp"
-            android:textColor="@color/black"
-            android:textColorHint="@color/grey"
-            android:textSize="15sp"
-            android:focusable="false"
-            android:clickable="true" />
+            <!-- Email -->
+            <TextView
+                android:id="@+id/label_email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Email"
+                android:textColor="@color/biru_tua"
+                android:textSize="17sp" />
 
-        <!-- Tambahan No HP -->
-        <TextView
-            android:id="@+id/label_no_hp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="No HP"
-            android:textColor="@color/biru_tua"
-            android:textSize="17sp" />
+            <EditText
+                android:id="@+id/email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/textborder"
+                android:hint="nim@student.polije.ac.id"
+                android:inputType="textEmailAddress"
+                android:padding="10dp"
+                android:textColor="@color/black"
+                android:textColorHint="@color/grey"
+                android:textSize="15sp" />
 
-        <EditText
-            android:id="@+id/no_hp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:background="@drawable/textborder"
-            android:hint="08XXXXXXXXXX"
-            android:inputType="phone"
-            android:padding="10dp"
-            android:textColor="@color/black"
-            android:textColorHint="@color/grey"
-            android:textSize="15sp" />
+            <!-- Tanggal Lahir -->
+            <TextView
+                android:id="@+id/label_tanggal_lahir"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tanggal Lahir"
+                android:textColor="@color/biru_tua"
+                android:textSize="17sp" />
 
-        <TextView
-            android:id="@+id/label_username"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Username"
-            android:textColor="@color/biru_tua"
-            android:textSize="17sp" />
+            <EditText
+                android:id="@+id/tanggal_lahir"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/textborder"
+                android:hint="YYYY/MM/DD"
+                android:inputType="none"
+                android:padding="10dp"
+                android:textColor="@color/black"
+                android:textColorHint="@color/grey"
+                android:textSize="15sp"
+                android:focusable="false"
+                android:clickable="true" />
 
-        <EditText
-            android:id="@+id/username"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:background="@drawable/textborder"
-            android:hint="Masukkan Username"
-            android:inputType="text"
-            android:padding="10dp"
-            android:textColor="@color/black"
-            android:textColorHint="@color/grey"
-            android:textSize="15sp" />
+            <!-- No HP -->
+            <TextView
+                android:id="@+id/label_no_hp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="No HP"
+                android:textColor="@color/biru_tua"
+                android:textSize="17sp" />
 
-        <TextView
-            android:id="@+id/label_password"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Password"
-            android:textColor="@color/biru_tua"
-            android:textSize="17sp" />
+            <EditText
+                android:id="@+id/no_hp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/textborder"
+                android:hint="08XXXXXXXXXX"
+                android:inputType="phone"
+                android:padding="10dp"
+                android:textColor="@color/black"
+                android:textColorHint="@color/grey"
+                android:textSize="15sp" />
 
-        <EditText
-            android:id="@+id/password"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="15dp"
-            android:background="@drawable/textborder"
-            android:hint="Masukkan Password"
-            android:inputType="textPassword"
-            android:padding="10dp"
-            android:textColor="@color/black"
-            android:textColorHint="@color/grey"
-            android:textSize="15sp"
-            android:drawableRight="@drawable/matatutup" />
+            <!-- Username -->
+            <TextView
+                android:id="@+id/label_username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Username"
+                android:textColor="@color/biru_tua"
+                android:textSize="17sp" />
 
-        <Button
-            android:id="@+id/buttonregister"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:backgroundTint="@color/biru_tua"
-            android:text="Daftar"
-            android:textColor="@color/white"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-    </LinearLayout>
+            <EditText
+                android:id="@+id/username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/textborder"
+                android:hint="Masukkan Username"
+                android:inputType="text"
+                android:padding="10dp"
+                android:textColor="@color/black"
+                android:textColorHint="@color/grey"
+                android:textSize="15sp" />
+
+            <!-- Password -->
+            <TextView
+                android:id="@+id/label_password"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Password"
+                android:textColor="@color/biru_tua"
+                android:textSize="17sp" />
+
+            <EditText
+                android:id="@+id/password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:background="@drawable/textborder"
+                android:hint="Masukkan Password"
+                android:inputType="textPassword"
+                android:padding="10dp"
+                android:textColor="@color/black"
+                android:textColorHint="@color/grey"
+                android:textSize="15sp"
+                android:drawableRight="@drawable/matatutup" />
+
+            <!-- Button Daftar -->
+            <Button
+                android:id="@+id/buttonregister"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:backgroundTint="@color/biru_tua"
+                android:text="Daftar"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

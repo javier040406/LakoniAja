@@ -12,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Nama Konselor"
-        android:textSize="17sp"
+        android:textSize="19sp"
         android:textColor="@color/black"
         android:textStyle="bold"
         android:drawableLeft="@drawable/baseline_person_24"
@@ -23,8 +23,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="📅 Tanggal"
-        android:textSize="14sp"
-        android:textColor="@color/biru_tua"
+        android:textSize="16sp"
+        android:textColor="@color/biru_langit"
         android:layout_marginTop="6dp"/>
 
     <TextView
@@ -32,8 +32,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Jenis Konseling"
-        android:textSize="14sp"
-        android:textColor="@color/biru_tua"
+        android:textSize="16sp"
+        android:textColor="@color/biru_langit"
         android:layout_marginTop="2dp"/>
 
     <LinearLayout
@@ -41,6 +41,21 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_marginTop="10dp">
+
+
+
+        <Button
+            android:id="@+id/btnUbahJadwal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="UBAH JADWAL"
+            android:backgroundTint="@color/biru_tua"
+            android:textColor="@color/white"
+            android:textSize="10sp"
+            android:textStyle="bold"
+            android:padding="6dp"
+            android:layout_marginEnd="8dp"/>
+
 
         <Button
             android:id="@+id/btnBatalkan"
@@ -53,13 +68,12 @@
             android:textStyle="bold"
             android:padding="6dp"
             android:layout_marginEnd="8dp"/>
-
         <Button
-            android:id="@+id/btnUbahJadwal"
+            android:id="@+id/btnTestimoni"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="UBAH JADWAL"
-            android:backgroundTint="@color/biru_tua"
+            android:text="TESTIMONI"
+            android:backgroundTint="@color/kuning"
             android:textColor="@color/white"
             android:textSize="10sp"
             android:textStyle="bold"

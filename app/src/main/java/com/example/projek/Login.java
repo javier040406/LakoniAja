@@ -129,14 +129,16 @@ public class Login extends AppCompatActivity {
                     String message = (String) response.body().get("message");
 
                     if (success != null && success) {
-                        Toast.makeText(Login.this, "Login berhasil", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Login.this, "Login Berhasil", Toast.LENGTH_SHORT).show();
 
                         Map<String, Object> user = (Map<String, Object>) response.body().get("user");
-                        String idUser = String.valueOf(user.get("id_user")); // ambil ID user saja
+                        String idUser = String.valueOf(user.get("id_user"));   // ambil ID user
+                        String namaUser = String.valueOf(user.get("nama"));    // ambil nama user
 
                         SharedPreferences.Editor editor = getSharedPreferences("USER_DATA", MODE_PRIVATE).edit();
-                        editor.putString("id_user", idUser);   // simpan ID user
-                        editor.putBoolean("isLoggedIn", true); // tandai login
+                        editor.putString("id_user", idUser);     // simpan ID user
+                        editor.putString("nama", namaUser);      // simpan nama user
+                        editor.putBoolean("isLoggedIn", true);   // tandai login
                         editor.apply();
 
                         new Handler().postDelayed(() -> {
@@ -144,7 +146,26 @@ public class Login extends AppCompatActivity {
                             startActivity(intent);
                             finish();
                         }, 500);
-                    } else {
+                    }
+                    if (success != null && success) {
+
+                        Map<String, Object> user = (Map<String, Object>) response.body().get("user");
+                        String idUser = String.valueOf(user.get("id_user"));   // ambil ID user
+                        String namaUser = String.valueOf(user.get("nama"));    // ambil nama user
+
+                        SharedPreferences.Editor editor = getSharedPreferences("USER_DATA", MODE_PRIVATE).edit();
+                        editor.putString("id_user", idUser);     // simpan ID user
+                        editor.putString("nama", namaUser);      // simpan nama user
+                        editor.putBoolean("isLoggedIn", true);   // tandai login
+                        editor.apply();
+
+                        new Handler().postDelayed(() -> {
+                            Intent intent = new Intent(Login.this, MainActivity.class);
+                            startActivity(intent);
+                            finish();
+                        }, 500);
+                    }
+                    else {
                         Toast.makeText(Login.this, message, Toast.LENGTH_SHORT).show();
                     }
                 } else {

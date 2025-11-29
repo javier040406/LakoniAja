@@ -21,7 +21,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Nama Konselor"
-        android:textSize="18sp"
+        android:textSize="19sp"
         android:textStyle="bold"
         android:textColor="@color/black"
         app:layout_constraintStart_toEndOf="@id/img_icon"
@@ -32,9 +32,10 @@
     <TextView
         android:id="@+id/tv_bidang_konselor"
         android:layout_width="0dp"
+        android:textSize="16sp"
         android:layout_height="wrap_content"
         android:text="Bidang Keahlian"
-        android:textColor="@color/biru_tua"
+        android:textColor="@color/biru_langit"
         app:layout_constraintStart_toStartOf="@id/tv_nama_konselor"
         app:layout_constraintTop_toBottomOf="@id/tv_nama_konselor"
         app:layout_constraintEnd_toStartOf="@id/buttonlihatjadwal" />
@@ -42,6 +43,7 @@
     <TextView
         android:id="@+id/tv_nip_konselor"
         android:layout_width="0dp"
+        android:textSize="15sp"
         android:layout_height="wrap_content"
         android:text="NIP"
         android:textColor="@color/grey"

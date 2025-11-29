@@ -4,14 +4,14 @@
     <item
         android:id="@+id/beranda"
         android:icon="@drawable/baseline_home_24"
-        android:title="Home"
+        android:title="Beranda"
 
         />
 
     <item
         android:id="@+id/bookings"
         android:icon="@drawable/outline_event_note_24"
-        android:title="Bookings" />
+        android:title="Jadwal" />
 
     <item
         android:id="@+id/chat"
@@ -21,6 +21,6 @@
     <item
         android:id="@+id/profile"
         android:icon="@drawable/baseline_person_24"
-        android:title="Profile" />
+        android:title="Profil" />
 
 </menu>

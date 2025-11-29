@@ -9,7 +9,7 @@ import java.util.concurrent.TimeUnit;
 public class ApiClient {
 
 
-    public static final String BASE_URL = "http://10.10.186.9/weblakoniaja/api/";
+    public static final String BASE_URL = "http://192.168.18.9/weblakoniaja/api/";
     private static Retrofit retrofit;
 
     public static Retrofit getClient() {

@@ -9,9 +9,11 @@
     <color name="white">#FFFFFFFF</color>
     <color name="grey">#7E7D7D</color>
     <color name="merah">#EB1717</color>
-    <color name="abu_muda">#E4DDDA</color>
+    <color name="abu_muda">#E0D7D7</color>
     <color name="purple_500">#9C27B0</color>
     <color name="red_500">#F44336</color>
     <color name="gray_600">#9E9E9E</color>
-
+    <color name="biru_langit">#60B0D9</color>
+    <color name="kuning">#FFC107</color>
+    #60B0D9
 </resources>

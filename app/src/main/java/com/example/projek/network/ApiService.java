@@ -5,7 +5,10 @@ import com.example.projek.BookingResponse;
 import com.example.projek.BookingUserResponse;
 import com.example.projek.JadwalResponse;
 import com.example.projek.KonselorResponse;
+import com.example.projek.Testimoni;
+import com.example.projek.TestimoniResponse;
 
+import java.util.List;
 import java.util.Map;
 
 import retrofit2.Call;
@@ -66,8 +69,8 @@ public interface ApiService {
     // === GET PROFILE ===
     @FormUrlEncoded
     @POST("get_profile.php")
-    Call<Map<String, Object>> getProfile(
-            @Field("username") String username
+    Call<Map<String, Object>> getProfileByIdUser(
+            @Field("id_user") String idUser
     );
 
     // === UBAH PASSWORD
@@ -105,8 +108,13 @@ public interface ApiService {
             @Field("id_user") String idUser,
             @Field("jenis_konseling") String jenisKonseling,
             @Field("tanggal") String tanggal,
-            @Field("jam_mulai") String jamMulai
+            @Field("jam_mulai") String jamMulai,
+            @Field("id_jadwal") String idJadwal
     );
+
+    @FormUrlEncoded
+    @POST("cekBookingAktif.php")
+    Call<BasicResponse> cekBookingAktif(@Field("id_user") String idUser);
 
     // === AMBIL KONSELOR ===
     @GET("get_konselor.php")
@@ -119,4 +127,37 @@ public interface ApiService {
             @Field("id_booking") String idBooking,
             @Field("id_jadwal") String idJadwal
     );
+
+    // === RESCHEDULE BOOKING ===
+    @FormUrlEncoded
+    @POST("reschedule.php")
+    Call<BasicResponse> rescheduleBooking(
+            @Field("id_booking") String idBooking,
+            @Field("tanggal_lama") String tanggalLama,
+            @Field("jenis_lama") String jenisLama,
+            @Field("tanggal_baru") String tanggalBaru,
+            @Field("jenis_baru") String jenisBaru,
+            @Field("id_konselor") String idKonselor,
+            @Field("jam_baru") String jamBaru
+    );
+
+    @FormUrlEncoded
+    @POST("checkRescheduleStatus.php")
+    Call<BasicResponse> checkRescheduleStatus(
+            @Field("id_booking") String idBooking
+    );
+
+    // === TESTIMONI ===
+    @POST("kirim_testimoni.php")
+    @FormUrlEncoded
+    Call<BasicResponse> kirimTestimoni(
+            @Field("id_user") String idUser,
+            @Field("id_konselor") String idKonselor,
+            @Field("komentar") String komentar,
+            @Field("tanggal") String tanggal
+    );
+
+    @GET("get_testimoni.php")
+    Call<TestimoniResponse> getTestimoni();
 }
+

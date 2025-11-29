@@ -1,4 +1,6 @@
-<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -16,15 +18,15 @@
             android:id="@+id/imgArtikel"
             android:layout_width="match_parent"
             android:layout_height="180dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/img_artikel1" />
+            android:src="@drawable/img_artikel1"
+            android:scaleType="centerCrop" />
 
         <TextView
             android:id="@+id/tvJudul"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             android:text="Pentingnya Kesehatan Mental bagi Remaja dan Cara Menghadapinya"
+            android:layout_marginTop="8dp"
             android:textStyle="bold"
             android:textSize="16sp" />
 
@@ -32,20 +34,19 @@
             android:id="@+id/tvDeskripsi"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Masa remaja adalah masa yang penting dalam pembentukan generasi akan datang yang sehat, tangguh, dan produktif. Untuk mewujudkannya, menjaga kesehatan fisik saja tidak cukup. "
+            android:text="Masa remaja adalah masa yang penting dalam pembentukan generasi akan datang yang sehat, tangguh, dan produktif. Untuk mewujudkannya, menjaga kesehatan fisik saja tidak cukup. "
             android:textSize="14sp"
-            android:textColor="@color/grey"
+            android:textColor="#777"
             android:layout_marginTop="4dp" />
 
         <Button
             android:id="@+id/btnBaca"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="BACA SEKARANG"
-            style="?attr/materialButtonOutlinedStyle"
-            android:textAllCaps="true"
+            android:layout_marginTop="9dp"
+            android:text="BACA SELENGKAPNYA"
             android:backgroundTint="@color/biru_tua"
             android:textColor="@color/white"/>
     </LinearLayout>
+
 </com.google.android.material.card.MaterialCardView>

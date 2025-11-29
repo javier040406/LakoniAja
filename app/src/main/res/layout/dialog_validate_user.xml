@@ -75,7 +75,7 @@
             android:layout_weight="1"
             android:layout_marginEnd="8dp"
             android:text="Batal"
-            android:backgroundTint="@color/gray_600"
+            android:backgroundTint="@color/merah"
             android:textColor="@color/white"
             android:textSize="14sp" />
 
@@ -86,7 +86,7 @@
             android:layout_weight="1"
             android:layout_marginStart="8dp"
             android:text="Verifikasi"
-            android:backgroundTint="@color/purple_500"
+            android:backgroundTint="@color/biru_tua"
             android:textColor="@color/white"
             android:textSize="14sp" />
 

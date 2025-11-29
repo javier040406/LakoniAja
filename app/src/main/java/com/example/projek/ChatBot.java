@@ -112,7 +112,7 @@ public class ChatBot extends AppCompatActivity {
     }
 
     private void addWelcomeMessage() {
-        String welcomeMessage =  "Halo! Saya Si Lakon, asisten AI dari Ruang Polije. " +
+        String welcomeMessage =  "Halo! Saya Si Lakon, asisten AI dari Lakoni Aja. " +
                 "Saya di sini untuk membantu Anda, terutama dalam hal konseling dan kesehatan mental. " +
                 "Silakan ceritakan apa yang sedang Anda rasakan atau ingin Anda tanyakan.";
         addMessageToChat(welcomeMessage, false);

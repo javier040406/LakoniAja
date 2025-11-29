@@ -13,7 +13,7 @@
         android:id="@+id/label_bookings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Bookings"
+        android:text="Jadwal"
         android:textColor="@color/black"
         android:textStyle="bold"
         android:textSize="30sp"
@@ -57,7 +57,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="KONSELOR"
-            android:backgroundTint="@color/biru_tua"
+            android:backgroundTint="@color/biru_langit"
             android:textColor="@color/white"
             android:textStyle="bold"/>
 
@@ -71,7 +71,7 @@
             android:layout_height="wrap_content"
             android:text="JADWAL SAYA"
             android:backgroundTint="@color/abu_muda"
-            android:textColor="@color/biru_tua"
+            android:textColor="@color/biru_langit"
             android:textStyle="bold"/>
     </LinearLayout>
 

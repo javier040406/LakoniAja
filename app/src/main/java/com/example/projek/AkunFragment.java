@@ -31,7 +31,7 @@ public class AkunFragment extends Fragment {
 
     private TextView tampilNama, tampilNim, tampilUsername, tampilEmail, tampilNoHp, tampilTanggalLahir;
     private Button btnEditPassword, btnLogout;
-    private String currentUsername;
+    private String currentIdUser;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -54,46 +54,37 @@ public class AkunFragment extends Fragment {
         btnEditPassword = view.findViewById(R.id.btn_edit_password);
         btnLogout = view.findViewById(R.id.btn_logout);
 
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
-        currentUsername = sharedPreferences.getString("username", "");
+        // Ambil id_user dari SharedPreferences USER_DATA
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("USER_DATA", Context.MODE_PRIVATE);
+        currentIdUser = sharedPreferences.getString("id_user", "");
 
-        btnEditPassword.setOnClickListener(v -> {
-            showEditPasswordDialog();
-        });
-
-        btnLogout.setOnClickListener(v -> {
-            konfirmasiLogout();
-        });
+        btnEditPassword.setOnClickListener(v -> showEditPasswordDialog());
+        btnLogout.setOnClickListener(v -> konfirmasiLogout());
     }
 
     private void loadUserData() {
-        if (currentUsername.isEmpty()) {
-            Toast.makeText(getActivity(), "Username tidak ditemukan", Toast.LENGTH_SHORT).show();
+        if (currentIdUser.isEmpty()) {
+            Toast.makeText(getActivity(), "User belum login", Toast.LENGTH_SHORT).show();
             return;
         }
 
         ApiService apiService = ApiClient.getClient().create(ApiService.class);
-        Call<Map<String, Object>> call = apiService.getProfile(currentUsername);
+        Call<Map<String, Object>> call = apiService.getProfileByIdUser(currentIdUser);
 
         call.enqueue(new Callback<Map<String, Object>>() {
             @Override
             public void onResponse(Call<Map<String, Object>> call, Response<Map<String, Object>> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     Boolean success = (Boolean) response.body().get("success");
-
                     if (success != null && success) {
                         Map<String, Object> user = (Map<String, Object>) response.body().get("user");
-
                         if (user != null) {
                             tampilNama.setText(getSafeString(user.get("nama")));
                             tampilNim.setText(getSafeString(user.get("nim")));
                             tampilUsername.setText(getSafeString(user.get("username")));
                             tampilEmail.setText(getSafeString(user.get("email")));
                             tampilNoHp.setText(getSafeString(user.get("no_hp")));
-
-                            String tanggalLahir = getSafeString(user.get("tanggal_lahir"));
-                            String formattedDate = convertDateFormat(tanggalLahir);
-                            tampilTanggalLahir.setText(formattedDate);
+                            tampilTanggalLahir.setText(convertDateFormat(getSafeString(user.get("tanggal_lahir"))));
                         }
                     } else {
                         String message = (String) response.body().get("message");
@@ -112,25 +103,14 @@ public class AkunFragment extends Fragment {
     }
 
     private String getSafeString(Object value) {
-        if (value == null) {
-            return "";
-        }
-        return value.toString();
+        return value == null ? "" : value.toString();
     }
 
     private String convertDateFormat(String dateString) {
-        if (dateString == null || dateString.isEmpty()) {
-            return "";
-        }
-
+        if (dateString == null || dateString.isEmpty()) return "";
         try {
             String[] parts = dateString.split("-");
-            if (parts.length == 3) {
-                String year = parts[0];
-                String month = parts[1];
-                String day = parts[2];
-                return day + "/" + month + "/" + year;
-            }
+            if (parts.length == 3) return parts[2] + "/" + parts[1] + "/" + parts[0];
             return dateString;
         } catch (Exception e) {
             return dateString;
@@ -177,7 +157,7 @@ public class AkunFragment extends Fragment {
 
     private void changePassword(String newPassword, Dialog dialog) {
         ApiService apiService = ApiClient.getClient().create(ApiService.class);
-        Call<Map<String, Object>> call = apiService.changePassword(currentUsername, newPassword);
+        Call<Map<String, Object>> call = apiService.changePassword(currentIdUser, newPassword);
 
         call.enqueue(new Callback<Map<String, Object>>() {
             @Override
@@ -217,9 +197,7 @@ public class AkunFragment extends Fragment {
             dialog.dismiss();
         });
 
-        btnTidak.setOnClickListener(v -> {
-            dialog.dismiss();
-        });
+        btnTidak.setOnClickListener(v -> dialog.dismiss());
 
         if (dialog.getWindow() != null) {
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -233,11 +211,13 @@ public class AkunFragment extends Fragment {
     }
 
     private void prosesLogout() {
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
+        // Pastikan SharedPreferences yang sama dengan login dihapus
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("USER_DATA", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.clear();
         editor.apply();
 
+        // Intent ke LoginActivity dan hapus semua activity sebelumnya
         Intent intent = new Intent(getActivity(), Login.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
