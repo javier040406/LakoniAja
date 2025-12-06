@@ -8,13 +8,16 @@
     android:background="@drawable/kolom"
     android:layout_marginBottom="10dp">
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/img_icon"
-        android:layout_width="40dp"
+        android:layout_width="50dp"
         android:layout_height="50dp"
         android:src="@drawable/baseline_person_24"
+        app:civ_border_width="2dp"
+        app:civ_border_color="@color/biru_langit"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
     <TextView
         android:id="@+id/tv_nama_konselor"
@@ -24,17 +27,17 @@
         android:textSize="19sp"
         android:textStyle="bold"
         android:textColor="@color/black"
-        app:layout_constraintStart_toEndOf="@id/img_icon"
-        app:layout_constraintTop_toTopOf="parent"
         android:layout_marginStart="12dp"
+        app:layout_constraintStart_toEndOf="@id/img_icon"
+        app:layout_constraintTop_toTopOf="@id/img_icon"
         app:layout_constraintEnd_toStartOf="@id/buttonlihatjadwal" />
 
     <TextView
         android:id="@+id/tv_bidang_konselor"
         android:layout_width="0dp"
-        android:textSize="16sp"
         android:layout_height="wrap_content"
         android:text="Bidang Keahlian"
+        android:textSize="16sp"
         android:textColor="@color/biru_langit"
         app:layout_constraintStart_toStartOf="@id/tv_nama_konselor"
         app:layout_constraintTop_toBottomOf="@id/tv_nama_konselor"
@@ -43,14 +46,15 @@
     <TextView
         android:id="@+id/tv_nip_konselor"
         android:layout_width="0dp"
-        android:textSize="15sp"
         android:layout_height="wrap_content"
         android:text="NIP"
+        android:textSize="15sp"
         android:textColor="@color/grey"
+        android:layout_marginTop="10dp"
         app:layout_constraintStart_toStartOf="@id/tv_bidang_konselor"
         app:layout_constraintTop_toBottomOf="@id/tv_bidang_konselor"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/buttonlihatjadwal" />
+        app:layout_constraintEnd_toStartOf="@id/buttonlihatjadwal"
+        app:layout_constraintBottom_toBottomOf="@id/img_icon"/>
 
     <Button
         android:id="@+id/buttonlihatjadwal"
@@ -62,6 +66,6 @@
         android:padding="6dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

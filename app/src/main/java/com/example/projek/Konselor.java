@@ -5,6 +5,9 @@ public class Konselor {
     private String nama;
     private String bidang_keahlian;
     private String nip;
+    private String foto;
+
+    public String getFoto() { return foto; }
 
     public String getId() {
         return id_konselor;  // BookingFragment newInstance akan bekerja

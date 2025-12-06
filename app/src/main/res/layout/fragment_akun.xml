@@ -37,7 +37,7 @@
             app:layout_constraintTop_toBottomOf="@id/textView5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:srcCompat="@drawable/bot_image" />
+            app:srcCompat="@drawable/profile" />
 
         <!-- Nama Lengkap -->
         <TextView

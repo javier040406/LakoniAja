@@ -156,8 +156,10 @@ public class Reschedule extends Fragment {
         DatePickerDialog datePicker = new DatePickerDialog(
                 getContext(),
                 (view, year, month, day) -> {
-                    String selectedDate = year + "-" + (month + 1) + "-" + day;
+
+                    String selectedDate = String.format("%04d-%02d-%02d", year, month + 1, day);
                     txtTanggal.setText(selectedDate);
+
                     loadWaktuByTanggal(selectedDate);
                 },
                 calendar.get(Calendar.YEAR),
@@ -166,6 +168,7 @@ public class Reschedule extends Fragment {
         );
         datePicker.show();
     }
+
 
     private void loadWaktuByTanggal(String tanggal) {
         List<String> waktuList = new ArrayList<>();
@@ -255,6 +258,10 @@ public class Reschedule extends Fragment {
                     if (br.isStatus()) {
                         btnReschedule.setEnabled(false);
                         btnReschedule.setAlpha(0.5f);
+
+                        // Kembali ke fragment sebelumnya (Jadwal / Booking)
+                        requireActivity().getSupportFragmentManager()
+                                .popBackStack();
                     }
                 } else {
                     Toast.makeText(getContext(), "Response tidak valid", Toast.LENGTH_SHORT).show();

@@ -12,50 +12,67 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
+import com.bumptech.glide.Glide;
+
+import java.util.List;
 
 public class ArtikelAdapter extends RecyclerView.Adapter<ArtikelAdapter.ViewHolder> {
 
-    ArrayList<ArtikelModel> list;
-    Context context;
+    private Context context;
+    private List<Artikel> artikelList;
 
-    public ArtikelAdapter(Context context, ArrayList<ArtikelModel> list) {
+    // Base URL folder gambar
+    private final String BASE_URL_IMAGE = "http://192.168.18.9/weblakoniaja/uploads/artikel/";
+
+    public ArtikelAdapter(Context context, List<Artikel> artikelList) {
         this.context = context;
-        this.list = list;
+        this.artikelList = artikelList;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        // Pastikan layout R.layout.item_artikel sudah dibuat di folder res/layout
-        View v = LayoutInflater.from(context).inflate(R.layout.item_artikel, parent, false);
-        return new ViewHolder(v);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_artikel, parent, false);
+        return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        ArtikelModel artikel = list.get(position);
+        Artikel artikel = artikelList.get(position);
 
+        // Judul & Deskripsi
         holder.tvJudul.setText(artikel.getJudul());
-        holder.tvDeskripsi.setText(artikel.getDeskripsi());
-        holder.imgArtikel.setImageResource(artikel.getGambar());
+        String deskripsi = artikel.getIsi().length() > 100
+                ? artikel.getIsi().substring(0, 100) + "..."
+                : artikel.getIsi();
+        holder.tvDeskripsi.setText(deskripsi);
 
+        // Gunakan URL lengkap untuk gambar
+        String imageUrl = BASE_URL_IMAGE + artikel.getGambar();
+
+        Glide.with(context)
+                .load(imageUrl)
+                .placeholder(R.drawable.img_artikel1)
+                .error(R.drawable.img_artikel1)
+                .into(holder.imgArtikel);
+
+        // Baca selengkapnya
         holder.btnBaca.setOnClickListener(v -> {
-            // Pastikan DetailArtikelActivity sudah dibuat dan didaftarkan di AndroidManifest.xml
-            Intent intent = new Intent(context, DetailArtikel.class);
+            Intent intent = new Intent(context, DetailArtikelActivity.class);
             intent.putExtra("judul", artikel.getJudul());
             intent.putExtra("isi", artikel.getIsi());
-            intent.putExtra("gambar", artikel.getGambar());
+            intent.putExtra("link_sumber", artikel.getLink_sumber());
+            intent.putExtra("gambar", imageUrl);
             context.startActivity(intent);
         });
     }
 
     @Override
     public int getItemCount() {
-        return list.size();
+        return artikelList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    static class ViewHolder extends RecyclerView.ViewHolder {
         ImageView imgArtikel;
         TextView tvJudul, tvDeskripsi;
         Button btnBaca;

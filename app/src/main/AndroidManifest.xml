@@ -17,11 +17,19 @@
         android:theme="@style/Theme.Projek"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".DetailArtikelActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ArtikelActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Projek" />
+        <activity
             android:name=".DetailArtikel"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".ForgetPassword"
             android:exported="false"
@@ -34,7 +42,7 @@
             android:exported="false"
             android:theme="@style/Theme.Projek" />
         <activity
-            android:name=".ArtikelActivity"
+            android:name=".Chat_Konseli"
             android:exported="false"
             android:theme="@style/Theme.Projek" />
         <activity

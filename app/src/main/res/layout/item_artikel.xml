@@ -4,49 +4,52 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
-    app:cardCornerRadius="12dp"
-    app:cardElevation="4dp">
+    android:layout_margin="12dp"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="6dp"
+    app:cardUseCompatPadding="true">
 
     <LinearLayout
         android:orientation="vertical"
-        android:padding="8dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:padding="12dp">
 
         <ImageView
             android:id="@+id/imgArtikel"
-            android:layout_width="match_parent"
-            android:layout_height="180dp"
-            android:src="@drawable/img_artikel1"
-            android:scaleType="centerCrop" />
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:adjustViewBounds="true"
+            android:src="@drawable/img_artikel1" />
 
         <TextView
             android:id="@+id/tvJudul"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Pentingnya Kesehatan Mental bagi Remaja dan Cara Menghadapinya"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="10dp"
+            android:text="Judul Artikel"
+            android:textSize="20sp"
             android:textStyle="bold"
-            android:textSize="16sp" />
+            android:textColor="@color/black" />
 
         <TextView
             android:id="@+id/tvDeskripsi"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Masa remaja adalah masa yang penting dalam pembentukan generasi akan datang yang sehat, tangguh, dan produktif. Untuk mewujudkannya, menjaga kesehatan fisik saja tidak cukup. "
-            android:textSize="14sp"
-            android:textColor="#777"
-            android:layout_marginTop="4dp" />
+            android:text="Deskripsi singkat artikel..."
+            android:layout_marginTop="4dp"
+            android:textColor="#666"
+            android:textSize="16sp" />
 
         <Button
             android:id="@+id/btnBaca"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="9dp"
+            android:layout_marginTop="12dp"
+            android:layout_gravity="end"
             android:text="BACA SELENGKAPNYA"
             android:backgroundTint="@color/biru_tua"
             android:textColor="@color/white"/>
     </LinearLayout>
-
 </com.google.android.material.card.MaterialCardView>

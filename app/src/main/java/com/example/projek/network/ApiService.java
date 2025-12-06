@@ -1,5 +1,6 @@
 package com.example.projek.network;
 
+import com.example.projek.ArtikelResponse;
 import com.example.projek.BasicResponse;
 import com.example.projek.BookingResponse;
 import com.example.projek.BookingUserResponse;
@@ -44,21 +45,18 @@ public interface ApiService {
 
     // === CHAT - SEND MESSAGE ===
     @FormUrlEncoded
-    @POST("api/send_message.php")
+    @POST("send_message.php")
     Call<Map<String, Object>> sendMessage(
+            @Field("id_booking") int idBooking,
             @Field("id_user") int idUser,
-            @Field("id_konselor") int idKonselor,
-            @Field("id_sesi") int idSesi,
             @Field("pesan") String pesan
     );
 
     // === CHAT - GET MESSAGES ===
-    @GET("api/get_messages.php")
-    Call<Map<String, Object>> getMessages(
-            @Query("id_user") int idUser,
-            @Query("id_konselor") int idKonselor,
-            @Query("id_sesi") int idSesi
-    );
+    @FormUrlEncoded
+    @POST("get_messages.php")
+    Call<Map<String, Object>> getMessages(@Field("id_booking") int idBooking)
+    ;
 
     // === CHAT - GET SESSIONS ===
     @GET("api/get_sessions.php")
@@ -89,9 +87,9 @@ public interface ApiService {
             @Field("tanggal_lahir") String tanggalLahir
     );
 
-    // === AMBIL JADWAL USER
+    // === GET BOOKING USER ===
     @GET("get_booking_user.php")
-    Call<BookingUserResponse> getBookingUser(
+    Call<Map<String, Object>> getBookingUser(
             @Query("id_user") String idUser
     );
 
@@ -159,5 +157,8 @@ public interface ApiService {
 
     @GET("get_testimoni.php")
     Call<TestimoniResponse> getTestimoni();
+
+    @GET("get_artikel.php") // ganti dengan endpoint PHP kamu
+    Call<ArtikelResponse> getAllArtikel();
 }
 

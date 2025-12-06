@@ -53,10 +53,10 @@
                 android:id="@+id/imageView5"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
-                android:src="@drawable/bot_image" />
+                android:src="@drawable/profile" />
         </LinearLayout>
 
-        <!-- Banner Tengah -->
+        <!-- Banner Tengah Dengan Shadow -->
         <LinearLayout
             android:id="@+id/headerLayout"
             android:orientation="horizontal"
@@ -64,7 +64,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:background="@drawable/bg_rounded_constraint"
-            android:padding="12dp">
+            android:padding="12dp"
+            android:elevation="6dp">
 
             <LinearLayout
                 android:orientation="vertical"
@@ -98,7 +99,7 @@
                 android:src="@drawable/_6c2d78b4db42b4bcb41c34b7dd327fdc290922f_1_" />
         </LinearLayout>
 
-        <!-- Dua Tombol Utama -->
+        <!-- Dua Tombol Utama Dengan Shadow -->
         <LinearLayout
             android:id="@+id/menuLayout"
             android:orientation="horizontal"
@@ -111,7 +112,9 @@
                 android:layout_height="100dp"
                 android:layout_weight="1"
                 android:layout_marginEnd="8dp"
-                android:background="@drawable/textborder">
+                android:background="@drawable/textborder"
+                android:elevation="4dp"
+                android:padding="4dp">
 
                 <ImageButton
                     android:id="@+id/btn_mulai_konseling"
@@ -128,7 +131,9 @@
                 android:layout_height="100dp"
                 android:layout_weight="1"
                 android:layout_marginStart="8dp"
-                android:background="@drawable/textborder">
+                android:background="@drawable/textborder"
+                android:elevation="4dp"
+                android:padding="4dp">
 
                 <ImageButton
                     android:id="@+id/btn_artikel"
@@ -161,6 +166,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:layout_marginBottom="12dp"/>
+
     </LinearLayout>
 
 </androidx.core.widget.NestedScrollView>

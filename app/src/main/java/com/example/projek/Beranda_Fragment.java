@@ -61,7 +61,7 @@ public class Beranda_Fragment extends Fragment {
 
         ImageButton btnArtikel = view.findViewById(R.id.btn_artikel);
         btnArtikel.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), ArtikelFragment.class);
+            Intent intent = new Intent(getActivity(), ArtikelActivity.class);
             startActivity(intent);
         });
 

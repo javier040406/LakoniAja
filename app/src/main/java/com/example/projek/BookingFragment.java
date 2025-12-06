@@ -179,7 +179,7 @@ public class BookingFragment extends Fragment {
         DatePickerDialog datePicker = new DatePickerDialog(
                 getContext(),
                 (view, year, month, day) -> {
-                    String selectedDate = year + "-" + (month + 1) + "-" + day;
+                    String selectedDate = String.format("%04d-%02d-%02d", year, month + 1, day);
                     spinnerTanggal.setText(selectedDate);
                     loadWaktuByTanggal(selectedDate);
                 },

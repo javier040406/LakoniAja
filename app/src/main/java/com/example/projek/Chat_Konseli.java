@@ -1,184 +1,463 @@
 package com.example.projek;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
-import android.text.TextUtils;
-import android.view.View;
+import android.os.Looper;
+import android.util.Log;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
+import com.example.projek.network.ApiClient;
+import com.example.projek.network.ApiService;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
-
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
+import java.util.Locale;
+import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class Chat_Konseli extends AppCompatActivity {
 
-    private RecyclerView recyclerView;
-    private EditText editText;
-    private ImageButton btnSend, btnBack;
-    private ProgressBar progressBar;
+    private static final String TAG = "Chat_Konseli";
 
-    private ChatAdapter chatAdapter;
-    private List<ChatMessage> chatList;
+    private RecyclerView recyclerViewChat;
+    private EditText editTextMessage;
+    private ImageButton buttonSend, buttonBack;
+    private TextView textKonselorName;
 
-    private static final String BASE_URL = "http://192.168.18.9/android_api/"; // ganti IP laptop kamu
+    private ChatKonseliAdapter adapter;
+    private List<ChatMessage> chatMessages;
 
-    private OkHttpClient client;
-    private int konseliId = 1;    // contoh: ID user login (bisa diambil dari SharedPreferences)
-    private int konselorId = 100; // contoh: ID konselor
+    private int id_user;
+    private int id_booking;
+    private int id_konselor;
+    private String konselorName;
+    private String tanggalSesi;
+    private String jamSelesai;
 
-    private Handler handler = new Handler();
-    private Runnable messageUpdater;
+    private Handler handler = new Handler(Looper.getMainLooper());
+    private ExecutorService executor = Executors.newSingleThreadExecutor();
+    private boolean isRunning = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_konseli);
 
-        client = new OkHttpClient.Builder()
-                .connectTimeout(30, TimeUnit.SECONDS)
-                .readTimeout(30, TimeUnit.SECONDS)
-                .build();
+        initViews();
 
-        recyclerView = findViewById(R.id.recyclerViewChat);
-        editText = findViewById(R.id.editTextMessage);
-        btnSend = findViewById(R.id.buttonSend);
-        btnBack = findViewById(R.id.buttonBack);
-        progressBar = findViewById(R.id.progressBar);
+        id_booking = getIntent().getIntExtra("id_booking", 0);
+        id_konselor = getIntent().getIntExtra("id_konselor", 0);
+        konselorName = getIntent().getStringExtra("konselor_name");
 
-        chatList = new ArrayList<>();
-        chatAdapter = new ChatAdapter(chatList);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(chatAdapter);
+        SharedPreferences sharedPreferences = getSharedPreferences("USER_DATA", MODE_PRIVATE);
+        id_user = Integer.parseInt(sharedPreferences.getString("id_user", "0"));
 
-        // Tombol kirim
-        btnSend.setOnClickListener(v -> sendMessage());
-        // Tombol kembali
-        btnBack.setOnClickListener(v -> finish());
+        Log.d(TAG, "User ID: " + id_user + ", Booking ID: " + id_booking + ", Konselor: " + konselorName);
 
-        // Load pesan awal
-        getMessages();
+        if (konselorName != null && !konselorName.isEmpty()) {
+            textKonselorName.setText(konselorName);
+        }
 
-        // Auto-refresh pesan setiap 2 detik
-        messageUpdater = new Runnable() {
+        setupRecyclerView();
+
+        if (id_booking == 0) {
+            loadLatestBooking();
+        } else {
+            // Ambil data tanggal dan jam dari getBookingUser
+            loadBookingData();
+        }
+    }
+
+    private void loadBookingData() {
+        Log.d(TAG, "Loading booking data for user: " + id_user);
+
+        ApiService apiService = ApiClient.getClient().create(ApiService.class);
+        Call<Map<String, Object>> call = apiService.getBookingUser(String.valueOf(id_user));
+
+        call.enqueue(new Callback<Map<String, Object>>() {
             @Override
-            public void run() {
-                getMessages();
-                handler.postDelayed(this, 2000); // refresh tiap 2 detik
+            public void onResponse(Call<Map<String, Object>> call, Response<Map<String, Object>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    Map<String, Object> responseBody = response.body();
+                    String status = (String) responseBody.get("status");
+
+                    if ("success".equals(status)) {
+                        List<Map<String, Object>> data = (List<Map<String, Object>>) responseBody.get("data");
+
+                        if (data != null && data.size() > 0) {
+                            // Cari booking yang sesuai dengan id_booking
+                            for (Map<String, Object> booking : data) {
+                                try {
+                                    Object idBookingObj = booking.get("id_booking");
+                                    if (idBookingObj == null) idBookingObj = booking.get("id");
+
+                                    if (idBookingObj != null) {
+                                        int currentBookingId = Integer.parseInt(idBookingObj.toString());
+
+                                        if (currentBookingId == id_booking) {
+                                            // Ambil data tanggal dan jam selesai
+                                            tanggalSesi = (String) booking.get("tanggal");
+                                            jamSelesai = (String) booking.get("jam_selesai");
+
+                                            Log.d(TAG, "Found booking - Tanggal: " + tanggalSesi + ", Jam Selesai: " + jamSelesai);
+
+                                            // Update konselor name jika belum ada
+                                            if (konselorName == null || konselorName.isEmpty()) {
+                                                konselorName = (String) booking.get("nama");
+                                                if (konselorName != null && !konselorName.isEmpty()) {
+                                                    textKonselorName.setText(konselorName);
+                                                }
+                                            }
+
+                                            break;
+                                        }
+                                    }
+                                } catch (Exception e) {
+                                    Log.e(TAG, "Error processing booking data", e);
+                                }
+                            }
+                        }
+
+                        checkSessionExpiry();
+                        loadMessages();
+                        startAutoRefresh();
+
+                    } else {
+                        Log.e(TAG, "Status tidak success: " + responseBody.get("message"));
+                        loadMessages();
+                        startAutoRefresh();
+                    }
+                } else {
+                    Log.e(TAG, "Response tidak successful");
+                    loadMessages();
+                    startAutoRefresh();
+                }
             }
-        };
-        handler.post(messageUpdater);
+
+            @Override
+            public void onFailure(Call<Map<String, Object>> call, Throwable t) {
+                Log.e(TAG, "Gagal load booking data: " + t.getMessage());
+                loadMessages();
+                startAutoRefresh();
+            }
+        });
+    }
+
+    private void checkSessionExpiry() {
+        if (tanggalSesi == null || jamSelesai == null) {
+            Log.w(TAG, "Data tanggal/jam tidak lengkap, tidak bisa cek expiry");
+            return;
+        }
+
+        try {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+            String dateTimeStr = tanggalSesi + " " + jamSelesai;
+            Date waktuSelesai = dateFormat.parse(dateTimeStr);
+
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(waktuSelesai);
+            calendar.add(Calendar.MINUTE, 10);
+            Date waktuSelesaiPlus10Menit = calendar.getTime();
+
+            Date sekarang = new Date();
+
+            if (sekarang.after(waktuSelesaiPlus10Menit)) {
+                disableChat();
+                Toast.makeText(this, "Sesi konseling Anda telah berakhir, Anda tidak dapat mengirim pesan sekarang", Toast.LENGTH_LONG).show();
+            } else {
+                enableChat();
+            }
+
+        } catch (Exception e) {
+            Log.e(TAG, "Error parsing date: " + e.getMessage());
+        }
+    }
+
+    private void disableChat() {
+        runOnUiThread(() -> {
+            buttonSend.setEnabled(false);
+            editTextMessage.setEnabled(false);
+            editTextMessage.setHint("Chat telah ditutup");
+            editTextMessage.setFocusable(false);
+            editTextMessage.setClickable(false);
+
+            isRunning = false;
+            executor.shutdown();
+        });
+    }
+
+    private void enableChat() {
+        runOnUiThread(() -> {
+            buttonSend.setEnabled(true);
+            editTextMessage.setEnabled(true);
+            editTextMessage.setHint("Ketik pesan...");
+            editTextMessage.setFocusable(true);
+            editTextMessage.setClickable(true);
+        });
+    }
+
+    private void loadLatestBooking() {
+        Log.d(TAG, "Loading latest booking for user: " + id_user);
+
+        ApiService apiService = ApiClient.getClient().create(ApiService.class);
+        Call<Map<String, Object>> call = apiService.getBookingUser(String.valueOf(id_user));
+
+        call.enqueue(new Callback<Map<String, Object>>() {
+            @Override
+            public void onResponse(Call<Map<String, Object>> call, Response<Map<String, Object>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    Map<String, Object> responseBody = response.body();
+                    String status = (String) responseBody.get("status");
+
+                    if ("success".equals(status)) {
+                        List<Map<String, Object>> data = (List<Map<String, Object>>) responseBody.get("data");
+
+                        if (data != null && data.size() > 0) {
+                            Map<String, Object> latestBooking = data.get(0);
+
+                            try {
+                                Object idBookingObj = latestBooking.get("id_booking");
+                                if (idBookingObj == null) idBookingObj = latestBooking.get("id");
+
+                                if (idBookingObj != null) {
+                                    id_booking = Integer.parseInt(idBookingObj.toString());
+                                }
+
+                                Object idKonselorObj = latestBooking.get("id_konselor");
+                                if (idKonselorObj != null) {
+                                    id_konselor = Integer.parseInt(idKonselorObj.toString());
+                                }
+
+                                konselorName = (String) latestBooking.get("nama");
+                                if (konselorName == null) {
+                                    konselorName = (String) latestBooking.get("konselor_name");
+                                }
+
+                                tanggalSesi = (String) latestBooking.get("tanggal");
+                                jamSelesai = (String) latestBooking.get("jam_selesai");
+
+                                Log.d(TAG, "Booking loaded - ID: " + id_booking + ", Konselor: " + konselorName +
+                                        ", Tanggal: " + tanggalSesi + ", Jam Selesai: " + jamSelesai);
+
+                                if (konselorName != null && !konselorName.isEmpty()) {
+                                    textKonselorName.setText(konselorName);
+                                }
+
+                                if (id_booking > 0) {
+                                    checkSessionExpiry();
+                                    loadMessages();
+                                    startAutoRefresh();
+                                } else {
+                                    Toast.makeText(Chat_Konseli.this, "ID Booking tidak valid", Toast.LENGTH_SHORT).show();
+                                    finish();
+                                }
+
+                            } catch (Exception e) {
+                                Log.e(TAG, "Error parsing booking data", e);
+                                Toast.makeText(Chat_Konseli.this, "Error parsing data booking", Toast.LENGTH_SHORT).show();
+                                finish();
+                            }
+                        } else {
+                            Toast.makeText(Chat_Konseli.this, "Tidak ada booking ditemukan", Toast.LENGTH_SHORT).show();
+                            finish();
+                        }
+                    } else {
+                        Toast.makeText(Chat_Konseli.this, "Error: " + responseBody.get("message"), Toast.LENGTH_SHORT).show();
+                        finish();
+                    }
+                } else {
+                    Toast.makeText(Chat_Konseli.this, "Gagal mengambil data booking", Toast.LENGTH_SHORT).show();
+                    finish();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Map<String, Object>> call, Throwable t) {
+                Toast.makeText(Chat_Konseli.this, "Koneksi gagal: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                finish();
+            }
+        });
+    }
+
+    private void initViews() {
+        recyclerViewChat = findViewById(R.id.recyclerViewChatKonseli);
+        editTextMessage = findViewById(R.id.editTextMessageKonseli);
+        buttonSend = findViewById(R.id.buttonSendKonseli);
+        buttonBack = findViewById(R.id.buttonBackKonseli);
+        textKonselorName = findViewById(R.id.chatkoselor);
+
+        buttonBack.setOnClickListener(v -> finish());
+        buttonSend.setOnClickListener(v -> sendMessage());
+    }
+
+    private void setupRecyclerView() {
+        chatMessages = new ArrayList<>();
+        adapter = new ChatKonseliAdapter(chatMessages);
+        recyclerViewChat.setLayoutManager(new LinearLayoutManager(this));
+        recyclerViewChat.setAdapter(adapter);
     }
 
     private void sendMessage() {
-        String message = editText.getText().toString().trim();
-        if (TextUtils.isEmpty(message)) return;
+        String message = editTextMessage.getText().toString().trim();
 
-        // Tampilkan di layar langsung
-        addMessage(message, true);
-        editText.setText("");
+        if (message.isEmpty()) {
+            Toast.makeText(this, "Pesan tidak boleh kosong", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
-        RequestBody body = new FormBody.Builder()
-                .add("sender_id", String.valueOf(konseliId))
-                .add("receiver_id", String.valueOf(konselorId))
-                .add("message", message)
-                .build();
+        if (id_booking == 0) {
+            Toast.makeText(this, "Booking ID tidak valid, mencoba mengambil ulang...", Toast.LENGTH_SHORT).show();
+            loadLatestBooking();
+            return;
+        }
 
-        Request request = new Request.Builder()
-                .url(BASE_URL + "send_message.php")
-                .post(body)
-                .build();
+        if (!buttonSend.isEnabled()) {
+            Toast.makeText(this, "Chat telah ditutup", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
-        client.newCall(request).enqueue(new Callback() {
+        Log.d(TAG, "Sending message - Booking: " + id_booking + ", User: " + id_user + ", Message: " + message);
+
+        buttonSend.setEnabled(false);
+
+        ApiService apiService = ApiClient.getClient().create(ApiService.class);
+        Call<Map<String, Object>> call = apiService.sendMessage(id_booking, id_user, message);
+
+        call.enqueue(new Callback<Map<String, Object>>() {
             @Override
-            public void onFailure(Call call, IOException e) {
-                runOnUiThread(() ->
-                        Toast.makeText(Chat_Konseli.this, "Gagal mengirim pesan", Toast.LENGTH_SHORT).show()
-                );
+            public void onResponse(Call<Map<String, Object>> call, Response<Map<String, Object>> response) {
+                buttonSend.setEnabled(true);
+
+                if (response.isSuccessful() && response.body() != null) {
+                    Map<String, Object> responseBody = response.body();
+                    Log.d(TAG, "Send response: " + responseBody.toString());
+
+                    if ("success".equals(responseBody.get("status"))) {
+                        editTextMessage.setText("");
+
+                        ChatMessage newMessage = new ChatMessage(message, true);
+                        adapter.addMessage(newMessage);
+                        recyclerViewChat.smoothScrollToPosition(adapter.getItemCount() - 1);
+
+                        loadMessages();
+
+                    } else {
+                        String errorMsg = (String) responseBody.get("message");
+                        Toast.makeText(Chat_Konseli.this, "Gagal mengirim: " + errorMsg, Toast.LENGTH_SHORT).show();
+
+                        if (errorMsg != null && errorMsg.contains("id_booking")) {
+                            loadLatestBooking();
+                        }
+                    }
+                } else {
+                    Toast.makeText(Chat_Konseli.this, "Gagal mengirim pesan", Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                if (!response.isSuccessful()) {
-                    runOnUiThread(() ->
-                            Toast.makeText(Chat_Konseli.this, "Gagal mengirim ke server", Toast.LENGTH_SHORT).show()
-                    );
-                }
+            public void onFailure(Call<Map<String, Object>> call, Throwable t) {
+                buttonSend.setEnabled(true);
+                Toast.makeText(Chat_Konseli.this, "Koneksi gagal: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-    private void getMessages() {
-        Request request = new Request.Builder()
-                .url(BASE_URL + "get_messages.php?sender_id=" + konseliId + "&receiver_id=" + konselorId)
-                .build();
+    private void loadMessages() {
+        if (id_booking == 0) {
+            Log.w(TAG, "Cannot load messages - booking ID is 0");
+            return;
+        }
 
-        client.newCall(request).enqueue(new Callback() {
-            @Override public void onFailure(Call call, IOException e) {
-                // bisa log error di sini
-            }
+        Log.d(TAG, "Loading messages for booking: " + id_booking);
 
-            @Override public void onResponse(Call call, Response response) throws IOException {
-                if (!response.isSuccessful()) return;
-                try {
-                    String responseBody = response.body().string();
-                    JSONObject json = new JSONObject(responseBody);
-                    if (json.getBoolean("success")) {
-                        JSONArray messages = json.getJSONArray("messages");
+        ApiService apiService = ApiClient.getClient().create(ApiService.class);
+        Call<Map<String, Object>> call = apiService.getMessages(id_booking);
 
-                        // Jangan clear, tapi hanya update kalau ada pesan baru
-                        List<ChatMessage> tempList = new ArrayList<>();
-                        for (int i = 0; i < messages.length(); i++) {
-                            JSONObject msg = messages.getJSONObject(i);
-                            boolean isUser = msg.getString("sender_id").equals(String.valueOf(konseliId));
-                            tempList.add(new ChatMessage(msg.getString("message"), isUser));
+        call.enqueue(new Callback<Map<String, Object>>() {
+            @Override
+            public void onResponse(Call<Map<String, Object>> call, Response<Map<String, Object>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    Map<String, Object> responseBody = response.body();
+                    String status = (String) responseBody.get("status");
+
+                    if ("success".equals(status)) {
+                        List<Map<String, Object>> data = (List<Map<String, Object>>) responseBody.get("data");
+
+                        List<ChatMessage> messages = new ArrayList<>();
+
+                        if (data != null) {
+                            for (Map<String, Object> messageObj : data) {
+                                String pengirim = (String) messageObj.get("pengirim");
+                                String pesan = (String) messageObj.get("pesan");
+
+                                if (pesan != null) {
+                                    boolean isUserMessage = "user".equals(pengirim);
+                                    ChatMessage chatMessage = new ChatMessage(pesan, isUserMessage);
+                                    messages.add(chatMessage);
+                                }
+                            }
                         }
 
-                        runOnUiThread(() -> {
-                            chatList.clear();
-                            chatList.addAll(tempList);
-                            chatAdapter.notifyDataSetChanged();
-                            recyclerView.scrollToPosition(chatList.size() - 1);
-                        });
+                        adapter.updateData(messages);
+                        if (adapter.getItemCount() > 0) {
+                            recyclerViewChat.scrollToPosition(adapter.getItemCount() - 1);
+                        }
+
+                        Log.d(TAG, "Loaded " + messages.size() + " messages");
+                    } else {
+                        String errorMsg = (String) responseBody.get("message");
+                        Toast.makeText(Chat_Konseli.this, "Error: " + errorMsg, Toast.LENGTH_SHORT).show();
                     }
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                } else {
+                    Toast.makeText(Chat_Konseli.this, "Gagal memuat pesan", Toast.LENGTH_SHORT).show();
                 }
+            }
+
+            @Override
+            public void onFailure(Call<Map<String, Object>> call, Throwable t) {
+                Toast.makeText(Chat_Konseli.this, "Gagal memuat pesan: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
 
+    private void startAutoRefresh() {
+        if (!isRunning) return;
 
-    private void addMessage(String text, boolean isUser) {
-        runOnUiThread(() -> {
-            chatList.add(new ChatMessage(text, isUser));
-            chatAdapter.notifyItemInserted(chatList.size() - 1);
-            recyclerView.scrollToPosition(chatList.size() - 1);
+        executor.execute(() -> {
+            while (isRunning) {
+                try {
+                    Thread.sleep(3000);
+                    if (isRunning) {
+                        handler.post(() -> {
+                            loadMessages();
+                            if (tanggalSesi != null && jamSelesai != null) {
+                                checkSessionExpiry();
+                            }
+                        });
+                    }
+                } catch (InterruptedException e) {
+                    break;
+                }
+            }
         });
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        handler.removeCallbacks(messageUpdater); // stop auto-refresh saat keluar
+        isRunning = false;
+        executor.shutdown();
     }
 }

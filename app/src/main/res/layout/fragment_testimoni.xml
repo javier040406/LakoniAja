@@ -53,6 +53,7 @@
         android:padding="16dp"
         android:background="@drawable/bg_edittext_border"
         android:hint="Tuliskan pengalaman Anda setelah melakukan konseling..."
+        android:textColor="@color/black"
         android:gravity="start|top"
         android:textSize="16sp"
         android:inputType="textMultiLine"

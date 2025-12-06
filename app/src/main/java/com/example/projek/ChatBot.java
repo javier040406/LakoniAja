@@ -3,12 +3,11 @@ package com.example.projek;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -39,7 +38,6 @@ public class ChatBot extends AppCompatActivity {
     private EditText editTextMessage;
     private ImageButton buttonSend;
     private ImageButton buttonBack;
-    private ProgressBar progressBar;
 
     private ChatAdapter chatAdapter;
     private List<ChatMessage> chatMessages;
@@ -53,8 +51,10 @@ public class ChatBot extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.chat_bot_activity);
+
+        // AGAR KEYBOARD MENYESUAIKAN LAYOUT
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 
         client = new OkHttpClient.Builder()
                 .connectTimeout(30, TimeUnit.SECONDS)
@@ -79,7 +79,6 @@ public class ChatBot extends AppCompatActivity {
         editTextMessage = findViewById(R.id.editTextMessage);
         buttonSend = findViewById(R.id.buttonSend);
         buttonBack = findViewById(R.id.buttonBack);
-        progressBar = findViewById(R.id.progressBar);
     }
 
     private void setupRecyclerView() {
@@ -129,7 +128,7 @@ public class ChatBot extends AppCompatActivity {
         addMessageToChat(message, true);
         editTextMessage.setText("");
 
-        progressBar.setVisibility(View.VISIBLE);
+        // NONAKTIFKAN TOMBOL SEMENTARA
         buttonSend.setEnabled(false);
 
         sendToGroqAPI(message);
@@ -175,10 +174,6 @@ public class ChatBot extends AppCompatActivity {
             jsonBody.put("stream", false);
 
             String requestBodyString = jsonBody.toString();
-            System.out.println("=== GROQ API REQUEST ===");
-            System.out.println("URL: " + GROQ_API_URL);
-            System.out.println("Model: llama-3.1-8b-instant");
-            System.out.println("Request Body: " + requestBodyString);
 
             RequestBody body = RequestBody.create(requestBodyString, JSON);
             Request request = new Request.Builder()
@@ -188,18 +183,13 @@ public class ChatBot extends AppCompatActivity {
                     .post(body)
                     .build();
 
-            System.out.println("Sending request to Groq API...");
-
             client.newCall(request).enqueue(new Callback() {
                 @Override
                 public void onFailure(Call call, IOException e) {
-                    System.out.println("=== GROQ API FAILURE ===");
-                    System.out.println("Error: " + e.getMessage());
-                    e.printStackTrace();
-
                     runOnUiThread(() -> {
-                        progressBar.setVisibility(View.GONE);
+                        // AKTIFKAN KEMBALI TOMBOL
                         buttonSend.setEnabled(true);
+
                         Toast.makeText(ChatBot.this, "Error koneksi: " + e.getMessage(), Toast.LENGTH_LONG).show();
                         addMessageToChat("Maaf, terjadi kesalahan koneksi. Pastikan internet Anda tersambung dan coba lagi.", false);
                     });
@@ -209,14 +199,8 @@ public class ChatBot extends AppCompatActivity {
                 public void onResponse(Call call, Response response) throws IOException {
                     String responseBody = response.body().string();
 
-                    System.out.println("=== GROQ API RESPONSE ===");
-                    System.out.println("Response Code: " + response.code());
-                    System.out.println("Response Headers: " + response.headers());
-                    System.out.println("Response Body: " + responseBody);
-                    System.out.println("=========================");
-
                     runOnUiThread(() -> {
-                        progressBar.setVisibility(View.GONE);
+                        // AKTIFKAN KEMBALI TOMBOL
                         buttonSend.setEnabled(true);
                     });
 
@@ -230,14 +214,11 @@ public class ChatBot extends AppCompatActivity {
                                 JSONObject message = choice.getJSONObject("message");
                                 String botResponse = message.getString("content").trim();
 
-                                System.out.println("Bot Response: " + botResponse);
                                 addMessageToChat(botResponse, false);
                             } else {
-                                System.out.println("No choices in response");
                                 addMessageToChat("Maaf, tidak ada respons dari AI. Coba lagi.", false);
                             }
                         } catch (JSONException e) {
-                            System.out.println("JSON Parse Error: " + e.getMessage());
                             runOnUiThread(() ->
                                     Toast.makeText(ChatBot.this, "Error parsing: " + e.getMessage(), Toast.LENGTH_LONG).show()
                             );
@@ -253,7 +234,6 @@ public class ChatBot extends AppCompatActivity {
                             errorMsg = "Bad request. Periksa parameter request.";
                         }
 
-                        System.out.println("API Error: " + errorMsg);
                         final String finalErrorMsg = errorMsg;
                         runOnUiThread(() -> {
                             Toast.makeText(ChatBot.this, finalErrorMsg, Toast.LENGTH_LONG).show();
@@ -264,9 +244,7 @@ public class ChatBot extends AppCompatActivity {
             });
 
         } catch (JSONException e) {
-            System.out.println("Request Creation Error: " + e.getMessage());
             runOnUiThread(() -> {
-                progressBar.setVisibility(View.GONE);
                 buttonSend.setEnabled(true);
                 Toast.makeText(this, "Error creating request: " + e.getMessage(), Toast.LENGTH_LONG).show();
             });
