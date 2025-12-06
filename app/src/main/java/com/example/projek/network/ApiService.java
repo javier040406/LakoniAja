@@ -49,6 +49,7 @@ public interface ApiService {
     Call<Map<String, Object>> sendMessage(
             @Field("id_booking") int idBooking,
             @Field("id_user") int idUser,
+            @Field("id_konselor") int idKonselor,
             @Field("pesan") String pesan
     );
 

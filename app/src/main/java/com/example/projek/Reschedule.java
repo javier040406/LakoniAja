@@ -1,6 +1,5 @@
 package com.example.projek;
 
-import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
@@ -18,10 +17,19 @@ import android.widget.Toast;
 import com.example.projek.network.ApiClient;
 import com.example.projek.network.ApiService;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.datepicker.CalendarConstraints;
+import com.google.android.material.datepicker.MaterialDatePicker;
+import com.google.android.material.datepicker.CalendarConstraints.DateValidator;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
+import java.util.Set;
+import java.util.TimeZone;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -37,6 +45,7 @@ public class Reschedule extends Fragment {
     private Button btnReschedule;
 
     private List<Jadwal> jadwalList = new ArrayList<>();
+    private Set<String> tanggalTersedia = new HashSet<>();
 
     public Reschedule() {}
 
@@ -79,33 +88,65 @@ public class Reschedule extends Fragment {
         TextView labelKonselor = view.findViewById(R.id.label_konselorr);
         labelKonselor.setText(namaKonselor);
 
-        // Spinner sesi
         ArrayAdapter<String> adapterSesi = new ArrayAdapter<>(getContext(),
                 android.R.layout.simple_spinner_item,
                 new String[]{"Offline", "Online"});
         adapterSesi.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerSesi.setAdapter(adapterSesi);
 
-        // Tombol back
         ImageView btnBack = view.findViewById(R.id.btn_back);
         btnBack.setOnClickListener(v -> requireActivity().onBackPressed());
 
-        // Pilih tanggal
         txtTanggal.setOnClickListener(v -> showDatePicker());
 
-        // Load jadwal tersedia
         loadJadwalFromAPI();
-
-        // Cek apakah sudah pernah reschedule
         checkRescheduleStatus();
 
-        // Tombol reschedule
         btnReschedule.setOnClickListener(v -> prosesReschedule());
 
         return view;
     }
 
-    // === PERBAIKI DISINI ===
+    private void showDatePicker() {
+
+        DateValidator validator = new DateValidator() {
+            @Override
+            public boolean isValid(long date) {
+                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                String d = format.format(date);
+                return tanggalTersedia.contains(d);
+            }
+
+            @Override
+            public int describeContents() { return 0; }
+
+            @Override
+            public void writeToParcel(android.os.Parcel dest, int flags) {}
+        };
+
+        CalendarConstraints.Builder constraints = new CalendarConstraints.Builder();
+        constraints.setValidator(validator);
+
+        MaterialDatePicker<Long> datePicker = MaterialDatePicker.Builder.datePicker()
+                .setTitleText("Pilih Tanggal Tersedia")
+                .setCalendarConstraints(constraints.build())
+                .build();
+
+        datePicker.addOnPositiveButtonClickListener(selection -> {
+
+            Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+            calendar.setTimeInMillis(selection);
+
+            String selectedDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+                    .format(calendar.getTime());
+
+            txtTanggal.setText(selectedDate);
+            loadWaktuByTanggal(selectedDate);
+        });
+
+        datePicker.show(getParentFragmentManager(), "DATE_PICKER");
+    }
+
     private void checkRescheduleStatus() {
         ApiService api = ApiClient.getClient().create(ApiService.class);
         Call<BasicResponse> call = api.checkRescheduleStatus(idBooking);
@@ -113,7 +154,6 @@ public class Reschedule extends Fragment {
             @Override
             public void onResponse(Call<BasicResponse> call, Response<BasicResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    // langsung cek status reschedule dari response
                     if (response.body().getRescheduleDone()) {
                         btnReschedule.setEnabled(false);
                         btnReschedule.setAlpha(0.5f);
@@ -137,9 +177,12 @@ public class Reschedule extends Fragment {
             public void onResponse(Call<JadwalResponse> call, Response<JadwalResponse> response) {
                 if (!response.isSuccessful() || response.body() == null) return;
                 jadwalList.clear();
+                tanggalTersedia.clear();
+
                 for (Jadwal j : response.body().getData()) {
                     if ("tersedia".equalsIgnoreCase(j.getStatus())) {
                         jadwalList.add(j);
+                        tanggalTersedia.add(j.getTanggal());
                     }
                 }
             }
@@ -150,25 +193,6 @@ public class Reschedule extends Fragment {
             }
         });
     }
-
-    private void showDatePicker() {
-        Calendar calendar = Calendar.getInstance();
-        DatePickerDialog datePicker = new DatePickerDialog(
-                getContext(),
-                (view, year, month, day) -> {
-
-                    String selectedDate = String.format("%04d-%02d-%02d", year, month + 1, day);
-                    txtTanggal.setText(selectedDate);
-
-                    loadWaktuByTanggal(selectedDate);
-                },
-                calendar.get(Calendar.YEAR),
-                calendar.get(Calendar.MONTH),
-                calendar.get(Calendar.DAY_OF_MONTH)
-        );
-        datePicker.show();
-    }
-
 
     private void loadWaktuByTanggal(String tanggal) {
         List<String> waktuList = new ArrayList<>();
@@ -258,10 +282,7 @@ public class Reschedule extends Fragment {
                     if (br.isStatus()) {
                         btnReschedule.setEnabled(false);
                         btnReschedule.setAlpha(0.5f);
-
-                        // Kembali ke fragment sebelumnya (Jadwal / Booking)
-                        requireActivity().getSupportFragmentManager()
-                                .popBackStack();
+                        requireActivity().getSupportFragmentManager().popBackStack();
                     }
                 } else {
                     Toast.makeText(getContext(), "Response tidak valid", Toast.LENGTH_SHORT).show();
